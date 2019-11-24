@@ -1,0 +1,157 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh": true, //设置为true表示当前页面开启下拉刷新
+				"backgroundTextStyle": "dark" //下拉 loading 的样式，仅支持 dark/light
+			}
+		}, {
+			"path": "pages/index/userInfo",
+			"style": {
+				"navigationBarTitleText": "用户信息"
+			}
+		}, {
+			"path": "pages/activity/index",
+			"style": {
+				"navigationBarTitleText": "活动"
+			}
+		}, {
+			"path": "pages/me/index",
+			"style": {
+				"navigationBarTitleText": "个人中心"
+			}
+		}, {
+			"path": "pages/userInfo/index",
+			"style": {
+				"navigationBarTitleText": "用户信息"
+			}
+		}, {
+			"path": "pages/me/editUserInfo",
+			"style": {
+				"navigationBarTitleText": "编辑用户基础信息",
+				"animationType": "pop-in",
+				"animationDuration": 200
+			}
+		}, {
+			"path": "pages/me/detail",
+			"style": {
+				"navigationBarTitleText": "用户详情"
+			}
+		}, {
+			"path": "pages/me/editUserHeader",
+			"style": {
+				"navigationBarTitleText": "编辑用户头部信息",
+				"animationType": "pop-in",
+				"animationDuration": 200
+			}
+		}, {
+			"path": "pages/me/editUserContact",
+			"style": {
+				"navigationBarTitleText": "编辑用户联系方式",
+				"animationType": "pop-in",
+				"animationDuration": 200
+			}
+		}, {
+			"path": "pages/me/editUserInfomation",
+			"style": {
+				"navigationBarTitleText": "编辑其他信息",
+				"animationType": "pop-in",
+				"animationDuration": 200
+			}
+		}, {
+			"path": "pages/me/editUserAssetStatus",
+			"style": {
+				"navigationBarTitleText": "编辑资产状况",
+				"animationType": "pop-in",
+				"animationDuration": 200
+			}
+		}, {
+			"path": "pages/components/uploadAvatar/upload",
+			"style": {
+				"navigationBarTitleText": "上传图像编辑",
+				"animationType": "pop-in",
+				"animationDuration": 200
+			}
+		}, {
+			"path": "pages/me/track/index",
+			"style": {
+				"navigationBarTitleText": "我的动态",
+				"navigationBarBackgroundColor": "rgb(255,119,55)",
+				"backgroundColor": "rgb(255,119,55)",
+				"transparentTitle": "auto",
+				"navigatonStyle": "custom"
+			}
+		}, {
+			"path": "pages/me/vip/index",
+			"style": {
+				"navigationBarTitleText": "购买会员",
+				// "navigationBarBackgroundColor": "rgb(255,119,55)",
+				// "backgroundColor": "rgb(255,119,55)",
+				// "transparentTitle": "auto",
+				// "navigatonStyle": "custom",
+				"animationType": "pop-in",
+				"animationDuration": 200
+			}
+		}, {
+			"path": "pages/me/editUserDescrable",
+			"style": {
+				"navigationBarTitleText": "自我描述",
+				// "navigationBarBackgroundColor": "rgb(255,119,55)",
+				// "backgroundColor": "rgb(255,119,55)",
+				// "transparentTitle": "auto",
+				// "navigatonStyle": "custom",
+				"animationType": "pop-in",
+				"animationDuration": 200
+			}
+		},{
+			"path": "pages/me/track/addTrack",
+			"style": {
+				"navigationBarTitleText": "添加动态",
+				"navigationBarBackgroundColor": "rgb(255,119,55)",
+				"backgroundColor": "rgb(255,119,55)"
+			}
+		}, {
+			"path": "pages/login/index",
+			"style": {
+				"navigationBarTitleText": "用户登录"
+			}
+		}, {
+			"path": "pages/register/index",
+			"style": {
+				"navigationBarTitleText": "用户注册",
+				"backgroundColor": "#F0AD4E"
+			}
+		}
+	],
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#3cc51f",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+			"pagePath": "pages/index/index",
+			"iconPath": "static/icon/tuijian.png",
+			"selectedIconPath": "static/icon/tuijian_active.png",
+			"text": "推荐"
+		}, {
+			"pagePath": "pages/activity/index",
+			"iconPath": "static/icon/dongtai.png",
+			"selectedIconPath": "static/icon/dongtai_active.png",
+			"text": "活动"
+		}, {
+			"pagePath": "pages/me/index",
+			"iconPath": "static/icon/me.png",
+			"selectedIconPath": "static/icon/me_active.png",
+			"text": "个人中心"
+		}]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "rgb(255,119,170)",
+		"backgroundColor": "rgb(255,119,170)"
+	}
+}
