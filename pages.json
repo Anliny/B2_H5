@@ -55,6 +55,20 @@
 				"animationDuration": 200
 			}
 		}, {
+			"path": "pages/me/condition/index",
+			"style": {
+				"navigationBarTitleText": "查看征友条件",
+				"animationType": "pop-in",
+				"animationDuration": 200
+			}
+		}, {
+			"path": "pages/me/condition/editUserCondition",
+			"style": {
+				"navigationBarTitleText": "编辑征友条件",
+				"animationType": "pop-in",
+				"animationDuration": 200
+			}
+		},{
 			"path": "pages/me/editUserInfomation",
 			"style": {
 				"navigationBarTitleText": "编辑其他信息",

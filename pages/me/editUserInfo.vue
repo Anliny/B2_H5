@@ -132,9 +132,6 @@
 		methods: {
 			formSubmit(e) {
 				console.log(e)
-				// this.loading = true
-				// setTimeout(() => {
-				// 	this.loading = false
 				let loginRules = [{
 						name: 'name',
 						required: true,
@@ -224,18 +221,6 @@
 						}
 					}
 				})
-				// 	var formdata = this.userDetailInfo
-				// 	uni.showToast({
-				// 		content: `登录成功！`,
-				// 		icon: 'success',
-				// 		showCancel: false,
-				// 		success: () => {
-				// 			this.$router.push({
-				// 				name: "home"
-				// 			})
-				// 		}
-				// 	});
-				// }, 300)
 
 			},
 			formReset: (e) => {

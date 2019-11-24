@@ -1,44 +1,52 @@
 <template>
 	<view class="contanner">
-
 		<view class="content">
 			<form @submit="formSubmit" @reset="formReset">
 				<view class="uni-form-item uni-column">
-					<view class="form-lable">职位</view>
-					<view class="form-inpput">
-						<input v-model="userDetailInfo.position" type="text" placeholder-class="placeholder" placeholder="请填写职位信息" />
-					</view>
-				</view>
-				<view class="uni-form-item uni-column">
-					<view class="form-lable">籍贯</view>
-					<view class="form-inpput" @click="handleCheckNativePlace">
-						<block v-if="userDetailInfo.nativePlace.province">
-						{{userDetailInfo.nativePlace.province}}
-						{{userDetailInfo.nativePlace.city}}
-						{{userDetailInfo.nativePlace.town}}
+					<view class="form-lable">对方所在地</view>
+					<view class="form-inpput" @click="openPicker">
+						<block v-if="userDetailInfo.partnerNativePlace.province">
+							{{userDetailInfo.partnerNativePlace.province}}
+							{{userDetailInfo.partnerNativePlace.city}}
+							{{userDetailInfo.partnerNativePlace.town}}
 						</block>
 						<block v-else>
-						请选择籍贯
+							请选择籍贯
 						</block>
 					</view>
 				</view>
 				<view class="uni-form-item uni-column">
-					<view class="form-lable">现住地址</view>
-					<view class="form-inpput" @click="handleCheckAdress">
-						{{userDetailInfo.currentAddress.province}}
-						{{userDetailInfo.currentAddress.city}}
-						{{userDetailInfo.currentAddress.town}}
-					</view>
-				</view>
-
-				<view class="uni-form-item uni-column">
-					<view class="form-lable">行业</view>
+					<view class="form-lable">年龄</view>
 					<view class="form-inpput">
-						<input v-model="userDetailInfo.industry" type="text" placeholder-class="placeholder" placeholder="请填写所在行业" />
+						<picker class="picker" :range="years" @change="handleYearChange">
+							{{ years[yearsIndex] }}
+						</picker>
 					</view>
 				</view>
 				<view class="uni-form-item uni-column">
-					<view class="form-lable">是否婚配</view>
+					<view class="form-lable">身高</view>
+					<view class="form-inpput">
+						<picker class="picker" :range="heights" @change="handelheights">
+							{{ heights[heightsIndex] }}
+						</picker>
+					</view>
+				</view>
+				<view class="uni-form-item uni-column">
+					<view class="form-lable">收入</view>
+					<view class="form-inpput">
+						<input v-model="userDetailInfo.partnerIncome" type="number" placeholder-class="placeholder" placeholder="请填写收入情况" />
+					</view>
+				</view>
+				<view class="uni-form-item uni-column">
+					<view class="form-lable">学历</view>
+					<view class="form-inpput">
+						<picker class="picker" :range="educations" @change="handelEducation">
+							{{ educations[educationIndex] }}
+						</picker>
+					</view>
+				</view>
+				<view class="uni-form-item uni-column">
+					<view class="form-lable">婚姻状况</view>
 					<view class="form-inpput">
 						<picker class="picker" :range="marrys" range-key="label" @change="handleMarryChange">
 							{{ marrys[marrysIndex].label }}
@@ -56,11 +64,13 @@
 
 <script>
 	import {
-		marrys
+		marrys,
+		heights,
+		years,
+		educations
 	} from "@/utils/fromCheck.js"
 	import appRequest from "@/utils/config.js"
 	import lotusAddress from "@/components/Winglau14-lotusAddress/Winglau14-lotusAddress.vue";
-
 	export default {
 		components: {
 			lotusAddress
@@ -71,10 +81,15 @@
 				loading: false,
 				marrys: marrys,
 				marrysIndex: 0,
+				heights: heights,
+				heightsIndex: 0,
+				years: years,
+				yearsIndex: 0,
+				educations: educations,
+				educationIndex: 0,
 				userDetailInfo: {
-					position: '', //职位
-					//籍贯
-					nativePlace: {
+					//对方所在地
+					partnerNativePlace: {
 						city: "",
 						cityCode: "",
 						province: "",
@@ -82,17 +97,11 @@
 						town: "",
 						townCode: ""
 					},
-					//现住地址
-					currentAddress: {
-						city: "",
-						cityCode: "",
-						province: "",
-						provinceCode: "",
-						town: "",
-						townCode: ""
-					},
-					industry: '', //行业
-					isMarry: "", //是否婚配
+					partnerAge: '', //年龄
+					partnerHeight: "", //身高
+					partnerIncome: "", //收入
+					partnerEducation: "", //学历
+					partnerIsMarry: "" //婚姻状况
 				},
 				lotusAddressData: {
 					visible: false,
@@ -106,19 +115,32 @@
 		methods: {
 			formSubmit(e) {
 				// console.log(e)
-				let loginRules = [
-					{
-						name: 'position',
-						required: true,
-						type: 'text',
-						errmsg: '请输入职位'
-					},{
-						name: 'industry',
-						required: true,
-						type: 'text',
-						errmsg: '请输入行业'
-					}
-				]
+				let loginRules = [{
+					name: 'partnerAge',
+					required: true,
+					type: 'text',
+					errmsg: '请填写年龄'
+				}, {
+					name: 'partnerHeight',
+					required: true,
+					type: 'text',
+					errmsg: '请选择身高'
+				}, {
+					name: 'partnerEducation',
+					required: true,
+					type: 'text',
+					errmsg: '请选择学历'
+				}, {
+					name: 'partnerIsMarry',
+					required: true,
+					type: 'text',
+					errmsg: '请选择婚姻情况'
+				}, {
+					name: 'partnerIncome',
+					required: true,
+					type: 'number',
+					errmsg: '请填写收入'
+				}]
 				this.userDetailInfo.id = uni.getStorageSync('userInfo').id
 				console.log(this.userDetailInfo)
 				let valLoginRes = this.$validate.validate(this.userDetailInfo, loginRules)
@@ -130,15 +152,23 @@
 					})
 					return false
 				}
-				let {currentAddress,id,industry,isMarry,nativePlace,position} = this.userDetailInfo
-				console.log(JSON.stringify(currentAddress))
-				let data = {
-					currentAddress: JSON.stringify(currentAddress),
+				let {
+					partnerNativePlace,
 					id,
-					industry,
-					isMarry,
-					nativePlace: JSON.stringify(nativePlace),
-					position
+					partnerAge,
+					partnerHeight,
+					partnerEducation,
+					partnerIsMarry,
+					partnerIncome
+				} = this.userDetailInfo
+				let data = {
+					partnerNativePlace: JSON.stringify(partnerNativePlace),
+					id,
+					partnerAge,
+					partnerHeight,
+					partnerEducation,
+					partnerIsMarry,
+					partnerIncome
 				}
 				appRequest.baseRequest({
 					url: 'member/save',
@@ -155,7 +185,7 @@
 							this.userInfo = res.data.data
 							uni.setStorageSync('userInfo', res.data.data)
 							setTimeout(() => {
-								this.$router.push('/pages/me/detail')
+								this.$router.push('/pages/me/condition/index')
 							}, 1200)
 
 						} catch (e) {
@@ -167,79 +197,65 @@
 			formReset: (e) => {
 				console.log('清空数据')
 			},
-
-			// 婚姻状况
-			handleMarryChange(e) {
-				this.marrysIndex = e.target.value
-				this.userDetailInfo.isMarry = marrys[this.marrysIndex].val
-			},
-			// 选择籍贯
-			bindPickerChange: function(e) {
-				console.log('picker发送选择改变，携带值为', e.target.value)
-				this.index = e.target.value
-			},
-			
-			// 选择籍贯
-			handleCheckNativePlace() {
-				this.isAdress = 1;
-				this.openPicker()
-			},
-			// 选择现住地址
-			handleCheckAdress() {
-				this.isAdress = 2;
-				this.openPicker()
-			},
-			// 省市区
-			//打开picker
+			// 选择地址
 			openPicker() {
 				this.lotusAddressData.visible = true;
 				// this.lotusAddressData.provinceName = '广东省';
 				// this.lotusAddressData.cityName = '广州市';
 				// this.lotusAddressData.townName = '白云区';
 				let {
-					nativePlace,
-					currentAddress
+					partnerNativePlace
 				} = this.userDetailInfo
-				if (this.isAdress == 1) {
-					this.lotusAddressData.provinceName = nativePlace.province;
-					this.lotusAddressData.cityName = nativePlace.city;
-					this.lotusAddressData.townName = nativePlace.town;
-				}
-				if (this.isAdress == 2) {
-					this.lotusAddressData.provinceName = currentAddress.province;
-					this.lotusAddressData.cityName = currentAddress.city;
-					this.lotusAddressData.townName = currentAddress.town;
-				}
 
+				this.lotusAddressData.provinceName = partnerNativePlace.province;
+				this.lotusAddressData.cityName = partnerNativePlace.city;
+				this.lotusAddressData.townName = partnerNativePlace.town;
 			},
+
 			//回传已选的省市区的值
 			choseValue(res) {
 				//res数据源包括已选省市区与省市区code
 				this.lotusAddressData.visible = res.visible; //visible为显示与关闭组件标识true显示false隐藏
 				//res.isChose = 1省市区已选 res.isChose = 0;未选
 				if (res.isChose) {
-					console.log(this.isAdress)
-					if (this.isAdress == 1) {
-
-						console.log(res);
-						this.userDetailInfo.nativePlace = res
-					}
-					if (this.isAdress == 2) {
-						this.userDetailInfo.currentAddress = res
-					}
+					console.log(res);
+					this.userDetailInfo.partnerNativePlace = res
 					// this.lotusAddressData.provinceName = res.province; //省
 					// this.lotusAddressData.cityName = res.city; //市
 					// this.lotusAddressData.townName = res.town; //区
 					this.region = `${res.province} ${res.city} ${res.town}`; //region为已选的省市区的值
 				}
 				this.isAdress = 0
+			},
+
+			// 年龄
+			handleYearChange: function(e) {
+				console.log(e)
+				this.yearsIndex = e.detail.value;
+				this.userDetailInfo.partnerAge = years[this.yearsIndex]
+			},
+			// 身高选择
+			handelheights(e) {
+				this.heightsIndex = e.target.value
+				this.userDetailInfo.partnerHeight = heights[this.heightsIndex]
+			},
+			// 学历选择
+			handelEducation(e) {
+				this.educationIndex = e.target.value
+				this.userDetailInfo.partnerEducation = educations[this.educationIndex]
+			},
+			// 婚姻状况
+			handleMarryChange(e) {
+				this.marrysIndex = e.target.value
+				this.userDetailInfo.partnerIsMarry = marrys[this.marrysIndex].val
 			}
+
 		}
 	}
 </script>
 
 <style>
-	@import url("../../assets/common.css");
+	@import url("../../../assets/common.css");
 
 	.img-wrapper {
 		height: 200px;

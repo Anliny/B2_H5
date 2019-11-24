@@ -3,12 +3,12 @@
 		<view class="base">
 			<view class="base-wrapper card-shadow" @click="handleShowDetail">
 				<view class="img">
-					<image src="/static/header.jpeg" class="image" mode=""></image>
+					<image :src="userInfo.userAvatar" class="image" mode=""></image>
 				</view>
-				<view class="edit-btn">
+				<!-- <view class="edit-btn">
 					<image src="/static/icon/edit.png" class="image" mode=""></image>
-				</view>
-				<text class="base-name">{{userInfo.name ? userInfo.name : "去取一个昵称吧" }}</text>
+				</view> -->
+				<text class="base-name">{{userInfo.nickName ? userInfo.nickName : "去取一个昵称吧" }}</text>
 				<text class="base-id">ID：{{userInfo.memberId}}</text>
 				<view class="base-code-wrapper">
 					<view class="base-code-item">{{ address }}户口</view>
@@ -23,7 +23,7 @@
 				</uni-list-item>
 				<uni-list-item title="我的相册" :show-extra-icon="true" :extra-icon="{color: '#4cd964',size: '22',type: 'image'}">
 				</uni-list-item>
-				<uni-list-item title="征友条件" :show-extra-icon="true" :extra-icon="{color: '#4cd964',size: '22',type: 'compose'}">
+				<uni-list-item title="征友条件" :show-extra-icon="true" @click="handleGoCondition" :extra-icon="{color: '#4cd964',size: '22',type: 'compose'}">
 				</uni-list-item>
 				<uni-list-item title="会员中心" :show-extra-icon="true" @click="handleGoVip" :extra-icon="{color: '#4cd964',size: '22',type: 'contact-filled'}">
 				</uni-list-item>
@@ -71,7 +71,12 @@
 		},
 		computed: {
 			address() {
-				return JSON.parse(this.userInfo.currentAddress).city
+				console.log(JSON.parse(this.userInfo.currentAddress))
+				if (JSON.parse(this.userInfo.currentAddress)) {
+					return JSON.parse(this.userInfo.currentAddress).city
+				} else {
+					return ''
+				}
 				// return '北京'
 			}
 		},
@@ -115,8 +120,16 @@
 					animationType: 'pop-in',
 					animationDuration: 200
 				});
+			},
+			// 查看征友条件
+			handleGoCondition() {
+				uni.navigateTo({
+					url: '/pages/me/condition/index',
+					animationType: 'pop-in',
+					animationDuration: 200
+				});
 			}
-			
+
 		}
 	}
 </script>

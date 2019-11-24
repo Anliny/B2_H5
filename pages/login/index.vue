@@ -33,6 +33,7 @@
 </template>
 
 <script>
+	import appRequest from "@/utils/config.js"
 	export default {
 		data() {
 			return {
@@ -40,7 +41,8 @@
 				userInfo: {
 					userName: '',
 					password: ''
-				}
+				},
+				token: ''
 			}
 		},
 		methods: {
@@ -69,41 +71,57 @@
 						method: 'POST',
 						success: (res) => {
 							this.loading = false
-								uni.showToast({
-									title: `登录成功！`,
-									icon:'success',
-									showCancel: false,
-								});
-								uni.switchTab({
-									url: '/pages/me/index',
-									animationType: 'pop-in',
-									animationDuration: 200,
-									success() {
-										uni.hideToast()
-									}
-								});
-					
-							// uni.showToast({
-							// 	title: `登录成功！`,
-							// 	icon:'success',
-							// 	showCancel: false,
-							// 	success() {
-					
-							// 	}
-							// });
-					
 							uni.setStorageSync('token', res.data.data)
-							// setTimeout(() => {
-							// 	// this.$router.push('/pages/index/index')
-							// 	uni.navigateTo({
-							// 		url: '/pages/index/index',
-							// 		animationType: 'pop-in',
-							// 		animationDuration: 200
-							// 	});
-							// },1200)
+
+
+							uni.showToast({
+								title: `登录成功！`,
+								icon: 'success',
+								showCancel: false,
+								success: () => {
+									uni.setStorage({
+										key: 'token',
+										data: res.data.data,
+										success: function() {
+											console.log(uni.getStorageSync('token'))
+											appRequest.baseRequest({
+												url: '/member/queryById',
+												method: 'get',
+												success: (res) => {
+													// 用户状态存到缓存中去
+													try {
+														this.userInfo = res.data.data
+														console.log(res.data.data)
+														// uni.setStorageSync('userInfo', res.data.data)
+														uni.setStorage({
+															key: 'userInfo',
+															data: res.data.data,
+															success: function() {
+																uni.switchTab({
+																	url: '/pages/index/index',
+																	animationType: 'pop-in',
+																	animationDuration: 200,
+																	success() {
+																		uni.hideToast()
+																	}
+																});
+															}
+														});
+
+													} catch (e) {
+														//TODO handle the exception
+													}
+												}
+											})
+										}
+									});
+
+
+								}
+							});
 						}
 					})
-				}else{
+				} else {
 					uni.showToast({
 						icon: 'none',
 						title: valLoginRes.errmsg
@@ -111,7 +129,7 @@
 					this.loading = false
 					return false
 				}
-				
+
 			},
 			formReset: (e) => {
 				console.log('清空数据')

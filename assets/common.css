@@ -8,7 +8,9 @@ view {
 	box-sizing: border-box;
 	font-size: 14px;
 }
-
+.uni-button{
+	font-size: 14px;
+}
 /* 表单样式 */
 .uni-form-item {
 	height: 35px;

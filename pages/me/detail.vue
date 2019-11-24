@@ -3,12 +3,12 @@
 		<view class="base">
 			<view class="base-wrapper card-shadow">
 				<view class="img">
-					<image src="/static/header.jpeg" class="image" mode=""></image>
+					<image :src="userInfo.userAvatar" class="image" mode=""></image>
 				</view>
 				<view class="edit-btn" @click="handleEditUserHeader">
 					<image src="/static/icon/edit.png" class="image" mode=""></image>
 				</view>
-				<text class="base-name">有难控股</text>
+				<text class="base-name">{{userInfo.nickName}}</text>
 				<text class="base-id">ID：{{userInfo.memberId}}</text>
 				<view class="base-code-wrapper">
 					<view class="base-code-item">{{`${JSON.parse(userInfo.currentAddress).city}`}}户口</view>
@@ -127,7 +127,7 @@
 					<uni-icons type="person" color="#ff77aa"></uni-icons>
 					籍贯：
 				</view>
-				<view class="card-item-text">{{`${JSON.parse(userInfo.nativePlace).province}${JSON.parse(userInfo.nativePlace).city}${JSON.parse(userInfo.nativePlace).town}`}}</view>
+				<view class="card-item-text">{{nativePlaceAdress}}</view>
 			</view>
 			<view class="card-item">
 				<view class="card-item-lable">
@@ -247,6 +247,16 @@
 					return '丧偶'
 				}
 				return "未填写"
+			},
+			nativePlaceAdress(){
+				console.log(JSON.parse(this.userInfo.nativePlace))
+				if(JSON.parse(this.userInfo.nativePlace)){
+					return ''
+					// return `${JSON.parse(this.userInfo.nativePlace).province}${JSON.parse(this.userInfo.nativePlace).city}${JSON.parse(this.userInfo.nativePlace).town}`
+				}else{
+					return ''
+				}
+				// {{`${JSON.parse(userInfo.nativePlace).province}${JSON.parse(userInfo.nativePlace).city}${JSON.parse(userInfo.nativePlace).town}`}}
 			}
 		},
 		methods: {

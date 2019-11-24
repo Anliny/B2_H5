@@ -40,8 +40,8 @@
 					<view class="uni-form-item uni-column">
 						<view class="form-lable">验证码：</view>
 						<view class="form-inpput verification-wrapper">
-							<input class="verification-input" v-model="userInfo.verificationCode" type="number" />
-							<button class="verification-btn">获取验证码</button>
+							<input class="verification-input" v-model="userInfo.sms" type="number" />
+							<button class="verification-btn" :disabled="btnDisable" @click="handleGetSms">{{btnText}}</button>
 						</view>
 					</view>
 				</view>
@@ -69,8 +69,8 @@
 					<view class="uni-form-item uni-column">
 						<view class="form-lable">验证码：</view>
 						<view class="form-inpput verification-wrapper">
-							<input class="verification-input" v-model="userInfo.verificationCode" type="number" />
-							<button class="verification-btn">获取验证码</button>
+							<input class="verification-input" v-model="userInfo.sms" type="number" />
+							<button class="verification-btn" :disabled="btnDisable" @click="handleGetSms">{{btnText}}</button>
 						</view>
 					</view>
 				</view>
@@ -101,12 +101,14 @@
 				}, {
 					label: "红娘注册"
 				}],
+				btnDisable: false,
+				btnText: '获取验证码',
 				loading: false,
 				isTitleBar: 0,
 				userInfo: {
 					phone: '',
 					inviteCode: '', //邀请码
-					verificationCode: '',
+					sms: '', //验证码
 					password: '',
 					confirmpassword: ''
 				}
@@ -147,7 +149,7 @@
 						errmsg: '请输入确认密码'
 					},
 					{
-						name: 'verificationCode',
+						name: 'sms',
 						type: 'required',
 						errmsg: '请输入验证码'
 					}
@@ -185,7 +187,7 @@
 						console.log(res.data);
 						let userInfo = res.data.data
 						try {
-						    uni.setStorageSync('userInfo', userInfo);
+							uni.setStorageSync('userInfo', userInfo);
 							this.loading = false
 							uni.showToast({
 								title: `注册成功！`,
@@ -194,22 +196,67 @@
 							});
 							setTimeout(() => {
 								this.$router.push('/pages/login/index')
-							},1200)
+							}, 1200)
 						} catch (e) {
-						    // error
+							// error
 						}
-						
+
 					}
 				});
-
-
-
 			},
 			formReset: (e) => {
 				console.log('清空数据')
 			},
 			handleCheckLabel(index) {
 				this.isTitleBar = index;
+			},
+			// 获取验证码
+			handleGetSms() {
+				let registerRules = [{
+						name: 'phone',
+						required: true,
+						type: 'text',
+						errmsg: '请输入电话号码'
+					}
+				]
+				let valRegisterRes = this.$validate.validate(this.userInfo, registerRules)
+				if (!valRegisterRes.isOk) {
+					uni.showToast({
+						icon: 'none',
+						title: valRegisterRes.errmsg
+					})
+					return false
+				}
+				
+				let timeNumber = 5
+				let timeObj = setInterval(() => {
+					if (timeNumber == 0) {
+						clearInterval(timeObj)
+						this.btnText = "再次获取验证码"
+						this.btnDisable = false
+					} else {
+						this.btnText = `${timeNumber}s后，重新获取`
+						timeNumber--
+						this.btnDisable = true;
+					}
+				}, 1000)
+				uni.request({
+					url: '/common/querySms', //仅为示例，并非真实接口地址。
+					data: {phone:this.userInfo.phone},
+					method: 'get',
+					success: (res) => {
+						uni.showToast({
+							title: `短信已发送，请注意查收！`,
+							icon: 'success',
+							showCancel: false,
+							success:() => {
+								console.log(this.userInfo)
+								this.userInfo.sms = res.data.data
+								uni.hideToast()
+							}
+						});
+					}
+				});
 			}
 		}
 	}
@@ -243,5 +290,9 @@
 		color: #8F8F94;
 		line-height: 35px;
 		font-size: 14px;
+	}
+
+	.verification-btn {
+		font-size: 14px !important;
 	}
 </style>
