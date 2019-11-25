@@ -100,3 +100,22 @@ view {
 	line-clamp: 2;
 	-webkit-box-orient: vertical;
 }
+
+/* 加载跟多 */
+.loadMore{
+	color: #cccccc;
+	line-height: 30px;
+}
+.rotate{
+	animation: myMove 2s linear infinite;
+	margin-right: 8px;
+	/* transition: roall 2s linear; */
+}
+@keyframes myMove{
+	from{
+		transform: rotate(0deg)
+	}
+	to{
+		transform: rotate(359deg)
+	}
+}

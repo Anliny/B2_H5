@@ -24,7 +24,7 @@
 				</uni-list-item>
 				<uni-list-item title="会员中心" :show-extra-icon="true" @click="handleGoVip" :extra-icon="{color: '#4cd964',size: '22',type: 'contact-filled'}">
 				</uni-list-item>
-				<uni-list-item title="设置" :show-extra-icon="true" :extra-icon="{color: '#4cd964',size: '22',type: 'gear'}">
+				<uni-list-item title="设置" :show-extra-icon="true" @click="handleGoSeting" :extra-icon="{color: '#4cd964',size: '22',type: 'gear'}">
 				</uni-list-item>
 			</uni-list>
 		</template>
@@ -123,6 +123,14 @@
 			handleGoCondition() {
 				uni.navigateTo({
 					url: '/pages/me/condition/index',
+					animationType: 'pop-in',
+					animationDuration: 200
+				});
+			},
+			// 用户设置
+			handleGoSeting(){
+				uni.navigateTo({
+					url: '/pages/me/setings/index',
 					animationType: 'pop-in',
 					animationDuration: 200
 				});

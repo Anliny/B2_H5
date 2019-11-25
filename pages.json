@@ -6,7 +6,8 @@
 
 				"navigationBarTitleText": "首页",
 				"enablePullDownRefresh": true, //设置为true表示当前页面开启下拉刷新
-				"backgroundTextStyle": "dark" //下拉 loading 的样式，仅支持 dark/light
+				"backgroundTextStyle": "dark" ,//下拉 loading 的样式，仅支持 dark/light
+				"onReachBottomDistance":50 
 			}
 		}, {
 			"path": "pages/index/userInfo",
@@ -117,6 +118,13 @@
 				// "backgroundColor": "rgb(255,119,55)",
 				// "transparentTitle": "auto",
 				// "navigatonStyle": "custom",
+				"animationType": "pop-in",
+				"animationDuration": 200
+			}
+		},{
+			"path": "pages/me/setings/index",
+			"style": {
+				"navigationBarTitleText": "设置",
 				"animationType": "pop-in",
 				"animationDuration": 200
 			}

@@ -2,17 +2,18 @@
 	<view class="content">
 		<form @submit="formSubmit" @reset="formReset">
 		    <view class="uni-form-item uni-column">
-		        <view class="form-lable">正文：</view>
-		        <view class="form-inpput">
-					<textarea style="padding: 8px;line-break: 35px;" placeholder-style="color:#ff7737" placeholder="请输入内容"/>
+		        <!-- <view class="form-lable">正文：</view> -->
+		        <view class="form-inpput" style="width: 100vw;">
+					<textarea style="padding: 8px;line-break: 35px;" placeholder-style="color:#ff7737" placeholder="说一说此时此刻的想法"/>
 				</view>
 		    </view>
 			<view class="uni-form-item uni-column">
-			    <view class="form-lable">正文：</view>
+			    <!-- <view class="form-lable">正文：</view> -->
 				<ss-upload-image 
-					:url="url" 
-					:file-list="fileList" 
-					:name="name" 
+					:url="imgObj.url" 
+					:file-list="imgObj.fileList" 
+					:name="imgObj.name"
+					:limit="imgObj.limt"
 					@on-success="onSuccess" 
 					@on-error="onError" 
 					@on-remove="onRemove" 
@@ -34,11 +35,16 @@
 		},
 		data() {
 			return {
-				url:'http://www.baidu.com',
-				fileList:[],
-				name:"",
-				userInfo: {
-					phone:''
+				imgObj:{
+					url:'/common/multiUploads',
+					fileList:[],
+					name:'trackImg',
+					limt:9
+				},
+				dynamic: {
+					content:'',
+					pictureUrl:'',
+					state:0,
 				},
 				upImgConfig:{
 					iconReplace:''
@@ -47,8 +53,25 @@
 		},
 		methods: {
 			formSubmit() {},
-			formReset(){}
+			formReset(){},
+			// 上传成功
+			onSuccess(e){
+				console.log(e)
+			},
+			// 上传失败
+			onError(e){
+				console.log(e);
+			},
+			// 删除上传图片
+			onRemove(e){
+				console.log(e);
+			},
+			// 上传进度
+			onProcess(e){
+				console.log(e)
+			}
 		},
+		
 	}
 </script>
 

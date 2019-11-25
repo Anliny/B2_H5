@@ -14,15 +14,13 @@
 		<!-- #endif -->
 		<view class="backImg">
 			<image src="/static/header.jpeg" class="image" mode=""></image>
-			<text class="name">
-				百发百中
-			</text>
+			<text class="name">{{userInfo.nickName}}</text>
 			<view class="header">
-				<image src="/static/header.jpeg" class="image" mode=""></image>
+				<image :src="userAvatar()" class="image" mode=""></image>
 			</view>
 		</view>
 		<view class="desc text-two-line">
-			那是一个秋意盎然、金风送爽的日子，我和父母一起来到了位于上师大旁的康健园。一踏进公园，一股浓郁的桂香扑鼻而来，泌人心脾,让我心旷神怡，只见一朵朵开得正烈的金色桂花，迎风而立，仿佛在向我招手。我们追着这桂香，走进了清幽的公园。
+			{{userInfo.declaration}}
 		</view>
 		<template>
 			<list></list>
@@ -40,7 +38,19 @@
 		components:{
 			uniList,uniListItem,list,uniIcons
 		},
+		data() {
+			return {
+				userInfo: uni.getStorageSync("userInfo")
+			}
+		},
+		onLoad() {
+			this.userInfo = uni.getStorageSync('userInfo')
+		},
 		methods: {
+			// 判断头像
+			userAvatar() {
+				return this.userInfo.userAvatar ? this.userInfo.userAvatar : "/static/icon/defult_header.jpg" 
+			},
 			handleTrack() {
 				// 跳转路由
 				uni.navigateTo({

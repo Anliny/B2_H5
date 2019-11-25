@@ -9,7 +9,7 @@
 				<image class="img" src="/static/nav-img.jpg"></image>
 			</view>
 			<view class="shearch-wrapper">
-				<uni-search-bar placeholder="自定placeholder" @input="input" @cancel="cancel" />
+				<uni-search-bar placeholder="关键字查询" @input="input" @cancel="cancel" />
 			</view>
 			<view class="content-btn-wrapper" @click="handleBtnGroupVip()">
 				<view class="content-btn-item">
@@ -31,6 +31,8 @@
 					<text>会员动态</text>
 				</view>
 			</view>
+
+			<!-- 会员列表 -->
 			<view class="list-wrapper">
 				<block v-for="(item,index) in dataInfo" :key="index">
 					<view class="list-item" @click="handelGetUserInfo(item)">
@@ -42,6 +44,11 @@
 					</view>
 				</block>
 			</view>
+			<!-- <view v-if="loadMore" class="loadMore">
+				<uni-icons type="spinner-cycle" class="rotate" color="#cccccc"></uni-icons>
+				正在加载···
+			</view> -->
+			<uni-load-more :status="loadMore"></uni-load-more>
 		</view>
 	</view>
 </template>
@@ -51,18 +58,22 @@
 	import uniCard from "@/components/uni-card/uni-card"
 	import uniIcons from "@/components/uni-icons/uni-icons"
 	import Skeleton from '@/components/J-skeleton/J-skeleton.vue'
-
+	import youScroll from '../components/you-scroll.vue'
+	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
 
 	export default {
 		components: {
 			uniSearchBar,
 			uniCard,
 			uniIcons,
-			Skeleton
+			Skeleton,
+			youScroll,
+			uniLoadMore
 		},
 		data() {
 			return {
 				loading: true,
+				loadMore:"more",
 				skeleton1: {
 					avatarSize: '52px',
 					row: 3,
@@ -89,7 +100,8 @@
 						'/static/icon/video_hight.png',
 					],
 					id: 1
-				}]
+				}],
+				
 			}
 		},
 		onLoad() {
@@ -99,13 +111,14 @@
 			// this.reloadData()
 		},
 		onPullDownRefresh() {
-			// console.log('refresh');
-			// setTimeout(function() {
-			// 	uni.stopPullDownRefresh();
-			// }, 1000);
 			// 获取用户列表
 			this.getVipList()
 			this.loading = true
+		},
+		// 页面滚动到底部触发
+		onReachBottom(){
+			this.loadMore = 'loading'
+			this.getVipList()
 		},
 		methods: {
 			// 获取用户列表
@@ -129,9 +142,9 @@
 							size,
 							total
 						}
-						
-						this.dataInfo = records
 
+						this.dataInfo = records
+						this.loadMore = "noMore"
 						uni.stopPullDownRefresh();
 					}
 				})
@@ -290,5 +303,77 @@
 		-webkit-line-clamp: 2;
 		line-clamp: 2;
 		-webkit-box-orient: vertical;
+	}
+
+
+	/*  */
+	.content .block {
+		height: 200px;
+		line-height: 200px;
+		text-align: center;
+		margin: 10px;
+		background-color: aquamarine;
+	}
+
+	.content .loadingText {
+		line-height: 30px;
+		text-align: center;
+		font-size: 12px;
+		color: #999;
+	}
+
+	#preloader_1 {
+		height: 40px;
+		line-height: 40px;
+		position: relative;
+		text-align: center;
+	}
+
+	#preloader_1 span {
+		width: 5px;
+		height: 5px;
+		margin: 0 1px;
+		display: inline-block;
+		vertical-align: middle;
+		background: #9b59b6;
+		animation: preloader_1 1.5s infinite ease-in-out;
+	}
+
+	#preloader_1 span:nth-child(2) {
+		animation-delay: .2s;
+	}
+
+	#preloader_1 span:nth-child(3) {
+		animation-delay: .4s;
+	}
+
+	#preloader_1 span:nth-child(4) {
+		animation-delay: .6s;
+	}
+
+	#preloader_1 span:nth-child(5) {
+		animation-delay: .8s;
+	}
+
+	@keyframes preloader_1 {
+		0% {
+			height: 5px;
+			background: #9b59b6;
+		}
+
+		25% {
+			height: 30px;
+			background: #3498db;
+		}
+
+		50% {
+			height: 5px;
+			background: #9b59b6;
+		}
+
+		100% {
+			height: 5px;
+			background: #9b59b6;
+		}
 	}
 </style>

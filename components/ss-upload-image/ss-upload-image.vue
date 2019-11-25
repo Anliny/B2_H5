@@ -55,10 +55,15 @@
       chooseImage() {
         uni.chooseImage({
           success: (chooseImageRes) => {
+			  console.log(chooseImageRes.tempFilePaths)
+			  let filelist = chooseImageRes.tempFilePaths.map( item => { return {files:item} } )
+			  console.log(filelist)
             const uploadTask = uni.uploadFile({
               url: this.url,
               name: this.name,
+			  // files: chooseImageRes.tempFilePaths,
               filePath: chooseImageRes.tempFilePaths[0],
+              // filePath: JSON.stringify(filelist[0]),
               formData: this.formData,
               header: this.header,
               success: (uploadFileRes) => {
