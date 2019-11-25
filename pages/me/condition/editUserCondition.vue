@@ -185,7 +185,7 @@
 							this.userInfo = res.data.data
 							uni.setStorageSync('userInfo', res.data.data)
 							setTimeout(() => {
-								this.$router.push('/pages/me/condition/index')
+								this.$router.replace('/pages/me/condition/index')
 							}, 1200)
 
 						} catch (e) {

@@ -12,7 +12,7 @@
 				<view class="card-item-lable">
 					<uni-icons type="person" color="#ff77aa"></uni-icons>对方所在地：
 				</view>
-				<view class="card-item-text">{{`${JSON.parse(userInfo.partnerNativePlace).province}${JSON.parse(userInfo.partnerNativePlace).city}${JSON.parse(userInfo.partnerNativePlace).town}`}}</view>
+				<view class="card-item-text">{{partnerNativePlace}}</view>
 			</view>
 			<view class="card-item">
 				<view class="card-item-lable">
@@ -77,6 +77,14 @@
 					return '丧偶'
 				}
 				return "未填写"
+			},
+			partnerNativePlace(){
+				if(this.userInfo.partnerNativePlace){
+					let {province,city,town} = JSON.parse(this.userInfo.partnerNativePlace)
+					return `${province}${city}${town}`
+				}else{
+					return "-"
+				}
 			}
 		},
 		onLoad() {
