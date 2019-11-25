@@ -13,14 +13,14 @@ const appRequest = {
             }
             else{
                 uni.showToast({
-                	title:"没用获取到token信息"
+                	title:"用户信息不存在"
                 })
             }
         } catch (e) {
             uni.showToast({
-            	title:"没用获取到token信息"
+            	title:"用户信息不存在"
             })
         } 
-    },
+    }
 }
 export default appRequest;

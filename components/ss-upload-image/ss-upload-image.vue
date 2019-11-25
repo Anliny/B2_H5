@@ -61,7 +61,7 @@
             const uploadTask = uni.uploadFile({
               url: this.url,
               name: this.name,
-			  // files: chooseImageRes.tempFilePaths,
+			  files: chooseImageRes.tempFilePaths,
               filePath: chooseImageRes.tempFilePaths[0],
               // filePath: JSON.stringify(filelist[0]),
               formData: this.formData,

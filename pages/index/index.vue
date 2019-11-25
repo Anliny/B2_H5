@@ -37,8 +37,7 @@
 				<block v-for="(item,index) in dataInfo" :key="index">
 					<view class="list-item" @click="handelGetUserInfo(item)">
 						<uni-card :title="item.nickName" mode="style" :is-shadow="true" :thumbnail="item.userAvatar" :extra="item.memberID"
-						 :note="item.iconArray"
-						 >
+						 :note="item.iconArray">
 							<view class="uni-card-text">{{item.declaration}}</view>
 						</uni-card>
 					</view>
@@ -60,7 +59,7 @@
 	import Skeleton from '@/components/J-skeleton/J-skeleton.vue'
 	import youScroll from '../components/you-scroll.vue'
 	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
-
+	import appRequest from "@/utils/config.js"
 	export default {
 		components: {
 			uniSearchBar,
@@ -73,7 +72,7 @@
 		data() {
 			return {
 				loading: true,
-				loadMore:"more",
+				loadMore: "more",
 				skeleton1: {
 					avatarSize: '52px',
 					row: 3,
@@ -85,47 +84,39 @@
 					showTitle: true,
 				},
 				searchData: {
-					data: ""
+					nickName: "",
+					current: 0,
+					pages: 1,
+					size: 10,
+					total: 8
 				},
-				pageObj: {},
-				dataInfo: [{
-					userAvatar: 'https://img-cdn-qiniu.dcloud.net.cn/uniapp/images/cbd.jpg',
-					declaration: '那是一个秋意盎然、金风送爽的日子，我和父母一起来到了位于上师大旁的康健园。一踏进公园，一股浓郁的桂香扑鼻而来，泌人心脾,让我心旷神怡，只见一朵朵开得正烈的金色桂花，迎风而立，仿佛在向我招手。我们追着这桂香，走进了清幽的公园。',
-					nickName: '自由自在',
-					memberID: 'wbs1235',
-					iconArray: [
-						'/static/icon/vip.png',
-						'/static/icon/userId.png',
-						'/static/icon/bank_hight.png',
-						'/static/icon/video_hight.png',
-					],
-					id: 1
-				}],
-				
+				dataInfo: [],
 			}
 		},
 		onLoad() {
-
 			uni.startPullDownRefresh();
-
-			// this.reloadData()
 		},
 		onPullDownRefresh() {
 			// 获取用户列表
+			this.searchData.current = 0
+			this.dataInfo = []
 			this.getVipList()
 			this.loading = true
+			
 		},
 		// 页面滚动到底部触发
-		onReachBottom(){
+		onReachBottom() {
 			this.loadMore = 'loading'
 			this.getVipList()
 		},
 		methods: {
 			// 获取用户列表
 			getVipList() {
+				this.searchData.current = this.searchData.current + 1
 				uni.request({
 					url: '/common/member/queryPage',
 					method: 'get',
+					data: this.searchData,
 					success: (res) => {
 						this.loading = false
 						console.log(res.data.data)
@@ -136,42 +127,65 @@
 							total,
 							records
 						} = res.data.data
-						this.pageObj = {
+						this.searchData = {
 							current,
-							pages,
+							pages: pages,
 							size,
 							total
 						}
-
-						this.dataInfo = records
-						this.loadMore = "noMore"
+						if (records.length <= 0) {
+							this.loadMore = "noMore"
+								--this.searchData.current
+						} else {
+							this.loadMore = "more"
+							this.dataInfo = [...this.dataInfo, ...records]
+						}
 						uni.stopPullDownRefresh();
 					}
 				})
 			},
-			search(e) {
-				console.log(this.searchData.data)
-			},
 			input(e) {
-				this.searchData.data = e
-				console.log(this.searchData.data);
+				this.searchData.nickName = e.value
+				this.searchData.current = 0
+				this.dataInfo = []
+				this.getVipList()
 			},
 			cancel(e) {
 				console.log(e);
 			},
 			// 获取用户详细信息
 			handelGetUserInfo(item) {
-				uni.navigateTo({
-					url: '/pages/index/userInfo',
-					animationType: 'pop-in',
-					animationDuration: 200
-				})
+				console.log(item)
+				// 判断是否登录
+				let token = uni.getStorageSync("token")
+				if (!token) {
+					uni.showModal({
+						title: '提示',
+						content: "您还未登录，前往登录",
+						showCancel: false,
+						success: () => {
+							// 
+							// this.$router.push('/pages/login/index')
+							uni.navigateTo({
+								url: '/pages/login/index',
+								animationType: 'pop-in',
+								animationDuration: 200
+							});
+						}
+					})
+				} else {
+					uni.navigateTo({
+						url: '/pages/index/userInfo?id='+item.id,
+						animationType: 'pop-in',
+						animationDuration: 200
+					})
+				}
+
+
 			},
 
 			// 同城会员
-			handleBtnGroupVip() {
-
-			},
+			handleBtnGroupVip() {},
 			// 红娘牵线
 			handleBtnGroupRedMather() {
 				uni.showToast({
@@ -274,6 +288,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		padding: 0 8px;
+		width: 100%;
 	}
 
 	.list-wrapper .list-item {

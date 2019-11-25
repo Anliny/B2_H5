@@ -72,8 +72,6 @@
 						success: (res) => {
 							this.loading = false
 							uni.setStorageSync('token', res.data.data)
-
-
 							uni.showToast({
 								title: `登录成功！`,
 								icon: 'success',
