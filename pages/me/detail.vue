@@ -3,7 +3,7 @@
 		<view class="base">
 			<view class="base-wrapper card-shadow">
 				<view class="img">
-					<image :src="userInfo.userAvatar" class="image" mode=""></image>
+					<image :src="userAvatar" class="image" mode=""></image>
 				</view>
 				<view class="edit-btn" @click="handleEditUserHeader">
 					<image src="/static/icon/edit.png" class="image" mode=""></image>
@@ -11,7 +11,7 @@
 				<text class="base-name">{{userInfo.nickName}}</text>
 				<text class="base-id">ID：{{userInfo.memberId}}</text>
 				<view class="base-code-wrapper">
-					<view class="base-code-item">{{`${JSON.parse(userInfo.currentAddress).city}`}}户口</view>
+					<view class="base-code-item">{{address}}</view>
 					<view class="base-code-item code2">{{userInfo.education}}</view>
 					<view class="base-code-item code3">{{userInfo.position}}</view>
 					<!-- <view class="base-code-item code4">{{}}</view> -->
@@ -134,7 +134,7 @@
 					<uni-icons type="person" color="#ff77aa"></uni-icons>
 					现住地址：
 				</view>
-				<view class="card-item-text">{{`${JSON.parse(userInfo.currentAddress).province}${JSON.parse(userInfo.currentAddress).city}${JSON.parse(userInfo.currentAddress).town}`}}</view>
+				<view class="card-item-text">{{currentAddress}}</view>
 			</view>
 			<view class="card-item">
 				<view class="card-item-lable">
@@ -248,16 +248,37 @@
 				}
 				return "未填写"
 			},
+			// 判断头像
+			userAvatar() {
+				return this.userInfo.userAvatar ? this.userInfo.userAvatar : "/static/icon/defult_header.jpg" 
+			},
+			// 籍贯
 			nativePlaceAdress(){
-				console.log(JSON.parse(this.userInfo.nativePlace))
-				if(JSON.parse(this.userInfo.nativePlace)){
-					return ''
-					// return `${JSON.parse(this.userInfo.nativePlace).province}${JSON.parse(this.userInfo.nativePlace).city}${JSON.parse(this.userInfo.nativePlace).town}`
+				if(this.userInfo.nativePlace){
+					let {province,city,town} = JSON.parse(this.userInfo.nativePlace)
+					return `${province}${city}${town}`
 				}else{
-					return ''
+					return '-'
 				}
-				// {{`${JSON.parse(userInfo.nativePlace).province}${JSON.parse(userInfo.nativePlace).city}${JSON.parse(userInfo.nativePlace).town}`}}
+			},
+			// 现住地址
+			currentAddress(){
+				if(this.userInfo.currentAddress){
+					let {province,city,town} = JSON.parse(this.userInfo.nativePlace)
+					return `${province}${city}${town}`
+				}else{
+					return "-"
+				}
+			},
+			// 标签地址
+			address() {
+				if (this.userInfo.currentAddress) {
+					return JSON.parse(this.userInfo.currentAddress).city + '户口'
+				} else {
+					return '-'
+				}
 			}
+			 
 		},
 		methods: {
 			// 获取用户信息

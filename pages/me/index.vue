@@ -3,15 +3,12 @@
 		<view class="base">
 			<view class="base-wrapper card-shadow" @click="handleShowDetail">
 				<view class="img">
-					<image :src="userInfo.userAvatar" class="image" mode=""></image>
+					<image :src="userAvatar()" class="image" mode=""></image>
 				</view>
-				<!-- <view class="edit-btn">
-					<image src="/static/icon/edit.png" class="image" mode=""></image>
-				</view> -->
 				<text class="base-name">{{userInfo.nickName ? userInfo.nickName : "去取一个昵称吧" }}</text>
 				<text class="base-id">ID：{{userInfo.memberId}}</text>
 				<view class="base-code-wrapper">
-					<view class="base-code-item">{{ address }}户口</view>
+					<view class="base-code-item">{{ address }}</view>
 					<view class="base-code-item code2">{{userInfo.education}}</view>
 					<view class="base-code-item code3">{{userInfo.position}}</view>
 				</view>
@@ -49,6 +46,9 @@
 				userInfo: {}
 			}
 		},
+		computed: {
+			
+		},
 		onShow() {
 			let token = uni.getStorageSync("token")
 			if (!token) {
@@ -71,13 +71,11 @@
 		},
 		computed: {
 			address() {
-				console.log(JSON.parse(this.userInfo.currentAddress))
-				if (JSON.parse(this.userInfo.currentAddress)) {
-					return JSON.parse(this.userInfo.currentAddress).city
+				if (this.userInfo.currentAddress) {
+					return JSON.parse(this.userInfo.currentAddress).city + '户口'
 				} else {
-					return ''
+					return '-'
 				}
-				// return '北京'
 			}
 		},
 		methods: {
@@ -128,6 +126,10 @@
 					animationType: 'pop-in',
 					animationDuration: 200
 				});
+			},
+			// 判断头像
+			userAvatar() {
+				return this.userInfo.userAvatar ? this.userInfo.userAvatar : "/static/icon/defult_header.jpg" 
 			}
 
 		}

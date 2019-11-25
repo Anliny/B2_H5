@@ -88,7 +88,7 @@
 							uni.setStorageSync('userInfo', res.data.data)
 							
 							setTimeout(() => {
-								this.$router.push('/pages/me/detail')
+								this.$router.replace('/pages/me/detail')
 							},1200)
 							
 						} catch (e) {

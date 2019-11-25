@@ -2,7 +2,6 @@ const appRequest = {
     baseRequest(obj) {
         try {
             const userToken = uni.getStorageSync('token');
-			console.log(userToken.token)
             if (userToken) {
                 if (obj.header) {
                     obj.header["Authorization"] = userToken.token;
