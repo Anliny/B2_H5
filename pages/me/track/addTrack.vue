@@ -19,6 +19,7 @@
 					@on-remove="onRemove" 
 					@on-process="onProcess" />
 			</view>
+			<button type="primary" @click="imgList">上传</button>
 			<view class="uni-btn-v">
 			    <button type="primary" form-type="submit">注册</button>
 			    <button type="success" form-type="reset">Reset</button>
@@ -69,6 +70,26 @@
 			// 上传进度
 			onProcess(e){
 				console.log(e)
+			},
+			
+			imgList(){
+				uni.chooseImage({
+				    success:  (chooseImageRes) => {
+				        const tempFilePaths = chooseImageRes.tempFilePaths;
+				        uni.uploadFile({
+				            url: this.imgObj.url, //仅为示例，非真实的接口地址
+				            filePath: tempFilePaths[0],
+				            name: 'file',
+							header:{
+								"Content-Type": "multipart/form-data",
+								"aa":'bbbb'
+							},
+				            success: function (uploadFileRes) {
+				                console.log(uploadFileRes.data);
+				            }
+				        });
+				    }
+				});
 			}
 		},
 		

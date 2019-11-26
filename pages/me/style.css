@@ -1,0 +1,76 @@
+.header-warpper{
+	margin: 8px;
+	background-color: #fff;
+	border-radius: 8px;
+	display: flex;
+	padding: 8px;
+}
+.header-image{
+	width: 150px;
+	height: 150px;
+}
+.header-item{
+	line-height: 30px;
+	padding: 0 8px;
+}
+.btn-warpper{
+	display: flex;
+	padding:0 8px;
+	margin-bottom: 8px;
+}
+.btn-warpper .btn-item{
+	border-right: 1px solid #fafafa;
+	flex: 1;
+	background-color: #fff;
+	line-height: 40px;
+	text-align: center;
+}
+.btn-warpper .btn-item:last-child{
+	border-right: none;
+}
+
+.card-warp {
+		background-color: #fff;
+		margin: 0 8px 8px 8px;
+		border-radius: 8px;
+		padding: 8px;
+		line-height: 35px;
+	}
+
+	.card-warp .card-title {
+		display: flex;
+		justify-content: space-between;
+	}
+	.card-warp .card-edit {
+		width: 35px;
+		height: 35px;
+		text-align: center;
+	}
+	.card-warp .card-edit .uni-icons{
+		font-size: 30px !important;
+	}
+
+	.card-warp .tips {
+		font-size: 12px;
+		color: rgb(254, 151, 62);
+		line-height: 25px;
+	}
+
+	.card-warp .card-item {
+		line-height: 30px;
+		display: flex;
+	}
+
+	.card-warp .card-item-lable {
+		font-size: 14px;
+		color: #a0a0a0;
+	}
+
+	.card-warp .card-item-lable .uni-icons {
+		margin-right: 5px;
+	}
+
+	.card-warp .card-item-text {
+		font-size: 14px;
+		flex: 1;
+	}

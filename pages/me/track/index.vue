@@ -3,12 +3,12 @@
 		<!-- #ifndef MP-WEIXIN -->
 		<nav-bar transparentFixedFontColor="#fff" fontColor="#fff" bgColor="#ff77aa" type="transparentFixed" title="我的动态">
 			<!-- //透明状态下的按钮 -->
-		    <view class="transparent_fixed_preview" slot="transparentFixedRight" @click="onPreview">
-				 <uni-icons type="plus" @click="handleTrack" size="26" color="#fff"></uni-icons>
+		    <view class="transparent_fixed_preview" slot="transparentFixedRight" @click="handleTrack">
+				 <uni-icons type="plus" size="26" color="#fff"></uni-icons>
 			</view> 
 			<!-- //不透明状态下的按钮 -->
-		    <view class="preview" slot="right" @click="onPreview">
-				<uni-icons type="plus" size="26" @click="handleTrack"  color="#fff"></uni-icons>
+		    <view class="preview" slot="right" @click="handleTrack">
+				<uni-icons type="plus" size="26" color="#fff"></uni-icons>
 			</view> 
 		</nav-bar>
 		<!-- #endif -->

@@ -96,6 +96,9 @@
 		onLoad() {
 			uni.startPullDownRefresh();
 		},
+		onShow() {
+			console.log(uni.getStorageSync("token"))
+		},
 		onPullDownRefresh() {
 			// 获取用户列表
 			this.searchData.current = 0

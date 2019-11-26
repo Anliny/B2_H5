@@ -49,6 +49,13 @@
 				"animationDuration": 200
 			}
 		}, {
+			"path": "pages/me/editJokin",
+			"style": {
+				"navigationBarTitleText": "编辑红娘信息",
+				"animationType": "pop-in",
+				"animationDuration": 200
+			}
+		}, {
 			"path": "pages/me/editUserContact",
 			"style": {
 				"navigationBarTitleText": "编辑用户联系方式",

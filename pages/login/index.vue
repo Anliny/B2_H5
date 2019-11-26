@@ -4,7 +4,10 @@
 		<view class="img-wrapper">
 			<image src="/static/nav-img.jpg" :lazy-load="true" class="image" mode="widthFix"></image>
 		</view>
-
+		<view class="bar-wrapper">
+			<view class="bar-item" v-for="(item,index) in tabList" :key="index" :class="isTitleBar == index ? 'bar-item-active' : ''"
+			 @click="handleCheckLabel(index)">{{item.label}}</view>
+		</view>
 		<view class="content">
 			<form @submit="formSubmit" @reset="formReset">
 				<view class="uni-form-item uni-column">
@@ -38,6 +41,12 @@
 		data() {
 			return {
 				loading: false,
+				isTitleBar: 0,
+				tabList: [{
+					label: "会员注册"
+				}, {
+					label: "红娘注册"
+				}],
 				userInfo: {
 					userName: '',
 					password: ''
@@ -65,60 +74,13 @@
 				console.log(valLoginRes)
 				if (valLoginRes.isOk) {
 					var formdata = this.userInfo
-					uni.request({
-						url: '/common/login', //仅为示例，并非真实接口地址。
-						data: formdata,
-						method: 'POST',
-						success: (res) => {
-							this.loading = false
-							uni.setStorageSync('token', res.data.data)
-							uni.showToast({
-								title: `登录成功！`,
-								icon: 'success',
-								showCancel: false,
-								success: () => {
-									uni.setStorage({
-										key: 'token',
-										data: res.data.data,
-										success: function() {
-											console.log(uni.getStorageSync('token'))
-											appRequest.baseRequest({
-												url: '/member/queryById',
-												method: 'get',
-												success: (res) => {
-													// 用户状态存到缓存中去
-													try {
-														this.userInfo = res.data.data
-														console.log(res.data.data)
-														// uni.setStorageSync('userInfo', res.data.data)
-														uni.setStorage({
-															key: 'userInfo',
-															data: res.data.data,
-															success: function() {
-																uni.switchTab({
-																	url: '/pages/index/index',
-																	animationType: 'pop-in',
-																	animationDuration: 200,
-																	success() {
-																		uni.hideToast()
-																	}
-																});
-															}
-														});
-
-													} catch (e) {
-														//TODO handle the exception
-													}
-												}
-											})
-										}
-									});
-
-
-								}
-							});
-						}
-					})
+					// 会员
+					if(!this.isTitleBar){
+						this.vipRequst(formdata)
+					}else{
+						this.jokRequst(formdata)
+					}
+					
 				} else {
 					uni.showToast({
 						icon: 'none',
@@ -127,10 +89,122 @@
 					this.loading = false
 					return false
 				}
-
+			},
+			// 会员登录
+			vipRequst(formdata){
+				uni.request({
+					url: '/common/login', 
+					data: formdata,
+					method: 'POST',
+					success: (res) => {
+						this.loading = false
+						uni.setStorageSync('token', res.data.data)
+						uni.showToast({
+							title: `登录成功！`,
+							icon: 'success',
+							showCancel: false,
+							success: () => {
+								uni.setStorage({
+									key: 'token',
+									data: res.data.data,
+									success: function() {
+										console.log(uni.getStorageSync('token'))
+										appRequest.baseRequest({
+											url: '/member/queryById',
+											method: 'get',
+											success: (res) => {
+												// 用户状态存到缓存中去
+												try {
+													this.userInfo = res.data.data
+													console.log(res.data.data)
+													// uni.setStorageSync('userInfo', res.data.data)
+													uni.setStorage({
+														key: 'userInfo',
+														data: res.data.data,
+														success: function() {
+															uni.switchTab({
+																url: '/pages/index/index',
+																animationType: 'pop-in',
+																animationDuration: 200,
+																success() {
+																	uni.hideToast()
+																}
+															});
+														}
+													});
+				
+												} catch (e) {
+													//TODO handle the exception
+												}
+											}
+										})
+									}
+								});
+							}
+						});
+					}
+				})
+			},
+			// 红娘登录
+			jokRequst(formdata){
+				uni.request({
+					url: '/common/login', 
+					data: formdata,
+					method: 'POST',
+					success: (res) => {
+						this.loading = false
+						uni.setStorageSync('token', res.data.data)
+						uni.showToast({
+							title: `登录成功！`,
+							icon: 'success',
+							showCancel: false,
+							success: () => {
+								uni.setStorage({
+									key: 'token',
+									data: res.data.data,
+									success: function() {
+										console.log(uni.getStorageSync('token'))
+										appRequest.baseRequest({
+											url: '/matchmaker/queryById',
+											method: 'get',
+											success: (res) => {
+												// 用户状态存到缓存中去
+												try {
+													this.userInfo = res.data.data
+													console.log(res.data.data)
+													// uni.setStorageSync('userInfo', res.data.data)
+													uni.setStorage({
+														key: 'userInfo',
+														data: res.data.data,
+														success: function() {
+															uni.switchTab({
+																url: '/pages/index/index',
+																animationType: 'pop-in',
+																animationDuration: 200,
+																success() {
+																	uni.hideToast()
+																}
+															});
+														}
+													});
+				
+												} catch (e) {
+													//TODO handle the exception
+												}
+											}
+										})
+									}
+								});
+							}
+						});
+					}
+				})
 			},
 			formReset: (e) => {
 				console.log('清空数据')
+			},
+			handleCheckLabel(index) {
+				this.isTitleBar = index;
 			}
 		}
 	}
@@ -138,7 +212,22 @@
 
 <style>
 	@import url("../../assets/common.css");
-
+	.bar-wrapper {
+		display: flex;
+		justify-content: center;
+	}
+	
+	.bar-item {
+		line-height: 34px;
+		margin-left: 10px;
+		font-size: 16px;
+		text-align: center;
+		padding: 0 20px;
+	}
+	
+	.bar-item-active {
+		border-bottom: 1px solid rgb(255, 119, 170);
+	}
 	.img-wrapper {
 		height: 200px;
 	}
@@ -148,12 +237,6 @@
 		justify-content: center;
 	}
 
-	.bar-item {
-		border-bottom: 2rpx solid rgb(255, 119, 170);
-		line-height: 80rpx;
-		margin-left: 10px;
-		font-size: 16px;
-	}
 
 	.content {
 		padding: 20rpx;

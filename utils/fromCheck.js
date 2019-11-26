@@ -30,5 +30,13 @@ const marrys = [
 	{val:2,label:'离异'},
 	{val:3,label:'丧偶'}
 ]
+// 工作年限
+const jobYars = function(lowYear,heightYear){
+	let jobList = ["请选择工作年限"];
+	for(let i = lowYear;i<=heightYear;i++){
+		jobList.push(`${i}`)
+	}
+	return jobList
+}(1,20)
 
-export {heights,years,educations,Vips,marrys}
+export {heights,years,educations,Vips,marrys,jobYars}

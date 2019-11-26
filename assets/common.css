@@ -58,7 +58,12 @@ view {
 	padding: 0 3px;
 	border-radius: 3px;
 }
-
+.form-inpput uni-textarea{
+	width: auto;
+}
+.form-inpput-textarea{
+	height: 150px;
+}
 .verification-wrapper {
 	display: flex;
 }
