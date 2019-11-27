@@ -40,50 +40,50 @@
 				<view class="header-item">
 					<uni-icons type="compose" size="30" @click="handleEditUserContact" color="#ff77aa"></uni-icons>
 				</view>
-				<view class="header-item">姓名：张三</view>
-				<view class="header-item">性别：女</view>
-				<view class="header-item">年龄：27</view>
-				<view class="header-item">工作年限：3年</view>
+				<view class="header-item">姓名：{{matchmaker.name}}</view>
+				<view class="header-item">性别：{{matchmaker.gender}}</view>
+				<view class="header-item">年龄：{{matchmaker.age}}</view>
+				<view class="header-item">工作年限：{{matchmaker.workingLife}}年</view>
 			</view>
 		</view>
 		<view class="btn-warpper">
-			<view class="btn-item">我的钱包</view>
-			<view class="btn-item">牵线统计</view>
+			<view class="btn-item" @click="handleNobtn">我的钱包</view>
+			<view class="btn-item" @click="handleNobtn">牵线统计</view>
 		</view>
 		<!-- 基本信息 -->
 		<view class="card-warp">
 			<view class="card-title">
 				<view class="title">基本信息</view>
-				<view class="card-edit" @click="handleEditUserContact">
+				<!-- <view class="card-edit" @click="handleEditUserContact">
 					<uni-icons type="compose" color="#ff77aa"></uni-icons>
-				</view>
+				</view> -->
 			</view>
 			<view class="card-item">
 				<view class="card-item-lable">
 					<uni-icons type="person" color="#ff77aa"></uni-icons>手机号：
 				</view>
-				<view class="card-item-text">13000000</view>
+				<view class="card-item-text">{{matchmaker.phone}}</view>
 			</view>
 			<view class="card-item">
 				<view class="card-item-lable">
 					<uni-icons type="person" color="#ff77aa"></uni-icons>
 					微信号：
 				</view>
-				<view class="card-item-text">wx33333</view>
+				<view class="card-item-text">{{matchmaker.wechatNumber}}</view>
 			</view>
 			<view class="card-item">
 				<view class="card-item-lable">
 					<uni-icons type="person" color="#ff77aa"></uni-icons>
 					籍贯：
 				</view>
-				<view class="card-item-text">重庆潼南</view>
+				<view class="card-item-text">{{nativePlace}}</view>
 			</view>
 			<view class="card-item">
 				<view class="card-item-lable">
 					<uni-icons type="person" color="#ff77aa"></uni-icons>
 					工作地：
 				</view>
-				<view class="card-item-text">重庆渝北</view>
+				<view class="card-item-text">{{workingAddress}}</view>
 			</view>
 			<view class="card-item">
 				<view class="card-item-lable">
@@ -91,8 +91,7 @@
 					擅长领域：
 				</view>
 				<view class="card-item-text">
-					将本地资源上传到开发者服务器，客户端发起一个 POST 请求，其中 content-type 为 multipart/form-data。
-					如页面通过 uni.chooseImage 等接口获取到一个本地资源的临时文件路径后，可通过此接口将本地资源上传到指定服务器。
+					{{matchmaker.field}}
 				</view>
 			</view>
 			<view class="card-item">
@@ -101,8 +100,7 @@
 					情感箴言：
 				</view>
 				<view class="card-item-text">
-					将本地资源上传到开发者服务器，客户端发起一个 POST 请求，其中 content-type 为 multipart/form-data。
-					如页面通过 uni.chooseImage 等接口获取到一个本地资源的临时文件路径后，可通过此接口将本地资源上传到指定服务器。
+					{{matchmaker.motto}}
 				</view>
 			</view>
 		</view>
@@ -124,13 +122,10 @@
 		data() {
 			return {
 				userInfo: {},
+				matchmaker:{},
 				isVip: 0,
 			}
 		},
-		computed: {
-
-		},
-
 		onShow() {
 			let token = uni.getStorageSync("token")
 			if (!token) {
@@ -139,8 +134,6 @@
 					content: "您还未登录，前往登录",
 					showCancel: false,
 					success: () => {
-						// 
-						// this.$router.push('/pages/login/index')
 						uni.navigateTo({
 							url: '/pages/login/index',
 							animationType: 'pop-in',
@@ -149,9 +142,7 @@
 					}
 				})
 			}
-			console.log(token.type)
 			this.isVip = token.type
-			
 			uni.startPullDownRefresh();
 			this.getUserInfo()
 		},
@@ -162,24 +153,58 @@
 				} else {
 					return '-'
 				}
+			},
+			nativePlace(){
+				if(this.matchmaker.nativePlace){
+					let {province,city,town} = JSON.parse(this.matchmaker.nativePlace)
+					return `${province}${city}${town}`
+				}else{
+					return '-'
+				}
+			},
+			workingAddress(){
+				if(this.matchmaker.workingAddress){
+					let {province,city,town} = JSON.parse(this.matchmaker.workingAddress)
+					return `${province}${city}${town}`
+				}else{
+					return '-'
+				}
 			}
 		},
 		methods: {
 			// 获取用户信息
 			getUserInfo() {
-				appRequest.baseRequest({
-					url: '/member/queryById',
-					method: 'get',
-					success: (res) => {
-						// 用户状态存到缓存中去
-						try {
-							this.userInfo = res.data.data
-							uni.setStorageSync('userInfo', res.data.data)
-						} catch (e) {
-							//TODO handle the exception
+				let token = uni.getStorageSync("token")
+				if (!token.type) {
+					appRequest.baseRequest({
+						url: '/member/queryById',
+						method: 'get',
+						success: (res) => {
+							// 用户状态存到缓存中去
+							try {
+								this.userInfo = res.data.data
+								uni.setStorageSync('userInfo', res.data.data)
+							} catch (e) {
+								//TODO handle the exception
+							}
 						}
-					}
-				})
+					})
+				} else {
+					appRequest.baseRequest({
+						url: 'matchmaker/queryById',
+						method: 'get',
+						success: (res) => {
+							// 用户状态存到缓存中去
+							try {
+								this.matchmaker = res.data.data
+								uni.setStorageSync('userInfo', res.data.data)
+							} catch (e) {
+								//TODO handle the exception
+							}
+						}
+					})
+				}
+
 			},
 			handleGoTrack() {
 				// 跳转路由
@@ -226,11 +251,18 @@
 				return this.userInfo.userAvatar ? this.userInfo.userAvatar : "/static/icon/defult_header.jpg"
 			},
 			// 编辑红娘信息
-			handleEditUserContact(){
-				uni.redirectTo({
+			handleEditUserContact() {
+				uni.navigateTo({
 					url: '/pages/me/editJokin',
 					animationType: 'pop-in',
 					animationDuration: 200
+				})
+			},
+			// 我的钱包   &&  牵线统计
+			handleNobtn(){
+				uni.showToast({
+					title:"暂未开通，敬请期待！",
+					icon:"none"
 				})
 			}
 
@@ -240,6 +272,7 @@
 
 <style>
 	@import url("style.css");
+
 	.content {}
 
 	.base {

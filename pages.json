@@ -98,13 +98,23 @@
 				"animationDuration": 200
 			}
 		}, {
+			"path": "pages/components/uploadAvatar/jokinAvatar",
+			"style": {
+				"navigationBarTitleText": "上传头像",
+				"animationType": "pop-in",
+				"animationDuration": 200
+			}
+		}, {
 			"path": "pages/me/track/index",
 			"style": {
 				"navigationBarTitleText": "我的动态",
 				"navigationBarBackgroundColor": "rgb(255,119,55)",
 				"backgroundColor": "rgb(255,119,55)",
 				"transparentTitle": "auto",
-				"navigatonStyle": "custom"
+				"navigatonStyle": "custom",
+				"enablePullDownRefresh": true, //设置为true表示当前页面开启下拉刷新
+				"backgroundTextStyle": "dark" ,//下拉 loading 的样式，仅支持 dark/light
+				"onReachBottomDistance":50 
 			}
 		}, {
 			"path": "pages/me/vip/index",

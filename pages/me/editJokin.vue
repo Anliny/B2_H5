@@ -10,7 +10,7 @@
 			<view class="uni-form-item uni-column">
 				<view class="form-lable">姓名：</view>
 				<view class="form-inpput">
-					<input v-model="jokinInfo.nickName" type="text" placeholder-class="placeholder" placeholder="请填写昵称" />
+					<input v-model="jokinInfo.name" type="text" placeholder-class="placeholder" placeholder="请填写昵称" />
 				</view>
 			</view>
 			<view class="uni-form-item uni-column">
@@ -45,13 +45,13 @@
 			<view class="uni-form-item uni-column">
 				<view class="form-lable">手机号：</view>
 				<view class="form-inpput">
-					<input v-model="jokinInfo.nickName" type="text" placeholder-class="placeholder" placeholder="请填写昵称" />
+					<input v-model="jokinInfo.phone" type="text" placeholder-class="placeholder" placeholder="请填写手机号" />
 				</view>
 			</view>
 			<view class="uni-form-item uni-column">
 				<view class="form-lable">微信号：</view>
 				<view class="form-inpput">
-					<input v-model="jokinInfo.nickName" type="text" placeholder-class="placeholder" placeholder="请填写昵称" />
+					<input v-model="jokinInfo.wechatNumber" type="text" placeholder-class="placeholder" placeholder="请填写微信号" />
 				</view>
 			</view>
 			<view class="uni-form-item uni-column">
@@ -78,14 +78,14 @@
 			<view class="uni-form-item uni-column" style="height: auto;">
 				<view class="form-lable">擅长领域：</view>
 				<view class="form-inpput form-inpput-textarea">
-					<textarea @blur="bindTextAreaBlur" style="font-size: 14px;line-height: 35px;" placeholder-style="color:#808080"
+					<textarea @blur="handleField" style="font-size: 14px;line-height: 35px;" placeholder-style="color:#808080"
 					 placeholder="请输入擅长领域" v-model="jokinInfo.field"  />
 				</view>
 			</view>
 			<view class="uni-form-item uni-column" style="height: auto;">
 				<view class="form-lable">情感箴言：</view>
 				<view class="form-inpput form-inpput-textarea">
-					 <textarea @blur="bindTextAreaBlur" style="font-size: 14px;line-height: 35px;" placeholder-style="color:#808080" placeholder="请输入情感箴言" v-model="jokinInfo.motto"  />
+					 <textarea @blur="handleMotto" style="font-size: 14px;line-height: 35px;" placeholder-style="color:#808080" placeholder="请输入情感箴言" v-model="jokinInfo.motto"  />
 				</view>
 			</view>
 			<view class="uni-btn-v">
@@ -178,7 +178,7 @@
 					success(res) {
 						const src = res.tempFilePaths[0];
 						uni.navigateTo({
-							url: '/pages/components/uploadAvatar/upload?src=' + src
+							url: '/pages/components/uploadAvatar/jokinAvatar?src=' + src
 						});
 					}
 				});
@@ -243,6 +243,7 @@
 				}]
 				this.jokinInfo.id = uni.getStorageSync('userInfo').id
 				console.log(this.jokinInfo)
+				
 				let valLoginRes = this.$validate.validate(this.jokinInfo, loginRules)
 				if (!valLoginRes.isOk) {
 					uni.showToast({
@@ -251,10 +252,35 @@
 					})
 					return false
 				}
-
+				let {userAvatar,
+					name,
+					gender,
+					id,
+					workingLife,
+					phone,
+					wechatNumber,
+					nativePlace,
+					workingAddress,
+					field,
+					motto,
+					state} = this.jokinInfo
+				let data = {
+					userAvatar,
+						name,
+						gender,
+						id,
+						workingLife,
+						phone,
+						wechatNumber,
+						nativePlace:JSON.stringify(nativePlace),
+						workingAddress:JSON.stringify(workingAddress),
+						field,
+						motto,
+						state
+				}
 				appRequest.baseRequest({
-					url: 'member/save',
-					data: this.jokinInfo,
+					url: 'matchmaker/save',
+					data: data,
 					method: 'post',
 					success: (res) => {
 						this.loading = false
@@ -265,11 +291,10 @@
 								icon: 'success',
 								showCancel: false
 							});
-							this.userInfo = res.data.data
 							uni.setStorageSync('userInfo', res.data.data)
-							setTimeout(() => {
-								this.$router.replace('/pages/me/detail')
-							}, 1200)
+							uni.switchTab({
+								url:'/pages/me/index'
+							})
 
 						} catch (e) {
 							//TODO handle the exception
@@ -349,9 +374,15 @@
 					this.region = `${res.province} ${res.city} ${res.town}`; //region为已选的省市区的值
 				}
 				this.isAdress = 0
+			},
+			// 擅长领域
+			handleField(e){
+				console.log(e);
+			},
+			//情感箴言
+			handleMotto(e){
+				console.log(e);
 			}
-
-
 		}
 	}
 </script>

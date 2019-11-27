@@ -57,31 +57,24 @@
 					count: 9,
 					success: (chooseImageRes) => {
 						console.log(chooseImageRes)
-						let formData = {
-							fileList:JSON.stringify(chooseImageRes.tempFilePaths)
+						for(let i=0;i<=chooseImageRes.tempFilePaths.length;i++){
+							const uploadTask = uni.uploadFile({
+								url: this.url,
+								name: this.name,
+								filePath:chooseImageRes.tempFilePaths[i],
+								formData: this.formData,
+								success: (uploadFileRes) => {
+									this.$emit('on-success', JSON.parse(uploadFileRes.data))
+								},
+								fail: (err) => {
+									this.$emit('on-error', err)
+								}
+							})
+							uploadTask.onProgressUpdate((res) => {
+								this.$emit('on-process', res)
+							})
 						}
-						const uploadTask = uni.uploadFile({
-							url: this.url,
-							name: this.name,
-							files: chooseImageRes.tempFilePaths,
-							filePath:chooseImageRes.tempFilePaths[0],
-							// formData: formData,
-							// header: this.header,
-							// header:{
-							// 	 'Accept': 'application/json, text/plain, */*',
-								 
-							// },
-							header:{"Content-Type": "multipart/form-data"},
-							success: (uploadFileRes) => {
-								this.$emit('on-success', JSON.parse(uploadFileRes.data))
-							},
-							fail: (err) => {
-								this.$emit('on-error', err)
-							}
-						})
-						uploadTask.onProgressUpdate((res) => {
-							this.$emit('on-process', res)
-						})
+						
 					}
 				})
 			},

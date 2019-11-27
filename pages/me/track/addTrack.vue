@@ -1,38 +1,29 @@
 <template>
 	<view class="content">
 		<form @submit="formSubmit" @reset="formReset">
-		    <view class="uni-form-item uni-column">
-		        <!-- <view class="form-lable">正文：</view> -->
-		        <view class="form-inpput" style="width: 100vw;">
-					<textarea style="padding: 8px;line-break: 35px;" placeholder-style="color:#ff7737" placeholder="说一说此时此刻的想法"/>
-				</view>
+			<view class="uni-form-item uni-column">
+				<!-- <view class="form-lable">正文：</view> -->
+				<view class="form-inpput" style="width: 100vw;">
+					<textarea style="padding: 8px;line-break: 35px;" @blur="handleGetCon" :value="dynamic.content" placeholder-style="color:#cccccc"
+					 placeholder="说一说此时此刻的想法" />
+					</view>
 		    </view>
 			<view class="uni-form-item uni-column">
-			    <!-- <view class="form-lable">正文：</view> -->
-				<ss-upload-image 
-					:url="imgObj.url" 
-					:file-list="imgObj.fileList" 
-					:name="imgObj.name"
-					:limit="imgObj.limt"
-					@on-success="onSuccess" 
-					@on-error="onError" 
-					@on-remove="onRemove" 
-					@on-process="onProcess" />
+				<an-upload-img ref="uploadimg"></an-upload-img>
 			</view>
-			<button type="primary" @click="imgList">上传</button>
 			<view class="uni-btn-v">
-			    <button type="primary" form-type="submit">注册</button>
-			    <button type="success" form-type="reset">Reset</button>
+			    <button type="primary" form-type="submit">发布</button>
 			</view>
 		</form>
 	</view>
 </template>
 
 <script>
-	import ssUploadImage from '@/components/ss-upload-image/ss-upload-image.vue'
+	import anUploadImg from "./components/an-uploadImg.vue"
+	import appRequest from "@/utils/config.js"
 	export default{
 		components: {
-			ssUploadImage
+			anUploadImg
 		},
 		data() {
 			return {
@@ -45,7 +36,7 @@
 				dynamic: {
 					content:'',
 					pictureUrl:'',
-					state:0,
+					state:2,
 				},
 				upImgConfig:{
 					iconReplace:''
@@ -53,43 +44,61 @@
 			}
 		},
 		methods: {
-			formSubmit() {},
+			formSubmit() {
+				let pictureUrls = JSON.stringify(this.$refs.uploadimg.imgList)
+				this.dynamic.pictureUrl = pictureUrls
+				let loginRules = [
+					{
+						name: 'content',
+						required: true,
+						type: 'text',
+						errmsg: '请填写文本信息'
+					},{
+						name: 'pictureUrl',
+						required: true,
+						type: 'text',
+						errmsg: '请上传图片'
+					}
+				]
+				let valLoginRes = this.$validate.validate(this.dynamic, loginRules)
+				if (!valLoginRes.isOk) {
+					uni.showToast({
+						icon: 'none',
+						title: valLoginRes.errmsg
+					})
+					return false
+				}
+				appRequest.baseRequest({
+					url: 'dynamic/save',
+					data: this.dynamic,
+					method: 'post',
+					success: (res) => {
+						this.loading = false
+						// 用户状态存到缓存中去
+						try {
+							uni.showToast({
+								title: `保存成功！`,
+								icon: 'success',
+								showCancel: false,
+								success() {
+									uni.redirectTo({
+										url:'/pages/me/track/index'
+									})
+								}
+							});
+						} catch (e) {
+							//TODO handle the exception
+						}
+					}
+				})
+			},
 			formReset(){},
-			// 上传成功
-			onSuccess(e){
-				console.log(e)
-			},
-			// 上传失败
-			onError(e){
-				console.log(e);
-			},
-			// 删除上传图片
-			onRemove(e){
-				console.log(e);
-			},
-			// 上传进度
-			onProcess(e){
-				console.log(e)
-			},
+		
 			
-			imgList(){
-				uni.chooseImage({
-				    success:  (chooseImageRes) => {
-				        const tempFilePaths = chooseImageRes.tempFilePaths;
-				        uni.uploadFile({
-				            url: this.imgObj.url, //仅为示例，非真实的接口地址
-				            filePath: tempFilePaths[0],
-				            name: 'file',
-							header:{
-								"Content-Type": "multipart/form-data",
-								"aa":'bbbb'
-							},
-				            success: function (uploadFileRes) {
-				                console.log(uploadFileRes.data);
-				            }
-				        });
-				    }
-				});
+			// 失去焦点 获取列表框的值
+			handleGetCon(e){
+				console.log(e)
+				this.dynamic.content = e.detail.value
 			}
 		},
 		
