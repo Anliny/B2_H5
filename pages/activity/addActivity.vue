@@ -4,14 +4,14 @@
 			<view class="uni-form-item uni-column">
 				<view class="form-lable">活动主题</view>
 				<view class="form-inpput">
-					<input v-model="activity.name" type="text" placeholder-class="placeholder" placeholder="请填写活动标题" />
+					<input v-model="activity.title"  type="text" placeholder-class="placeholder" placeholder="请填写活动标题" />
 				</view>
 			</view>
 			<view class="uni-form-item uni-column">
 				<view class="form-inpput" style="width: 100vw;">
 					<textarea style="padding: 8px;line-break: 35px;" @blur="handleGetCon" :value="activity.desc" placeholder-style="color:#cccccc"
 					 placeholder="发布交友活动,可以填写活动内容,活动地点等说明信息" />
-					</view>
+				</view>
 		    </view>
 			<view class="uni-form-item uni-column">
 				<view class="form-lable">开始日期</view>
@@ -21,14 +21,14 @@
 					</picker>
 				</view>
 			</view>
-			<!-- <view class="uni-form-item uni-column">
+			<view class="uni-form-item uni-column">
 				<view class="form-lable">结束日期</view>
 				<view class="form-inpput">
-					<picker class="picker" mode="date" :value="date" :start="startDate" :end="endDate" @change="handleEndTime">
+					<picker class="picker" mode="date" :value="endTime" :start="startDate" :end="endDate" @change="handleEndTime">
 						{{endTime}}
 					</picker>
 				</view>
-			</view> -->
+			</view>
 			<view class="uni-form-item uni-column">
 				<view class="form-lable">活动人数</view>
 				<view class="form-inpput">
@@ -115,18 +115,17 @@
 			handleStartTime: function(e) {
 				console.log(e)
 				this.startTime = e.target.value
-				this.activity.startTime = this.date
+				this.activity.startTime = e.target.value
 			},
 			// 结束日期选择
 			handleEndTime:function(e){
-				console.log(e)
 				this.endTime = e.target.value
-				this.activity.endTime = this.date
+				this.activity.endTime = e.target.value
 			},
 			// 选择人数限制
 			handelactiveUser(e) {
 				this.activeUserIndex = e.target.value
-				this.activity.activityNumber = activeUser[this.activeUserIndex]
+				this.activity.activityNumber = this.activeUser[this.activeUserIndex]
 			},
 			
 			formSubmit() {
@@ -134,15 +133,30 @@
 				this.activity.pictureUrl = pictureUrls
 				let loginRules = [
 					{
+						name: 'title',
+						required: true,
+						type: 'text',
+						errmsg: '请填写活动标题'
+					},{
 						name: 'content',
 						required: true,
 						type: 'text',
-						errmsg: '请填写文本信息'
+						errmsg: '请填写活动详情'
 					},{
-						name: 'pictureUrl',
+						name: 'startTime',
 						required: true,
 						type: 'text',
-						errmsg: '请上传图片'
+						errmsg: '请选择活动开始时间'
+					},{
+						name: 'startTime',
+						required: true,
+						type: 'text',
+						errmsg: '请选择活动结束时间'
+					},{
+						name: 'activityNumber',
+						required: true,
+						type: 'text',
+						errmsg: '请选择活动参与人数'
 					}
 				]
 				let valLoginRes = this.$validate.validate(this.activity, loginRules)
@@ -162,12 +176,14 @@
 						// 用户状态存到缓存中去
 						try {
 							uni.showToast({
-								title: `保存成功！`,
+								title: `活动保存成功！`,
 								icon: 'success',
 								showCancel: false,
 								success() {
-									uni.redirectTo({
-										url:'/pages/me/track/index'
+									uni.switchTab({
+										url:'/pages/activity/index',
+										animationType: 'pop-in',
+										animationDuration: 200
 									})
 								}
 							});

@@ -59,9 +59,6 @@
 			this.userInfo = uni.getStorageSync('userInfo')
 			this.getDynamics()
 		},
-		onShow() {
-			// this.getDynamics()
-		},
 		onPullDownRefresh() {
 			// 获取用户列表
 			this.pageObj.current = 0

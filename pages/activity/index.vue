@@ -3,12 +3,12 @@
 		<!-- #ifndef MP-WEIXIN -->
 		<nav-bar transparentFixedFontColor="#fff" fontColor="#fff" bgColor="#ff77aa" type="transparentFixed" title="交友活动">
 			<!-- //透明状态下的按钮 -->
-			<view class="transparent_fixed_preview" slot="transparentFixedLeft" ></view>
+			<view class="transparent_fixed_preview" slot="transparentFixedLeft"></view>
 			<view class="transparent_fixed_preview" slot="transparentFixedRight" @click="handleAddActive">
 				<uni-icons type="plus" size="26" color="#fff"></uni-icons>
 			</view>
 			<!-- //不透明状态下的按钮 -->
-			<view class="preview" slot="left" ></view>
+			<view class="preview" slot="left"></view>
 			<view class="preview" slot="right" @click="handleAddActive">
 				<uni-icons type="plus" size="26" color="#fff"></uni-icons>
 			</view>
@@ -16,125 +16,163 @@
 		<!-- #endif -->
 		<view class="backImg">
 			<image src="/static/header.jpeg" class="image" mode=""></image>
-			<text class="name">张三</text>
+			<text class="name">{{userInfo.name}}</text>
 			<view class="header">
-				<image src="/static/header.jpeg" class="image" mode=""></image>
+				<image :src="userInfo.userAvatar" class="image" mode=""></image>
 			</view>
 		</view>
-		
+
 		<view class="list-wrapper">
-			<block v-for="(item,index) in dataInfo" :key="index">
+			<block v-for="(item,index) in activityList" :key="index">
 				<view class="list-item">
 					<view class="list-header">
 						<view class="image-wrapper image-wrapper-header">
-							<image :src="item.avater" class="image" mode="scaleToFill"></image>
+							<image :src="item.userAvatar" class="image" mode="scaleToFill"></image>
 						</view>
 						<text class="list-header-title">{{item.name}}</text>
-						<text class="list-header-time">{{item.dataTime}}</text>
+						<text class="list-header-time">{{item.rawAddTime}}</text>
 					</view>
-					<text class="list-text">{{item.desc}}</text>
+					<view class="list-title">{{item.title}}</view>
+					<text class="list-text">{{item.content}}</text>
 					<view class="list-image-wrapper">
-						<view class="list-image-item image-wrapper" v-for="(itemImage,i) in item.imageList" :key="i">
+						<view class="list-image-item image-wrapper" v-for="(itemImage,i) in pictureUrl(item.pictureUrl)" :key="i">
 							<image :src="itemImage" class="image" mode="scaleToFill"></image>
 						</view>
 					</view>
+					<view class="list-time-warp">
+						活动起止日期：{{item.startTime}} - {{item.endTime}}
+					</view>
+					<view class="list-time-warp">报名截止日期：{{item.startTime}}</view>
 					<view class="list-btn-wrapper">
-						<view class="list-btn-text">本次活动限额{{item.total}}人，已有{{item.actual}}参加！</view>
-						<button v-if="isActive" type="primary" @click="addActive(index)" :plain="true" size="mini">
-							添加活动
-						</button>
-						<button v-if="!isActive" type="primary" @click="cancelActive(index)" size="mini">
-							取消活动
-						</button>
+						<view class="list-btn-text">本次活动限额{{item.partakes}}人，已有{{item.actual}}参加！</view>
+
+						<view v-if="!token.type">
+							<button v-if="isActive" type="primary" @click="addActive(index)" :plain="true" size="mini">
+								参加活动
+							</button>
+							<button v-if="!isActive" type="primary" @click="cancelActive(index)" size="mini">
+								取消活动
+							</button>
+						</view>
+
 					</view>
 				</view>
 			</block>
 		</view>
+		<uni-load-more :status="loadMore"></uni-load-more>
 	</view>
 </template>
 
 <script>
 	import uniIcons from "@/components/uni-icons/uni-icons"
+	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
+	import appRequest from "@/utils/config.js"
 	export default {
 		components: {
-			uniIcons
+			uniIcons,
+			uniLoadMore
 		},
 		data() {
 			return {
-				dataInfo: [{
-					avater: '/static/logo.png',
-					name: 'xxx婚念网',
-					dataTime: '2019-08-09 12:20',
-					imageList: [
-						"/static/header.jpeg",
-						"/static/header.jpeg",
-						"/static/header.jpeg",
-						"/static/header.jpeg"
-					],
-					desc: "align-self属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。",
-					total: 50,
-					actual: 30
-				}, {
-					avater: '/static/logo.png',
-					name: 'xxx婚念网',
-					dataTime: '2019-08-09 12:20',
-					imageList: [
-						"/static/header.jpeg",
-						"/static/header.jpeg",
-						"/static/header.jpeg",
-						"/static/header.jpeg",
-						"/static/header.jpeg",
-						"/static/header.jpeg",
-						"/static/header.jpeg",
-						"/static/header.jpeg"
-					],
-					desc: "align-self属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。",
-					total: 40,
-					actual: 20
-				}, {
-					avater: '/static/logo.png',
-					name: 'xxx婚念网',
-					dataTime: '2019-08-09 12:20',
-					imageList: [
-						"/static/header.jpeg",
-						"/static/header.jpeg",
-						"/static/header.jpeg",
-						"/static/header.jpeg"
-					],
-					desc: "align-self属性允许单个项目有与其他项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch。",
-					total: 34,
-					actual: 28
-				}],
-				isActive : true
+				token: uni.getStorageSync("token"),
+				userInfo:uni.getStorageSync("userInfo"),
+				activityList: [],
+				pageObj: {
+					current: 0
+				},
+				loadMore: "more",
+				isActive: true
 			}
 		},
-		methods:{
+		onPullDownRefresh() {
+			// 获取用户列表
+			this.pageObj.current = 0
+			this.activityList = []
+			this.getActivitys()
+		},
+		onLoad() {
+			this.token = uni.getStorageSync("token")
+			this.userInfo = uni.getStorageSync("userInfo")
+			this.getActivitys()
+		},
+		methods: {
 			// 添加交友活动
-			handleAddActive(){
+			handleAddActive() {
 				uni.navigateTo({
 					url: '/pages/activity/addActivity',
 					animationType: 'pop-in',
 					animationDuration: 200
 				})
 			},
-			addActive(index){
+			// 获取活动列表
+			getActivitys() {
+				console.log(12312312);
+				this.pageObj.current++
+				appRequest.baseRequest({
+					url: 'activity/queryPage',
+					data: this.pageObj,
+					method: 'get',
+					success: (res) => {
+						console.log(res);
+
+						try {
+							let {
+								current,
+								pages,
+								size,
+								total,
+								records
+							} = res.data.data
+							if (records.length <= 0) {
+								this.loadMore = "noMore"
+									--this.pageObj.current
+							} else {
+								this.loadMore = "more"
+								this.activityList = [...this.activityList, ...records]
+
+							}
+							uni.stopPullDownRefresh();
+						} catch (e) {
+							//TODO handle the exception
+						}
+					},
+				})
+
+			},
+			// 页面滚动到底部触发
+			onReachBottom() {
+				this.loadMore = 'loading'
+				this.getActivitys()
+			},
+			addActive(index) {
 				console.log(index)
-				++ this.dataInfo[index]['actual']
+					++this.dataInfo[index]['actual']
 				this.isActive = false
 			},
-			cancelActive(index){
-				-- this.dataInfo[index]['actual']
+			cancelActive(index) {
+				--this.dataInfo[index]['actual']
 				this.isActive = true
 			},
-			handleScanCode(){
+			handleScanCode() {
 				uni.scanCode({
-				    onlyFromCamera: true,
-				    success: function (res) {
-				        console.log('条码类型：' + res.scanType);
-				        console.log('条码内容：' + res.result);
-				    }
+					onlyFromCamera: true,
+					success: function(res) {
+						console.log('条码类型：' + res.scanType);
+						console.log('条码内容：' + res.result);
+					}
 				});
-			}
+			},
+			// 序列化
+			pictureUrl(url) {
+				if (url) {
+					console.log(); // true
+					if (url.indexOf("[") != -1) {
+						return JSON.parse(url)
+
+					}
+					return [url]
+				}
+			},
 		}
 	}
 </script>
@@ -161,16 +199,16 @@
 	}
 
 	.image-wrapper-header {
-		height: 60px;
-		width: 60px;
+		height: 50px;
+		width: 50px;
 		border-radius: 50%;
 		margin-right: 8px;
 	}
 
 	.list-header-title {
-		font-size: 20px;
+		font-size: 18px;
 		font-weight: bold;
-		line-height: 60px;
+		line-height: 50px;
 	}
 
 	.list-header-time {
@@ -180,8 +218,20 @@
 		line-height: 60px;
 	}
 
-	.list-text {
+	.list-title {
+		width: 100%;
+		height: 30px;
 		font-size: 16px;
+		font-weight: bold;
+	}
+
+	.list-time-warp {
+		font-size: 13px;
+		color: #969696;
+	}
+
+	.list-text {
+		font-size: 13px;
 	}
 
 	.list-image-wrapper {
@@ -215,14 +265,14 @@
 		line-height: 31px;
 		color: #da3b3b;
 	}
-	
+
 	.backImg {
 		margin-top: -45px;
 		height: 250px;
 		width: 100%;
 		position: relative;
 	}
-	
+
 	.backImg .name {
 		display: block;
 		text-align: right;
@@ -233,7 +283,7 @@
 		font-weight: bold;
 		font-size: 20px;
 	}
-	
+
 	.backImg .header {
 		width: 80px;
 		height: 80px;
@@ -242,7 +292,7 @@
 		right: 10px;
 		top: 200px;
 	}
-	
+
 	.desc {
 		margin-top: 30px;
 		font-size: 14px;
