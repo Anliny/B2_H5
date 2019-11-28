@@ -97,6 +97,7 @@
 			
 			// 失去焦点 获取列表框的值
 			handleGetCon(e){
+				console.log(e)
 				this.dynamic.content = e.detail.value
 			}
 		},

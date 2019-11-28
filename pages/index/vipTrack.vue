@@ -1,7 +1,7 @@
 <template>
 	<view class="">
 		<!-- #ifndef MP-WEIXIN -->
-		<nav-bar transparentFixedFontColor="#fff" fontColor="#fff" bgColor="#ff77aa" type="transparentFixed" title="我的动态">
+		<nav-bar transparentFixedFontColor="#fff" fontColor="#fff" bgColor="#ff77aa" type="transparentFixed" title="会员动态">
 			<!-- //透明状态下的按钮 -->
 			<view class="transparent_fixed_preview" slot="transparentFixedRight" @click="handleTrack">
 				<uni-icons type="plus" size="26" color="#fff"></uni-icons>
@@ -123,30 +123,6 @@
 			// 删除动态
 			removeDynamic(id){
 				console.log(id);
-				let data = {
-					id,deleted:true,
-				}
-				appRequest.baseRequest({
-					url: 'dynamic/save',
-					data: data,
-					method: 'post',
-					success: (res) => {
-						console.log(res);
-						try {
-							uni.showToast({
-								title:"删除成功",
-								icon:"none",
-								success:() => {
-									this.pageObj.current = 0
-									this.dynamicList = []
-									this.getDynamics()
-								}
-							})
-						} catch (e) {
-							//TODO handle the exception
-						}
-					}
-				})
 			}
 		},
 	}

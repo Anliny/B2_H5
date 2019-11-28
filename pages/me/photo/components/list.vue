@@ -58,7 +58,6 @@
 			//  图片放大
 			previewImage: function(e) {
 				var current = e.target.dataset.src
-				let array = []
 				array=[...this.dynamicList.map(item => {return JSON.parse(item.pictureUrl)})]
 				this.imageList = array.flat();  //flat()   降维数组
 				uni.previewImage({

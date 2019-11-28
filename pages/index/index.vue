@@ -197,7 +197,13 @@
 				})
 			},
 			// 会员动态
-			handleBtnGroupActive() {}
+			handleBtnGroupActive() {
+				uni.navigateTo({
+					url: '/pages/index/vipTrack',
+					animationType: 'pop-in',
+					animationDuration: 200
+				})
+			}
 		}
 	}
 </script>

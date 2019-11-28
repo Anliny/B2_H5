@@ -50,7 +50,9 @@
 								filePath: chooseImageRes.tempFilePaths[i],
 								name: 'file',
 								success: res => {
+									console.log(JSON.parse(res.data));
 									let imgs = JSON.parse(res.data).data
+									console.log(imgs);
 									uni.showToast({
 										title: '上传成功',
 										icon: 'success',

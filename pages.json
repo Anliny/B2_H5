@@ -117,6 +117,30 @@
 				"onReachBottomDistance":50 
 			}
 		}, {
+			"path": "pages/index/vipTrack",
+			"style": {
+				"navigationBarTitleText": "会员动态",
+				"navigationBarBackgroundColor": "rgb(255,119,55)",
+				"backgroundColor": "rgb(255,119,55)",
+				"transparentTitle": "auto",
+				"navigatonStyle": "custom",
+				"enablePullDownRefresh": true, //设置为true表示当前页面开启下拉刷新
+				"backgroundTextStyle": "dark" ,//下拉 loading 的样式，仅支持 dark/light
+				"onReachBottomDistance":50 
+			}
+		}, {
+			"path": "pages/me/photo/index",
+			"style": {
+				"navigationBarTitleText": "我的相册",
+				"navigationBarBackgroundColor": "rgb(255,119,55)",
+				"backgroundColor": "rgb(255,119,55)",
+				"transparentTitle": "auto",
+				"navigatonStyle": "custom",
+				"enablePullDownRefresh": true, //设置为true表示当前页面开启下拉刷新
+				"backgroundTextStyle": "dark" ,//下拉 loading 的样式，仅支持 dark/light
+				"onReachBottomDistance":50 
+			}
+		}, {
 			"path": "pages/me/vip/index",
 			"style": {
 				"navigationBarTitleText": "购买会员",

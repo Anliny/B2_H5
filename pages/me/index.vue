@@ -19,7 +19,7 @@
 				<uni-list>
 					<uni-list-item title="我的动态" :show-extra-icon="true" @click="handleGoTrack" :extra-icon="{color: '#4cd964',size: '22',type: 'pengyouquan'}">
 					</uni-list-item>
-					<uni-list-item title="我的相册" :show-extra-icon="true" :extra-icon="{color: '#4cd964',size: '22',type: 'image'}">
+					<uni-list-item title="我的相册" :show-extra-icon="true" @click="handleGoPhone" :extra-icon="{color: '#4cd964',size: '22',type: 'image'}">
 					</uni-list-item>
 					<uni-list-item title="征友条件" :show-extra-icon="true" @click="handleGoCondition" :extra-icon="{color: '#4cd964',size: '22',type: 'compose'}">
 					</uni-list-item>
@@ -263,6 +263,14 @@
 				uni.showToast({
 					title:"暂未开通，敬请期待！",
 					icon:"none"
+				})
+			},
+			// 我的相册
+			handleGoPhone(){
+				uni.navigateTo({
+					url: '/pages/me/photo/index',
+					animationType: 'pop-in',
+					animationDuration: 200
 				})
 			}
 

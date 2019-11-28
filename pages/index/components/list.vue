@@ -2,8 +2,11 @@
 	<view>
 		<view class="list-content" v-for="(item,index) in dynamicList" :key="index">
 			<view class="list-header">
+				<view class="img-wrapper">
+					<image src="/static/header.jpeg" class="image" mode=""></image>
+				</view>
+				<text>张三</text>
 				<text class="list-dateTime">{{item.rawAddTime}}</text>
-				<uni-icons type="trash" color="red" @click="handleMoveDynamic(item)" size="18"></uni-icons>
 			</view>
 			<text class="list-dateTime">{{item.content}}</text>
 			<view class="list-image-wrapper">
@@ -58,7 +61,6 @@
 			//  图片放大
 			previewImage: function(e) {
 				var current = e.target.dataset.src
-				let array = []
 				array=[...this.dynamicList.map(item => {return JSON.parse(item.pictureUrl)})]
 				this.imageList = array.flat();  //flat()   降维数组
 				uni.previewImage({
