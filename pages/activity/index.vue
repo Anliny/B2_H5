@@ -1,5 +1,27 @@
 <template>
-	<view class="content">
+	<view>
+		<!-- #ifndef MP-WEIXIN -->
+		<nav-bar transparentFixedFontColor="#fff" fontColor="#fff" bgColor="#ff77aa" type="transparentFixed" title="交友活动">
+			<!-- //透明状态下的按钮 -->
+			<view class="transparent_fixed_preview" slot="transparentFixedLeft" ></view>
+			<view class="transparent_fixed_preview" slot="transparentFixedRight" @click="handleAddActive">
+				<uni-icons type="plus" size="26" color="#fff"></uni-icons>
+			</view>
+			<!-- //不透明状态下的按钮 -->
+			<view class="preview" slot="left" ></view>
+			<view class="preview" slot="right" @click="handleAddActive">
+				<uni-icons type="plus" size="26" color="#fff"></uni-icons>
+			</view>
+		</nav-bar>
+		<!-- #endif -->
+		<view class="backImg">
+			<image src="/static/header.jpeg" class="image" mode=""></image>
+			<text class="name">张三</text>
+			<view class="header">
+				<image src="/static/header.jpeg" class="image" mode=""></image>
+			</view>
+		</view>
+		
 		<view class="list-wrapper">
 			<block v-for="(item,index) in dataInfo" :key="index">
 				<view class="list-item">
@@ -32,9 +54,10 @@
 </template>
 
 <script>
+	import uniIcons from "@/components/uni-icons/uni-icons"
 	export default {
 		components: {
-
+			uniIcons
 		},
 		data() {
 			return {
@@ -86,6 +109,14 @@
 			}
 		},
 		methods:{
+			// 添加交友活动
+			handleAddActive(){
+				uni.navigateTo({
+					url: '/pages/activity/addActivity',
+					animationType: 'pop-in',
+					animationDuration: 200
+				})
+			},
 			addActive(index){
 				console.log(index)
 				++ this.dataInfo[index]['actual']
@@ -183,5 +214,39 @@
 		font-size: 12px;
 		line-height: 31px;
 		color: #da3b3b;
+	}
+	
+	.backImg {
+		margin-top: -45px;
+		height: 250px;
+		width: 100%;
+		position: relative;
+	}
+	
+	.backImg .name {
+		display: block;
+		text-align: right;
+		position: absolute;
+		top: 215px;
+		right: 100px;
+		color: #fff;
+		font-weight: bold;
+		font-size: 20px;
+	}
+	
+	.backImg .header {
+		width: 80px;
+		height: 80px;
+		position: absolute;
+		border: 2px solid #fff;
+		right: 10px;
+		top: 200px;
+	}
+	
+	.desc {
+		margin-top: 30px;
+		font-size: 14px;
+		padding: 0 8px;
+		color: #353535;
 	}
 </style>

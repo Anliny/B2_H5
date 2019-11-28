@@ -3,13 +3,13 @@
 		<!-- #ifndef MP-WEIXIN -->
 		<nav-bar transparentFixedFontColor="#fff" fontColor="#fff" bgColor="#ff77aa" type="transparentFixed" title="会员动态">
 			<!-- //透明状态下的按钮 -->
-			<view class="transparent_fixed_preview" slot="transparentFixedRight" @click="handleTrack">
+			<!-- <view class="transparent_fixed_preview" slot="transparentFixedRight" @click="handleTrack">
 				<uni-icons type="plus" size="26" color="#fff"></uni-icons>
-			</view>
+			</view> -->
 			<!-- //不透明状态下的按钮 -->
-			<view class="preview" slot="right" @click="handleTrack">
+			<!-- <view class="preview" slot="right" @click="handleTrack">
 				<uni-icons type="plus" size="26" color="#fff"></uni-icons>
-			</view>
+			</view> -->
 		</nav-bar>
 		<!-- #endif -->
 		<view class="backImg">
@@ -58,9 +58,6 @@
 		onLoad() {
 			this.userInfo = uni.getStorageSync('userInfo')
 			this.getDynamics()
-		},
-		onShow() {
-			// this.getDynamics()
 		},
 		onPullDownRefresh() {
 			// 获取用户列表

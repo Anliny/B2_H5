@@ -17,7 +17,14 @@
 		}, {
 			"path": "pages/activity/index",
 			"style": {
-				"navigationBarTitleText": "活动"
+				"navigationBarTitleText": "交友活动1111",
+				"navigationBarBackgroundColor": "rgb(255,119,55)",
+				"backgroundColor": "rgb(255,119,55)",
+				"transparentTitle": "auto",
+				"navigatonStyle": "custom",
+				"enablePullDownRefresh": true, //设置为true表示当前页面开启下拉刷新
+				"backgroundTextStyle": "dark" ,//下拉 loading 的样式，仅支持 dark/light
+				"onReachBottomDistance":50 
 			}
 		}, {
 			"path": "pages/me/index",
@@ -174,7 +181,18 @@
 			"style": {
 				"navigationBarTitleText": "添加动态",
 				"navigationBarBackgroundColor": "rgb(255,119,55)",
-				"backgroundColor": "rgb(255,119,55)"
+				"backgroundColor": "rgb(255,119,55)",
+				"animationType": "pop-in",
+				"animationDuration": 200
+			}
+		},{
+			"path": "pages/activity/addActivity",
+			"style": {
+				"navigationBarTitleText": "添加交友活动",
+				"navigationBarBackgroundColor": "rgb(255,119,55)",
+				"backgroundColor": "rgb(255,119,55)",
+				"animationType": "pop-in",
+				"animationDuration": 200
 			}
 		}, {
 			"path": "pages/login/index",

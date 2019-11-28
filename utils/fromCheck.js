@@ -39,4 +39,13 @@ const jobYars = function(lowYear,heightYear){
 	return jobList
 }(1,20)
 
-export {heights,years,educations,Vips,marrys,jobYars}
+// 活动人数选择
+const activeUser = function(lowUser,heightUser){
+	let jobList = ["请选择活动人数"];
+	for(let i = lowUser;i<=heightUser;i++){
+		jobList.push(`${i}`)
+	}
+	return jobList
+}(1,100)
+
+export {heights,years,educations,Vips,marrys,jobYars,activeUser}
