@@ -200,11 +200,8 @@
 								field,
 								motto
 							}
-							console.log(!age)
 							let ages = age ? age : "请选择年龄";
-							console.log(ages)
 							this.yearsIndex = this.years.indexOf(ages)
-							console.log(this.yearsIndex)
 							this.jobYarIndex = this.jobYars.indexOf(workingLife)
 							console.log(this.jobYarIndex);
 						} catch (e) {

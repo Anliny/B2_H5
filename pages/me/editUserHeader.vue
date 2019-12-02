@@ -35,11 +35,13 @@
 		},
 		onLoad(option) {
 			let {
-				userAvatar
+				userAvatar,
+				nickName
 			} = option;
 			if (userAvatar) {
 				this.userDetailInfo.userAvatar = userAvatar;
 			}
+			this.userDetailInfo.nickName = nickName
 		},
 		methods: {
 			upload() {
