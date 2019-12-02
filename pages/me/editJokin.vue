@@ -19,7 +19,7 @@
 					<radio-group class="form-radio-group" @change="handleRadioChange">
 						<label class="formRadio" v-for="(item, index) in sexList" :key="item.value">
 							<view>
-								<radio :value="item.value" :checked="index === current" />
+								<radio :value="item.value" :checked="index+1 === jokinInfo.gender" />
 							</view>
 							<view>{{item.name}}</view>
 						</label>
@@ -57,30 +57,29 @@
 			<view class="uni-form-item uni-column">
 				<view class="form-lable">籍贯：</view>
 				<view class="form-inpput" @click="handleCheckNativePlace">
-					<block v-if="jokinInfo.nativePlace.province">
-						{{jokinInfo.nativePlace.province}}
+					<!-- <block v-if="jokinInfo.nativePlace.province"> -->
+					<!-- {{jokinInfo.nativePlace.province}}
 						{{jokinInfo.nativePlace.city}}
-						{{jokinInfo.nativePlace.town}}
-					</block>
+						{{jokinInfo.nativePlace.town}} -->
+					<!-- </block>
 					<block v-else>
 						请选择籍贯
-					</block>
+					</block> -->
+					{{nativePlace}}
 				</view>
 			</view>
 			<view class="uni-form-item uni-column">
 				<view class="form-lable">工作地：</view>
 				<view class="form-inpput" @click="handleCheckAdress">
-					{{jokinInfo.workingAddress.province}}
-					{{jokinInfo.workingAddress.city}}
-					{{jokinInfo.workingAddress.town}}
+					{{working}}
 				</view>
 			</view>
 			<view class="uni-form-item uni-column" style="height: auto;">
 				<view class="form-lable">擅长领域：</view>
 				<view class="form-inpput form-inpput-textarea">
 					<textarea @blur="handleField" style="font-size: 14px;line-height: 35px;" placeholder-style="color:#808080"
-					 placeholder="请输入擅长领域" v-model="jokinInfo.field"  />
-				</view>
+					 placeholder="请输入擅长领域" v-model="jokinInfo.field" />
+					</view>
 			</view>
 			<view class="uni-form-item uni-column" style="height: auto;">
 				<view class="form-lable">情感箴言：</view>
@@ -113,7 +112,6 @@
 			return {
 				loading: false,
 				isAdress: 0,
-				current: 0,
 				sexList: [{
 					value: '1',
 					name: '男'
@@ -128,7 +126,8 @@
 				jokinInfo: {
 					userAvatar: '',
 					name: '',
-					gender: '',
+					age:0,
+					gender: 0,
 					workingLife: '',
 					phone: '',
 					wechatNumber: '',
@@ -158,18 +157,63 @@
 					cityName: '',
 					townName: '',
 				},
-				region: ''
+				region: '',
+				matchmakerId:''
+			}
+		},
+		computed: {
+			working() {
+				let {province,city,town} = this.jokinInfo.workingAddress
+				return `${province}${city}${town}`
+			},
+			nativePlace(){
+				let {province,city,town} = this.jokinInfo.nativePlace
+				return `${province}${city}${town}`
 			}
 		},
 		onLoad(option) {
-			let {
-				userAvatar
-			} = option;
-			if (userAvatar) {
-				this.jokinInfo.userAvatar = userAvatar;
-			}
+			this.matchmakerId = option.matchmakerId
+			this.getUserInfo()
 		},
 		methods: {
+			// 获取用户信息
+			getUserInfo(){
+				appRequest.baseRequest({
+					url: 'matchmaker/queryById',
+					data: {id:this.matchmakerId},
+					method: 'get',
+					success: (res) => {
+						// 用户状态存到缓存中去
+						try {
+							console.log(res)
+							let {userAvatar,name,gender,age,workingLife,phone,wechatNumber,nativePlace,workingAddress,field,motto} = res.data.data
+							this.jokinInfo = {
+								userAvatar,
+								name,
+								gender,
+								age,
+								workingLife,
+								phone,
+								wechatNumber,
+								nativePlace:JSON.parse(nativePlace),
+								workingAddress:JSON.parse(workingAddress),
+								field,
+								motto
+							}
+							console.log(!age)
+							let ages = age ? age : "请选择年龄";
+							console.log(ages)
+							this.yearsIndex = this.years.indexOf(ages)
+							console.log(this.yearsIndex)
+							this.jobYarIndex = this.jobYars.indexOf(workingLife)
+							console.log(this.jobYarIndex);
+						} catch (e) {
+							//TODO handle the exception
+						}
+					}
+				})
+			},
+			// 上传图片
 			upload() {
 				uni.chooseImage({
 					count: 1, // 默认9
@@ -262,6 +306,7 @@
 					nativePlace,
 					workingAddress,
 					field,
+					age,
 					motto,
 					state} = this.jokinInfo
 				let data = {
@@ -271,6 +316,7 @@
 						id,
 						workingLife,
 						phone,
+						age,
 						wechatNumber,
 						nativePlace:JSON.stringify(nativePlace),
 						workingAddress:JSON.stringify(workingAddress),
@@ -341,16 +387,16 @@
 					nativePlace,
 					workingAddress
 				} = this.jokinInfo
-				if (this.isAdress == 1) {
-					this.lotusAddressData.provinceName = nativePlace.province;
-					this.lotusAddressData.cityName = nativePlace.city;
-					this.lotusAddressData.townName = nativePlace.town;
-				}
-				if (this.isAdress == 2) {
-					this.lotusAddressData.provinceName = workingAddress.province;
-					this.lotusAddressData.cityName = workingAddress.city;
-					this.lotusAddressData.townName = workingAddress.town;
-				}
+				// if (this.isAdress == 1) {
+				// 	this.lotusAddressData.provinceName = nativePlace.province;
+				// 	this.lotusAddressData.cityName = nativePlace.city;
+				// 	this.lotusAddressData.townName = nativePlace.town;
+				// }
+				// if (this.isAdress == 2) {
+				// 	this.lotusAddressData.provinceName = workingAddress.province;
+				// 	this.lotusAddressData.cityName = workingAddress.city;
+				// 	this.lotusAddressData.townName = workingAddress.town;
+				// }
 
 			},
 			//回传已选的省市区的值
@@ -371,7 +417,7 @@
 					// this.lotusAddressData.provinceName = res.province; //省
 					// this.lotusAddressData.cityName = res.city; //市
 					// this.lotusAddressData.townName = res.town; //区
-					this.region = `${res.province} ${res.city} ${res.town}`; //region为已选的省市区的值
+					// this.region = `${res.province} ${res.city} ${res.town}`; //region为已选的省市区的值
 				}
 				this.isAdress = 0
 			},

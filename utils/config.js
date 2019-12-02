@@ -13,7 +13,12 @@ const appRequest = {
             }
             else{
                 uni.showToast({
-                	title:"用户信息不存在"
+                	title:"用户信息不存在",
+					success() {
+						// uni.redirectTo({
+						// 	url:'/pages/login/index'
+						// })
+					}
                 })
             }
         } catch (e) {

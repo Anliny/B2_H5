@@ -75,10 +75,11 @@
                 "/" : {
                     "target" : "http://106.13.70.95:888",
                     "changeOrigin" : true,
-					"ws":false,
+                    "ws" : false,
                     "secure" : false
                 }
             }
-        }
+        },
+        "domain" : "www.davhoon.com"
     }
 }
