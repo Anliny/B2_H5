@@ -55,19 +55,22 @@
 				dynamicList:[]
 			}
 		},
-		onLoad() {
+		onLoad(e) {
+			console.log(e)
 			this.userInfo = uni.getStorageSync('userInfo')
 			this.getDynamics()
 		},
+		
 		onPullDownRefresh() {
 			// 获取用户列表
 			this.pageObj.current = 0
 			this.dynamicList = []
 			this.getDynamics()
-			// this.loading = true
-			
 		},
 		methods: {
+			ceshi(){
+				console.log(1111)
+			},
 			// 获取列表
 			getDynamics() {
 				this.pageObj.current ++

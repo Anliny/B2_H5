@@ -116,7 +116,7 @@
 			handleTrack() {
 				// 跳转路由
 				uni.navigateTo({
-					url: 'addTrack',
+					url: '/pages/me/photo/addTrack',
 					animationDuration: 500
 				});
 			},

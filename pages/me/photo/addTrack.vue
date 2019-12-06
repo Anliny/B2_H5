@@ -5,7 +5,7 @@
 				<!-- <view class="form-lable">正文：</view> -->
 				<view class="form-inpput" style="width: 100vw;">
 					<textarea style="padding: 8px;line-break: 35px;" @blur="handleGetCon" :value="dynamic.content" placeholder-style="color:#cccccc"
-					 placeholder="说一说此时此刻的想法" />
+					 placeholder="说说这段相册的来历吧" />
 					</view>
 		    </view>
 			<view class="uni-form-item uni-column">

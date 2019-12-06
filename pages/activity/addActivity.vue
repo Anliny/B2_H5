@@ -4,14 +4,14 @@
 			<view class="uni-form-item uni-column">
 				<view class="form-lable">活动主题</view>
 				<view class="form-inpput">
-					<input v-model="activity.title"  type="text" placeholder-class="placeholder" placeholder="请填写活动标题" />
+					<input v-model="activity.title" type="text" placeholder-class="placeholder" placeholder="请填写活动标题" />
 				</view>
 			</view>
 			<view class="uni-form-item uni-column">
 				<view class="form-inpput" style="width: 100vw;">
 					<textarea style="padding: 8px;line-break: 35px;" @blur="handleGetCon" :value="activity.desc" placeholder-style="color:#cccccc"
 					 placeholder="发布交友活动,可以填写活动内容,活动地点等说明信息" />
-				</view>
+					</view>
 		    </view>
 			<view class="uni-form-item uni-column">
 				<view class="form-lable">开始日期</view>
@@ -181,9 +181,19 @@
 								showCancel: false,
 								success() {
 									uni.switchTab({
-										url:'/pages/activity/index',
+										url:'/pages/activity/index?current=0',
 										animationType: 'pop-in',
-										animationDuration: 200
+										animationDuration: 200,
+										success:(res) => {
+											// let data={current:0}
+											// let page = getCurrentPages().pop();
+											// console.log(page)
+											// if (page == undefined || page == null) return;
+											// page.onLoad(data);
+											var page = getCurrentPages()[0]
+											if (page == undefined || page == null) return;
+											page.parmentOnLoad(); 
+										}
 									})
 								}
 							});

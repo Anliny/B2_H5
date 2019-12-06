@@ -1,7 +1,7 @@
 <template>
 	<view class="contanner">
 		<view class="img-wrapper">
-			<image src="/static/nav-img.jpg" :lazy-load="true" class="image" mode="widthFix"></image>
+			<image src="/static/banner.jpg" :lazy-load="true" class="image" mode="widthFix"></image>
 		</view>
 		<!-- <xyz-tab :tabList="tabList"></xyz-tab> -->
 		<!-- 切换注册用户 -->

@@ -4,21 +4,21 @@
 		<nav-bar transparentFixedFontColor="#fff" fontColor="#fff" bgColor="#ff77aa" type="transparentFixed" title="交友活动">
 			<!-- //透明状态下的按钮 -->
 			<view class="transparent_fixed_preview" slot="transparentFixedLeft"></view>
-			<view class="transparent_fixed_preview" slot="transparentFixedRight" @click="handleAddActive">
+			<view v-if="token.type == 1" class="transparent_fixed_preview" slot="transparentFixedRight" @click="handleAddActive">
 				<uni-icons type="plus" size="26" color="#fff"></uni-icons>
 			</view>
 			<!-- //不透明状态下的按钮 -->
 			<view class="preview" slot="left"></view>
-			<view class="preview" slot="right" @click="handleAddActive">
+			<view v-if="token.type == 1" class="preview" slot="right" @click="handleAddActive">
 				<uni-icons type="plus" size="26" color="#fff"></uni-icons>
 			</view>
 		</nav-bar>
 		<!-- #endif -->
 		<view class="backImg">
 			<image src="/static/header.jpeg" class="image" mode=""></image>
-			<text class="name">{{userInfo.name}}</text>
+			<text class="name">{{userInfo.name }}</text>
 			<view class="header">
-				<image :src="userInfo.userAvatar" class="image" mode=""></image>
+				<image :src="userInfo.userAvatar ? userInfo.userAvatar :'/static/header.jpeg'" class="image" mode=""></image>
 			</view>
 		</view>
 
@@ -40,17 +40,16 @@
 						</view>
 					</view>
 					<view class="list-time-warp">
-						活动起止日期：{{item.startTime}} - {{item.endTime}}
+						活动起止日期：{{item.startTime}} 到 {{item.endTime}}
 					</view>
 					<view class="list-time-warp">报名截止日期：{{item.startTime}}</view>
 					<view class="list-btn-wrapper">
-						<view class="list-btn-text">本次活动限额{{item.partakes}}人，已有{{item.actual}}参加！</view>
-
-						<view v-if="!token.type">
-							<button v-if="isActive" type="primary" @click="addActive(index)" :plain="true" size="mini">
+						<view class="list-btn-text">本次活动限额{{item.activityNumber}}人，已有{{item.partakes}}参加！</view>
+						<view v-if="token.type == 0">
+							<button v-if="item.isPartake" type="primary" @click="addActive(index)" :plain="true" size="mini">
 								参加活动
 							</button>
-							<button v-if="!isActive" type="primary" @click="cancelActive(index)" size="mini">
+							<button v-if="!item.isPartake" type="primary" @click="cancelActive(index)" size="mini">
 								取消活动
 							</button>
 						</view>
@@ -96,6 +95,12 @@
 			this.getActivitys()
 		},
 		methods: {
+			// 添加数据成功  调用的方法
+			parmentOnLoad(){
+				this.pageObj.current = 0
+				this.activityList = []
+				this.getActivitys()
+			},
 			// 添加交友活动
 			handleAddActive() {
 				uni.navigateTo({
@@ -145,13 +150,31 @@
 				this.getActivitys()
 			},
 			addActive(index) {
-				console.log(index)
-					++this.dataInfo[index]['actual']
-				this.isActive = false
+				++this.activityList[index]['partakes']
+				this.activityList[index]['isPartake'] = 0
+				appRequest.baseRequest({
+					url: 'memberActivity/save',
+					data: {activityId:this.activityList[index].id},
+					method: 'post',
+					success: (res) => {
+						console.log(res)
+					},
+				})
 			},
 			cancelActive(index) {
-				--this.dataInfo[index]['actual']
-				this.isActive = true
+				--this.activityList[index]['partakes']
+				this.activityList[index]['isPartake'] = 1
+				appRequest.baseRequest({
+					url: 'memberActivity/save',
+					data: {
+						activityId:this.activityList[index].id,
+						deleted:false
+					},
+					method: 'post',
+					success: (res) => {
+						console.log(res)
+					},
+				})
 			},
 			handleScanCode() {
 				uni.scanCode({
@@ -253,6 +276,8 @@
 	.list-btn-wrapper {
 		padding-bottom: 8px;
 		display: flex;
+		justify-content: space-between;
+
 	}
 
 	.list-btn-wrapper button {

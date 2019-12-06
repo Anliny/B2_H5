@@ -6,7 +6,7 @@
 		<skeleton :loading="loading" :row="skeleton1.row" :showAvatar="skeleton1.showAvatar" :showTitle="true" avatarSize="false"></skeleton>
 		<view class="content" v-if="!loading">
 			<view class="img-wrapper">
-				<image class="img" src="/static/nav-img.jpg"></image>
+				<image class="img" src="/static/banner.jpg"></image>
 			</view>
 			<view class="shearch-wrapper">
 				<uni-search-bar placeholder="关键字查询" @input="input" @cancel="cancel" />

@@ -23,7 +23,7 @@
 		<view class="card-warp card-shadow">
 			<view class="card-title">
 				<view class="">基本信息</view>
-				<view class="card-edit" @click="handleEditUserInfo()">
+				<view class="card-edit" @click="handleEditUserInfo(userInfo.id)">
 					<uni-icons type="compose" color="#ff77aa"></uni-icons>
 				</view>
 			</view>
@@ -292,9 +292,10 @@
 			},
 			
 			// 编辑用户信息
-			handleEditUserInfo(){
+			handleEditUserInfo(id){
+				console.log(id);
 				uni.navigateTo({
-					url: '/pages/me/editUserInfo',
+					url: '/pages/me/editUserInfo?id='+id,
 					animationType: 'pop-in',
 					animationDuration: 200
 				})
@@ -316,7 +317,7 @@
 				})
 			},
 			// 编辑其他信息
-			handleEditUserInfomation(){
+			handleEditUserInfomation(id){
 				uni.navigateTo({
 					url: '/pages/me/editUserInfomation',
 					animationType: 'pop-in',

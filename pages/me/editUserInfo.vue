@@ -20,7 +20,7 @@
 						<radio-group class="form-radio-group" @change="handleRadioChange">
 							<label class="formRadio" v-for="(item, index) in sexList" :key="item.value">
 								<view>
-									<radio :value="item.value" :checked="index === current" />
+									<radio :value="item.value" :checked="index === userDetailInfo.gender" />
 								</view>
 								<view>{{item.name}}</view>
 							</label>
@@ -129,9 +129,17 @@
 				return this.getDate('end');
 			}
 		},
+		onLoad(options) {
+			console.log(options)
+			this.userDetailInfo = uni.getStorageSync("userInfo")
+			let {age,height,education,birthday} = this.userDetailInfo
+			this.yearsIndex = years.findIndex(item => item == age)
+			this.heightsIndex = heights.findIndex(item => item == height)
+			this.educationIndex = educations.findIndex(item => item == education)
+			this.date = birthday
+		},
 		methods: {
 			formSubmit(e) {
-				console.log(e)
 				let loginRules = [{
 						name: 'name',
 						required: true,

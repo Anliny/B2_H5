@@ -2,7 +2,7 @@
 	<view class="contanner">
 
 		<view class="img-wrapper">
-			<image src="/static/nav-img.jpg" :lazy-load="true" class="image" mode="widthFix"></image>
+			<image src="/static/banner.jpg" :lazy-load="true" class="image" mode="widthFix"></image>
 		</view>
 		<view class="bar-wrapper">
 			<view class="bar-item" v-for="(item,index) in tabList" :key="index" :class="isTitleBar == index ? 'bar-item-active' : ''"
@@ -43,9 +43,9 @@
 				loading: false,
 				isTitleBar: 0,
 				tabList: [{
-					label: "会员注册"
+					label: "会员登录"
 				}, {
-					label: "红娘注册"
+					label: "红娘登录"
 				}],
 				userInfo: {
 					userName: '',

@@ -82,7 +82,9 @@
 								showCancel: false,
 								success() {
 									uni.redirectTo({
-										url:'/pages/me/track/index'
+										url:'/pages/me/track/index',
+										animationType: 'pop-in',
+										animationDuration: 200
 									})
 								}
 							});
