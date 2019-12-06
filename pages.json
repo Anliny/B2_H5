@@ -148,11 +148,7 @@
 				"onReachBottomDistance":50 
 			}
 		},{
-<<<<<<< HEAD
-			"path": "pages/me/photo/addTrack",
-=======
 			"path": "pages/me/photo/addPhoto",
->>>>>>> 1697874dd0354a002fb5d03af3922ceed4bd8e23
 			"style": {
 				"navigationBarTitleText": "添加相册",
 				"navigationBarBackgroundColor": "rgb(255,119,55)",

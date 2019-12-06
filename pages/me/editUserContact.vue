@@ -46,8 +46,12 @@
 				}
 			}
 		},
-		computed: {
-			
+		onLoad(options) {
+			let  {phone,wechatNumber} = JSON.parse(options.info)
+			this.userDetailInfo = {
+				phone : phone ? phone :'',
+				wechatNumber:wechatNumber ? wechatNumber :''
+			}
 		},
 		methods: {
 			formSubmit(e) {
@@ -61,11 +65,10 @@
 						name: 'wechatNumber',
 						required: true,
 						type: 'text',
-						errmsg: '请输入身份证号'
+						errmsg: '请输入微信号'
 					}
 				]
 				let valLoginRes = this.$validate.validate(this.userDetailInfo, loginRules)
-				console.log(this.userDetailInfo);
 				if (!valLoginRes.isOk) {
 					uni.showToast({
 						icon: 'none',

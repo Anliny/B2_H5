@@ -116,14 +116,9 @@
 			handleTrack() {
 				// 跳转路由
 				uni.navigateTo({
-<<<<<<< HEAD
-					url: '/pages/me/photo/addTrack',
-					animationDuration: 500
-=======
 					url: 'addPhoto',
 					animationType: 'pop-in',
 					animationDuration: 200
->>>>>>> 1697874dd0354a002fb5d03af3922ceed4bd8e23
 				});
 			},
 			// 删除动态

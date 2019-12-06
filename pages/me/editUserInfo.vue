@@ -20,11 +20,7 @@
 						<radio-group class="form-radio-group" @change="handleRadioChange">
 							<label class="formRadio" v-for="(item, index) in sexList" :key="item.value">
 								<view>
-<<<<<<< HEAD
-									<radio :value="item.value" :checked="index === userDetailInfo.gender" />
-=======
 									<radio :value="item.value" :checked="index+1 === userDetailInfo.gender" />
->>>>>>> 1697874dd0354a002fb5d03af3922ceed4bd8e23
 								</view>
 								<view>{{item.name}}</view>
 							</label>
@@ -134,7 +130,7 @@
 			}
 		},
 		onLoad(option) { 
-			console.log(JSON.parse(option.data))
+			
 			let  {name,idCare,gender,birthday,age,height,nation,weight,education} = JSON.parse(option.data) 
 			this.userDetailInfo = {
 				name: name ? name:'',

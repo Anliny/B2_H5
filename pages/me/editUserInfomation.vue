@@ -13,12 +13,12 @@
 					<view class="form-lable">籍贯</view>
 					<view class="form-inpput" @click="handleCheckNativePlace">
 						<block v-if="userDetailInfo.nativePlace.province">
-						{{userDetailInfo.nativePlace.province}}
-						{{userDetailInfo.nativePlace.city}}
-						{{userDetailInfo.nativePlace.town}}
+							{{userDetailInfo.nativePlace.province}}
+							{{userDetailInfo.nativePlace.city}}
+							{{userDetailInfo.nativePlace.town}}
 						</block>
 						<block v-else>
-						请选择籍贯
+							请选择籍贯
 						</block>
 					</view>
 				</view>
@@ -103,26 +103,68 @@
 				region: ''
 			}
 		},
+		onLoad(options) {
+			let {
+				position,
+				nativePlace,
+				currentAddress,
+				industry,
+				isMarry
+			} = JSON.parse(options.info)
+			if (!nativePlace) {
+				nativePlace = {
+					city: "",
+					cityCode: "",
+					province: "",
+					provinceCode: "",
+					town: "",
+					townCode: ""
+				}
+			}else{
+				nativePlace = JSON.parse(nativePlace)
+			}
+			if (!currentAddress) {
+				currentAddress = {
+					city: "",
+					cityCode: "",
+					province: "",
+					provinceCode: "",
+					town: "",
+					townCode: ""
+				}
+			}else{
+				currentAddress = JSON.parse(currentAddress)
+			}
+			this.userDetailInfo = {
+				position: position ? position : '',
+				industry: industry ? industry : '',
+				isMarry: isMarry ? isMarry : '',
+				nativePlace,
+				currentAddress
+			}
+			marrys.find((item, index) => {
+				if (item.val == isMarry) {
+					this.marrysIndex = index
+				}
+			})
+		},
 		methods: {
 			formSubmit(e) {
 				// console.log(e)
-				let loginRules = [
-					{
-						name: 'position',
-						required: true,
-						type: 'text',
-						errmsg: '请输入职位'
-					},{
-						name: 'industry',
-						required: true,
-						type: 'text',
-						errmsg: '请输入行业'
-					}
-				]
+				let loginRules = [{
+					name: 'position',
+					required: true,
+					type: 'text',
+					errmsg: '请输入职位'
+				}, {
+					name: 'industry',
+					required: true,
+					type: 'text',
+					errmsg: '请输入行业'
+				}]
 				this.userDetailInfo.id = uni.getStorageSync('userInfo').id
 				console.log(this.userDetailInfo)
 				let valLoginRes = this.$validate.validate(this.userDetailInfo, loginRules)
-				// console.log(this.userDetailInfo);
 				if (!valLoginRes.isOk) {
 					uni.showToast({
 						icon: 'none',
@@ -130,7 +172,14 @@
 					})
 					return false
 				}
-				let {currentAddress,id,industry,isMarry,nativePlace,position} = this.userDetailInfo
+				let {
+					currentAddress,
+					id,
+					industry,
+					isMarry,
+					nativePlace,
+					position
+				} = this.userDetailInfo
 				console.log(JSON.stringify(currentAddress))
 				let data = {
 					currentAddress: JSON.stringify(currentAddress),
@@ -178,7 +227,7 @@
 				console.log('picker发送选择改变，携带值为', e.target.value)
 				this.index = e.target.value
 			},
-			
+
 			// 选择籍贯
 			handleCheckNativePlace() {
 				this.isAdress = 1;

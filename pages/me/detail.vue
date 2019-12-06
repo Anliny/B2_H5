@@ -23,11 +23,7 @@
 		<view class="card-warp card-shadow">
 			<view class="card-title">
 				<view class="">基本信息</view>
-<<<<<<< HEAD
-				<view class="card-edit" @click="handleEditUserInfo(userInfo.id)">
-=======
 				<view class="card-edit" @click="handleEditUserInfo(userInfo)">
->>>>>>> 1697874dd0354a002fb5d03af3922ceed4bd8e23
 					<uni-icons type="compose" color="#ff77aa"></uni-icons>
 				</view>
 			</view>
@@ -99,7 +95,7 @@
 		<view class="card-warp card-shadow">
 			<view class="card-title">
 				<view class="title">联系方式</view>
-				<view class="card-edit" @click="handleEditUserContact">
+				<view class="card-edit" @click="handleEditUserContact(userInfo)">
 					<uni-icons type="compose" color="#ff77aa"></uni-icons>
 				</view>
 			</view>
@@ -123,7 +119,7 @@
 		<view class="card-warp card-shadow">
 			<view class="card-title">
 				<view class="title">其他信息</view>
-				<view class="card-edit" @click="handleEditUserInfomation">
+				<view class="card-edit" @click="handleEditUserInfomation(userInfo)">
 					<uni-icons type="compose" color="#ff77aa"></uni-icons>
 				</view>
 			</view>
@@ -248,13 +244,13 @@
 		},
 		computed: {
 			isMarry() {
-				if(this.userInfo.partnerIsMarry == 1){
+				if(this.userInfo.isMarry == 1){
 					return '未婚'
 				}
-				if(this.userInfo.partnerIsMarry == 2){
+				if(this.userInfo.isMarry == 2){
 					return '离异'
 				}
-				if(this.userInfo.partnerIsMarry == 3){
+				if(this.userInfo.isMarry == 3){
 					return '丧偶'
 				}
 				return "未填写"
@@ -303,12 +299,6 @@
 			},
 			
 			// 编辑用户信息
-<<<<<<< HEAD
-			handleEditUserInfo(id){
-				console.log(id);
-				uni.navigateTo({
-					url: '/pages/me/editUserInfo?id='+id,
-=======
 			handleEditUserInfo(data){
 				console.log(data)
 				let info = {
@@ -324,7 +314,6 @@
 				}
 				uni.navigateTo({
 					url: '/pages/me/editUserInfo?data='+JSON.stringify(info),
->>>>>>> 1697874dd0354a002fb5d03af3922ceed4bd8e23
 					animationType: 'pop-in',
 					animationDuration: 200
 				})
@@ -340,17 +329,28 @@
 				})
 			},
 			// 编辑联系方式
-			handleEditUserContact(){
+			handleEditUserContact(data){
+				let info = {
+					phone:data.phone,
+					wechatNumber:data.wechatNumber
+				}
 				uni.navigateTo({
-					url: '/pages/me/editUserContact',
+					url: '/pages/me/editUserContact?info='+JSON.stringify(info),
 					animationType: 'pop-in',
 					animationDuration: 200
 				})
 			},
 			// 编辑其他信息
-			handleEditUserInfomation(id){
+			handleEditUserInfomation(data){
+				let info = {
+					position:data.position,
+					nativePlace:data.nativePlace,
+					currentAddress:data.currentAddress,
+					industry:data.industry,
+					isMarry:data.isMarry
+				}
 				uni.navigateTo({
-					url: '/pages/me/editUserInfomation',
+					url: '/pages/me/editUserInfomation?info='+JSON.stringify(info),
 					animationType: 'pop-in',
 					animationDuration: 200
 				})

@@ -26,6 +26,7 @@ const Vips = [
 ]
 // 婚配信息
 const marrys = [
+	{val:'',label:'请选择婚姻状况'},
 	{val:1,label:'未婚'},
 	{val:2,label:'离异'},
 	{val:3,label:'丧偶'}
