@@ -20,8 +20,8 @@
 						<input v-model="userDetailInfo.vehicle" type="text" placeholder-class="placeholder" placeholder="请填写是否购车" />
 					</view>
 				</view>
-				
-				
+
+
 				<view class="uni-btn-v">
 					<button type="primary" :loading="loading" form-type="submit">提交</button>
 				</view>
@@ -45,32 +45,42 @@
 				marrysIndex: 0,
 				userDetailInfo: {
 					income: '', //收入
-					housing:'' ,//住房情况，
-					vehicle:''  //是否有车
+					housing: '', //住房情况，
+					vehicle: '' //是否有车
 				}
+			}
+		},
+		onLoad(options) {
+			let {
+				income,
+				housing,
+				vehicle
+			} = JSON.parse(options.info)
+			this.userDetailInfo = {
+				income: income ? income : "",
+				housing: housing ? housing : '',
+				vehicle: vehicle ? vehicle : ''
 			}
 		},
 		methods: {
 			formSubmit(e) {
 				// console.log(e)
-				let loginRules = [
-					{
-						name: 'income',
-						required: true,
-						type: 'text',
-						errmsg: '请填写每月收入情况'
-					},{
-						name: 'housing',
-						required: true,
-						type: 'text',
-						errmsg: '请填写住房情况'
-					},{
-						name: 'housing',
-						required: true,
-						type: 'text',
-						errmsg: '请填写是否购车'
-					}
-				]
+				let loginRules = [{
+					name: 'income',
+					required: true,
+					type: 'text',
+					errmsg: '请填写每月收入情况'
+				}, {
+					name: 'housing',
+					required: true,
+					type: 'text',
+					errmsg: '请填写住房情况'
+				}, {
+					name: 'housing',
+					required: true,
+					type: 'text',
+					errmsg: '请填写是否购车'
+				}]
 				this.userDetailInfo.id = uni.getStorageSync('userInfo').id
 				console.log(this.userDetailInfo)
 				let valLoginRes = this.$validate.validate(this.userDetailInfo, loginRules)
@@ -82,7 +92,7 @@
 					})
 					return false
 				}
-				
+
 				appRequest.baseRequest({
 					url: 'member/save',
 					data: this.userDetailInfo,

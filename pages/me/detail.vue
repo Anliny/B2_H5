@@ -163,7 +163,7 @@
 		<view class="card-warp card-shadow">
 			<view class="card-title">
 				<view class="title">资产状况</view>
-				<view class="card-edit" @click="handleEditUserAssetStatus">
+				<view class="card-edit" @click="handleEditUserAssetStatus(userInfo)">
 					<uni-icons type="compose" color="#ff77aa"></uni-icons>
 				</view>
 			</view>
@@ -356,9 +356,14 @@
 				})
 			},
 			// 编辑资产状况
-			handleEditUserAssetStatus(){
+			handleEditUserAssetStatus(data){
+				let info = {
+					income:data.income,
+					housing:data.housing,
+					vehicle:data.vehicle
+				}
 				uni.navigateTo({
-					url: '/pages/me/editUserAssetStatus',
+					url: '/pages/me/editUserAssetStatus?info='+JSON.stringify(info),
 					animationType: 'pop-in',
 					animationDuration: 200
 				})
