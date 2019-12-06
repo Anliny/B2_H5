@@ -190,12 +190,12 @@
 			</view>
 			<view class="tips">仅银卡会员可查看</view>
 		</view>
-		
+
 		<!-- 自我描述 -->
 		<view class="card-warp card-shadow">
 			<view class="card-title">
 				<view class="title">自我介绍</view>
-				<view class="card-edit" @click="handleEditUserDescrable">
+				<view class="card-edit" @click="handleEditUserDescrable(userInfo)">
 					<uni-icons type="compose" color="#ff77aa"></uni-icons>
 				</view>
 			</view>
@@ -213,13 +213,13 @@
 				</view>
 				<view class="card-item-text">{{userInfo.hobby}}</view>
 			</view>
-			<view class="card-item">
+			<!-- <view class="card-item">
 				<view class="card-item-lable">
 					<uni-icons type="person" color="#ff77aa"></uni-icons>
 					选择标签：
 				</view>
 				<view class="card-item-text">{{userInfo.vehicle}}</view>
-			</view>
+			</view> -->
 		</view>
 	</view>
 </template>
@@ -244,36 +244,44 @@
 		},
 		computed: {
 			isMarry() {
-				if(this.userInfo.isMarry == 1){
+				if (this.userInfo.isMarry == 1) {
 					return '未婚'
 				}
-				if(this.userInfo.isMarry == 2){
+				if (this.userInfo.isMarry == 2) {
 					return '离异'
 				}
-				if(this.userInfo.isMarry == 3){
+				if (this.userInfo.isMarry == 3) {
 					return '丧偶'
 				}
 				return "未填写"
 			},
 			// 判断头像
 			userAvatar() {
-				return this.userInfo.userAvatar ? this.userInfo.userAvatar : "/static/icon/defult_header.jpg" 
+				return this.userInfo.userAvatar ? this.userInfo.userAvatar : "/static/icon/defult_header.jpg"
 			},
 			// 籍贯
-			nativePlaceAdress(){
-				if(this.userInfo.nativePlace){
-					let {province,city,town} = JSON.parse(this.userInfo.nativePlace)
+			nativePlaceAdress() {
+				if (this.userInfo.nativePlace) {
+					let {
+						province,
+						city,
+						town
+					} = JSON.parse(this.userInfo.nativePlace)
 					return `${province}${city}${town}`
-				}else{
+				} else {
 					return '-'
 				}
 			},
 			// 现住地址
-			currentAddress(){
-				if(this.userInfo.currentAddress){
-					let {province,city,town} = JSON.parse(this.userInfo.nativePlace)
+			currentAddress() {
+				if (this.userInfo.currentAddress) {
+					let {
+						province,
+						city,
+						town
+					} = JSON.parse(this.userInfo.nativePlace)
 					return `${province}${city}${town}`
-				}else{
+				} else {
 					return "-"
 				}
 			},
@@ -285,7 +293,7 @@
 					return '-'
 				}
 			}
-			 
+
 		},
 		methods: {
 			// 获取用户信息
@@ -297,9 +305,9 @@
 					animationDuration: 200
 				});
 			},
-			
+
 			// 编辑用户信息
-			handleEditUserInfo(data){
+			handleEditUserInfo(data) {
 				console.log(data)
 				let info = {
 					name: data.name,
@@ -313,15 +321,18 @@
 					education: data.education
 				}
 				uni.navigateTo({
-					url: '/pages/me/editUserInfo?data='+JSON.stringify(info),
+					url: '/pages/me/editUserInfo?data=' + JSON.stringify(info),
 					animationType: 'pop-in',
 					animationDuration: 200
 				})
 			},
 			// 编辑头像和昵称
-			handleEditUserHeader(item){
+			handleEditUserHeader(item) {
 				console.log(item);
-				let {userAvatar,nickName} = item
+				let {
+					userAvatar,
+					nickName
+				} = item
 				uni.navigateTo({
 					url: `/pages/me/editUserHeader?userAvatar=${userAvatar}&&nickName=${nickName}`,
 					animationType: 'pop-in',
@@ -329,49 +340,54 @@
 				})
 			},
 			// 编辑联系方式
-			handleEditUserContact(data){
+			handleEditUserContact(data) {
 				let info = {
-					phone:data.phone,
-					wechatNumber:data.wechatNumber
+					phone: data.phone,
+					wechatNumber: data.wechatNumber
 				}
 				uni.navigateTo({
-					url: '/pages/me/editUserContact?info='+JSON.stringify(info),
+					url: '/pages/me/editUserContact?info=' + JSON.stringify(info),
 					animationType: 'pop-in',
 					animationDuration: 200
 				})
 			},
 			// 编辑其他信息
-			handleEditUserInfomation(data){
+			handleEditUserInfomation(data) {
 				let info = {
-					position:data.position,
-					nativePlace:data.nativePlace,
-					currentAddress:data.currentAddress,
-					industry:data.industry,
-					isMarry:data.isMarry
+					position: data.position,
+					nativePlace: data.nativePlace,
+					currentAddress: data.currentAddress,
+					industry: data.industry,
+					isMarry: data.isMarry
 				}
 				uni.navigateTo({
-					url: '/pages/me/editUserInfomation?info='+JSON.stringify(info),
+					url: '/pages/me/editUserInfomation?info=' + JSON.stringify(info),
 					animationType: 'pop-in',
 					animationDuration: 200
 				})
 			},
 			// 编辑资产状况
-			handleEditUserAssetStatus(data){
+			handleEditUserAssetStatus(data) {
 				let info = {
-					income:data.income,
-					housing:data.housing,
-					vehicle:data.vehicle
+					income: data.income,
+					housing: data.housing,
+					vehicle: data.vehicle
 				}
 				uni.navigateTo({
-					url: '/pages/me/editUserAssetStatus?info='+JSON.stringify(info),
+					url: '/pages/me/editUserAssetStatus?info=' + JSON.stringify(info),
 					animationType: 'pop-in',
 					animationDuration: 200
 				})
 			},
 			// 编辑自我描述
-			handleEditUserDescrable(){
+			handleEditUserDescrable(data) {
+				let info = {
+					declaration: data.declaration,
+					hobby: data.hobby,
+					otherStandards: data.otherStandards
+				}
 				uni.navigateTo({
-					url: '/pages/me/editUserDescrable',
+					url: '/pages/me/editUserDescrable?info=' + JSON.stringify(info),
 					animationType: 'pop-in',
 					animationDuration: 200
 				})
@@ -459,12 +475,14 @@
 		display: flex;
 		justify-content: space-between;
 	}
+
 	.card-warp .card-edit {
 		width: 35px;
 		height: 35px;
 		text-align: center;
 	}
-	.card-warp .card-edit .uni-icons{
+
+	.card-warp .card-edit .uni-icons {
 		font-size: 30px !important;
 	}
 
@@ -482,6 +500,7 @@
 	.card-warp .card-item-lable {
 		font-size: 14px;
 		color: #a0a0a0;
+		flex: 0 0 95px;
 	}
 
 	.card-warp .card-item-lable .uni-icons {

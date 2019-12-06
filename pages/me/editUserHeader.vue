@@ -41,7 +41,7 @@
 			if (userAvatar) {
 				this.userDetailInfo.userAvatar = userAvatar;
 			}
-			this.userDetailInfo.nickName = nickName
+			this.userDetailInfo.nickName = uni.getStorageSync("userInfo").nickName
 		},
 		methods: {
 			upload() {
@@ -73,7 +73,6 @@
 					}
 				]
 				this.userDetailInfo.id = uni.getStorageSync('userInfo').id
-				console.log(this.userDetailInfo)
 				let valLoginRes = this.$validate.validate(this.userDetailInfo, loginRules)
 				if (!valLoginRes.isOk) {
 					uni.showToast({

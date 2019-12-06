@@ -112,9 +112,54 @@
 				region: ''
 			}
 		},
+		onLoad(options) {
+			let {
+				partnerAge,
+				partnerHeight,
+				partnerNation,
+				partnerEducation,
+				partnerIsMarry,
+				partnerNativePlace,
+				partnerIncome
+			} = JSON.parse(options.info)
+			if (!partnerNativePlace) {
+				partnerNativePlace = {
+					city: "",
+					cityCode: "",
+					province: "",
+					provinceCode: "",
+					town: "",
+					townCode: ""
+				}
+			} else {
+				partnerNativePlace = JSON.parse(partnerNativePlace)
+			}
+			this.userDetailInfo = {
+				partnerAge: partnerAge ? partnerAge : '',
+				partnerHeight: partnerHeight ? partnerHeight : '',
+				partnerNation: partnerNation ? partnerNation : '',
+				partnerEducation: partnerEducation ? partnerEducation : '',
+				partnerIsMarry: partnerIsMarry ? partnerIsMarry : '',
+				partnerIncome: partnerIncome ? partnerIncome : '',
+				partnerNativePlace
+			}
+
+			let ageItme = partnerAge ? partnerAge : "请选择年龄";
+			this.yearsIndex = this.years.indexOf(ageItme)
+			let heightItem = partnerHeight ? partnerHeight : "请选择身高";
+			this.heightsIndex = this.heights.indexOf(heightItem)
+			let educationItem = partnerEducation ? partnerEducation : '请选择学历'
+			this.educationIndex = this.educations.indexOf(educationItem)
+			// this.date = birthday ? birthday :new Date()
+			
+			marrys.find((item, index) => {
+				if (item.val == partnerIsMarry) {
+					this.marrysIndex = index
+				}
+			})
+		},
 		methods: {
 			formSubmit(e) {
-				// console.log(e)
 				let loginRules = [{
 					name: 'partnerAge',
 					required: true,
@@ -142,9 +187,7 @@
 					errmsg: '请填写收入'
 				}]
 				this.userDetailInfo.id = uni.getStorageSync('userInfo').id
-				console.log(this.userDetailInfo)
 				let valLoginRes = this.$validate.validate(this.userDetailInfo, loginRules)
-				// console.log(this.userDetailInfo);
 				if (!valLoginRes.isOk) {
 					uni.showToast({
 						icon: 'none',
@@ -218,7 +261,6 @@
 				this.lotusAddressData.visible = res.visible; //visible为显示与关闭组件标识true显示false隐藏
 				//res.isChose = 1省市区已选 res.isChose = 0;未选
 				if (res.isChose) {
-					console.log(res);
 					this.userDetailInfo.partnerNativePlace = res
 					// this.lotusAddressData.provinceName = res.province; //省
 					// this.lotusAddressData.cityName = res.city; //市
@@ -230,7 +272,6 @@
 
 			// 年龄
 			handleYearChange: function(e) {
-				console.log(e)
 				this.yearsIndex = e.detail.value;
 				this.userDetailInfo.partnerAge = years[this.yearsIndex]
 			},

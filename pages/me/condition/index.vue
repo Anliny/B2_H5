@@ -4,7 +4,7 @@
 		<view class="card-warp card-shadow">
 			<view class="card-title">
 				<view class="title">征友条件</view>
-				<view class="card-edit" @click="handleEeditUserConditon">
+				<view class="card-edit" @click="handleEeditUserConditon(userInfo)">
 					<uni-icons type="compose" color="#ff77aa"></uni-icons>
 				</view>
 			</view>
@@ -91,9 +91,18 @@
 			this.userInfo = uni.getStorageSync("userInfo")
 		},
 		methods: {
-			handleEeditUserConditon() {
+			handleEeditUserConditon(data) {
+				let info = {
+					partnerAge:data.partnerAge,
+					partnerHeight:data.partnerHeight,
+					partnerNation:data.partnerNation,
+					partnerEducation:data.partnerEducation,
+					partnerIsMarry:data.partnerIsMarry,
+					partnerNativePlace:data.partnerNativePlace,
+					partnerIncome:data.partnerIncome
+				}
 				uni.navigateTo({
-					url: '/pages/me/condition/editUserCondition',
+					url: '/pages/me/condition/editUserCondition?info='+JSON.stringify(info),
 					animationType: 'pop-in',
 					animationDuration: 200
 				});

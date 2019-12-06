@@ -5,8 +5,9 @@
 				<view class="uni-form-item uni-column">
 					<view class="form-lable">爱情宣言：</view>
 					<view class="form-inpput">
-						 <textarea @blur="bindTextAreaBlur" style="font-size: 14px;line-height: 35px;" placeholder-style="color:#F76260" placeholder="请输入爱情宣言" v-model="userDetailInfo.declaration" auto-height />
-					</view>
+						<textarea @blur="bindTextAreaBlur" style="font-size: 14px;line-height: 35px;" placeholder-style="color:#F76260"
+						 placeholder="请输入爱情宣言" v-model="userDetailInfo.declaration" auto-height />
+						</view>
 				</view>
 				<view class="uni-form-item uni-column">
 					<view class="form-lable">兴趣爱好：</view>
@@ -44,7 +45,17 @@
 				}
 			}
 		},
-		computed: {
+		onLoad(options) {
+			console.log(options);
+			let {
+				declaration,
+				hobby,
+				otherStandards
+			} = JSON.parse(options.info)
+			this.userDetailInfo = {
+				declaration:declaration?declaration:'',
+				hobby:hobby?hobby:''
+			}
 			
 		},
 		methods: {
@@ -110,7 +121,10 @@
 
 <style>
 	@import url("../../assets/common.css");
-
+	.uni-form-item{
+		height: auto;
+	}
+	
 	.img-wrapper {
 		height: 200px;
 	}
