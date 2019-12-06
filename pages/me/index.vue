@@ -38,11 +38,11 @@
 			</view>
 			<view class="header-wrapper">
 				<view class="header-item">
-					<uni-icons type="compose" size="30" @click="handleEditUserContact" color="#ff77aa"></uni-icons>
+					<uni-icons type="compose" size="30" @click="handleEditUserContact(matchmaker)" color="#ff77aa"></uni-icons>
 				</view>
 				<view class="header-item">姓名：{{matchmaker.name}}</view>
-				<view class="header-item">性别：{{matchmaker.gender}}</view>
-				<view class="header-item">年龄：{{matchmaker.age}}</view>
+				<view class="header-item">性别：{{matchmaker.gender == 2 ?"女":"男"}}</view>
+				<view class="header-item">年龄：{{matchmaker.age}}岁</view>
 				<view class="header-item">工作年限：{{matchmaker.workingLife}}年</view>
 			</view>
 		</view>
@@ -251,9 +251,9 @@
 				return this.userInfo.userAvatar ? this.userInfo.userAvatar : "/static/icon/defult_header.jpg"
 			},
 			// 编辑红娘信息
-			handleEditUserContact() {
+			handleEditUserContact(matchmaker) {
 				uni.navigateTo({
-					url: '/pages/me/editJokin',
+					url: '/pages/me/editJokin?matchmakerId=' + matchmaker.id,
 					animationType: 'pop-in',
 					animationDuration: 200
 				})

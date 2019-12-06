@@ -20,7 +20,11 @@
 						<radio-group class="form-radio-group" @change="handleRadioChange">
 							<label class="formRadio" v-for="(item, index) in sexList" :key="item.value">
 								<view>
+<<<<<<< HEAD
 									<radio :value="item.value" :checked="index === userDetailInfo.gender" />
+=======
+									<radio :value="item.value" :checked="index+1 === userDetailInfo.gender" />
+>>>>>>> 1697874dd0354a002fb5d03af3922ceed4bd8e23
 								</view>
 								<view>{{item.name}}</view>
 							</label>
@@ -111,9 +115,9 @@
 				userDetailInfo: {
 					name: '',
 					idCare: '',
-					gender: '',
+					gender: 0,
 					age: '',
-					date: '',
+					birthday: '',
 					height: '',
 					nation: '',
 					weight: '',
@@ -129,14 +133,27 @@
 				return this.getDate('end');
 			}
 		},
-		onLoad(options) {
-			console.log(options)
-			this.userDetailInfo = uni.getStorageSync("userInfo")
-			let {age,height,education,birthday} = this.userDetailInfo
-			this.yearsIndex = years.findIndex(item => item == age)
-			this.heightsIndex = heights.findIndex(item => item == height)
-			this.educationIndex = educations.findIndex(item => item == education)
-			this.date = birthday
+		onLoad(option) { 
+			console.log(JSON.parse(option.data))
+			let  {name,idCare,gender,birthday,age,height,nation,weight,education} = JSON.parse(option.data) 
+			this.userDetailInfo = {
+				name: name ? name:'',
+				idCare: idCare ? idCare:'',
+				gender: gender,
+				age: age,
+				birthday: birthday,
+				height: height,
+				nation: nation ? nation:'',
+				weight: weight ? weight : '',
+				education: education
+			}
+			let ageItme = age ? age : "请选择年龄";
+			this.yearsIndex = this.years.indexOf(ageItme)
+			let heightItem = height ? height : "请选择身高";
+			this.heightsIndex = this.heights.indexOf(heightItem)
+			let educationItem = education ? education :'请选择学历'
+			this.educationIndex = this.educations.indexOf(educationItem)
+			this.date = birthday ? birthday :new Date()
 		},
 		methods: {
 			formSubmit(e) {
@@ -165,7 +182,7 @@
 						errmsg: '请选择年龄'
 					},
 					{
-						name: 'date',
+						name: 'birthday',
 						required: true,
 						type: 'text',
 						errmsg: '请选择出生日期'
@@ -262,7 +279,7 @@
 			},
 			bindDateChange: function(e) {
 				this.date = e.target.value
-				this.userDetailInfo.date = this.date
+				this.userDetailInfo.birthday = this.date
 			},
 			// 选择单选框 - 性别
 			handleRadioChange(e) {

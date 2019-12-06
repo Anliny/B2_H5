@@ -114,7 +114,8 @@
 				// 跳转路由
 				uni.navigateTo({
 					url: 'addTrack',
-					animationDuration: 500
+					animationType: 'pop-in',
+					animationDuration: 200
 				});
 			},
 			// 删除动态

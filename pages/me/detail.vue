@@ -5,7 +5,7 @@
 				<view class="img">
 					<image :src="userAvatar" class="image" mode=""></image>
 				</view>
-				<view class="edit-btn" @click="handleEditUserHeader">
+				<view class="edit-btn" @click="handleEditUserHeader(userInfo)">
 					<image src="/static/icon/edit.png" class="image" mode=""></image>
 				</view>
 				<text class="base-name">{{userInfo.nickName}}</text>
@@ -23,7 +23,11 @@
 		<view class="card-warp card-shadow">
 			<view class="card-title">
 				<view class="">基本信息</view>
+<<<<<<< HEAD
 				<view class="card-edit" @click="handleEditUserInfo(userInfo.id)">
+=======
+				<view class="card-edit" @click="handleEditUserInfo(userInfo)">
+>>>>>>> 1697874dd0354a002fb5d03af3922ceed4bd8e23
 					<uni-icons type="compose" color="#ff77aa"></uni-icons>
 				</view>
 			</view>
@@ -53,6 +57,13 @@
 					年 龄：
 				</view>
 				<view class="card-item-text">{{userInfo.age}}</view>
+			</view>
+			<view class="card-item">
+				<view class="card-item-lable">
+					<uni-icons type="person" color="#ff77aa"></uni-icons>
+					出生日期：
+				</view>
+				<view class="card-item-text">{{userInfo.birthday}}</view>
 			</view>
 			<view class="card-item">
 				<view class="card-item-lable">
@@ -292,18 +303,38 @@
 			},
 			
 			// 编辑用户信息
+<<<<<<< HEAD
 			handleEditUserInfo(id){
 				console.log(id);
 				uni.navigateTo({
 					url: '/pages/me/editUserInfo?id='+id,
+=======
+			handleEditUserInfo(data){
+				console.log(data)
+				let info = {
+					name: data.name,
+					idCare: data.idCare,
+					gender: data.gender,
+					age: data.age,
+					birthday: data.birthday,
+					height: data.height,
+					nation: data.nation,
+					weight: data.weight,
+					education: data.education
+				}
+				uni.navigateTo({
+					url: '/pages/me/editUserInfo?data='+JSON.stringify(info),
+>>>>>>> 1697874dd0354a002fb5d03af3922ceed4bd8e23
 					animationType: 'pop-in',
 					animationDuration: 200
 				})
 			},
 			// 编辑头像和昵称
-			handleEditUserHeader(){
+			handleEditUserHeader(item){
+				console.log(item);
+				let {userAvatar,nickName} = item
 				uni.navigateTo({
-					url: '/pages/me/editUserHeader',
+					url: `/pages/me/editUserHeader?userAvatar=${userAvatar}&&nickName=${nickName}`,
 					animationType: 'pop-in',
 					animationDuration: 200
 				})
