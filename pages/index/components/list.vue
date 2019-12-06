@@ -62,6 +62,7 @@ text-align: right;">{{item.rawAddTime}}</text>
 			//  图片放大
 			previewImage: function(e) {
 				var current = e.target.dataset.src
+				let array = []
 				array = [...this.dynamicList.map(item => {
 					return JSON.parse(item.pictureUrl)
 				})]

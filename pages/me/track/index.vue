@@ -120,7 +120,6 @@
 			},
 			// 删除动态
 			removeDynamic(id){
-				console.log(id);
 				let data = {
 					id,deleted:true,
 				}
@@ -129,7 +128,6 @@
 					data: data,
 					method: 'post',
 					success: (res) => {
-						console.log(res);
 						try {
 							uni.showToast({
 								title:"删除成功",
