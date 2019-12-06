@@ -96,9 +96,6 @@
 		onLoad() {
 			uni.startPullDownRefresh();
 		},
-		onShow() {
-			console.log(uni.getStorageSync("token"))
-		},
 		onPullDownRefresh() {
 			// 获取用户列表
 			this.searchData.current = 0
@@ -122,7 +119,6 @@
 					data: this.searchData,
 					success: (res) => {
 						this.loading = false
-						console.log(res.data.data)
 						let {
 							current,
 							pages,
@@ -154,11 +150,9 @@
 				this.getVipList()
 			},
 			cancel(e) {
-				console.log(e);
 			},
 			// 获取用户详细信息
 			handelGetUserInfo(item) {
-				console.log(item)
 				// 判断是否登录
 				let token = uni.getStorageSync("token")
 				if (!token) {

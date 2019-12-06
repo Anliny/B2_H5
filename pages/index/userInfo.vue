@@ -3,7 +3,7 @@
 		<view class="base">
 			<view class="base-wrapper card-shadow">
 				<view class="img">
-					<image :src="userAvatar" class="image" mode=""></image>
+					<image :src="userAvatar" :data-src="userAvatar" @tap="previewImage"  class="image" mode=""></image>
 				</view>
 				<!-- <view class="edit-btn" @click="handleEditUserHeader">
 					<image src="/static/icon/edit.png" class="image" mode=""></image>
@@ -414,7 +414,15 @@
 					animationType: 'pop-in',
 					animationDuration: 200
 				})
-			}
+			},
+			//头像大图
+			 previewImage:function(e){
+				 var current = e.target.dataset.src
+				 uni.previewImage({
+				 	current: current,
+				 	urls: [current]
+				 })
+			 }
 		}
 	}
 </script>

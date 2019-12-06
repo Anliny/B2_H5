@@ -2,9 +2,12 @@
 	<view v-if="!isVip">
 		<view class="content">
 			<view class="base">
-				<view class="base-wrapper card-shadow" @click="handleShowDetail">
+				<view class="base-wrapper card-shadow" >
 					<view class="img">
-						<image :src="userAvatar()" class="image" mode=""></image>
+						<image :src="userAvatar()" :data-src="userAvatar()" @tap="previewImage" class="image" mode=""></image>
+					</view>
+					<view class="edit-btn" @click="handleShowDetail">
+						<image src="/static/icon/edit.png" class="image" mode=""></image>
 					</view>
 					<text class="base-name">{{userInfo.nickName ? userInfo.nickName : "去取一个昵称吧" }}</text>
 					<text class="base-id">ID：{{userInfo.memberId}}</text>
@@ -272,7 +275,15 @@
 					animationType: 'pop-in',
 					animationDuration: 200
 				})
-			}
+			},
+			//头像大图
+			 previewImage(e){
+				 var current = e.target.dataset.src
+				 uni.previewImage({
+				 	current: current,
+				 	urls: [current]
+				 })
+			 }
 
 		}
 	}
