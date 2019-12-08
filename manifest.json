@@ -72,7 +72,7 @@
             "port" : 8080,
             "disableHostCheck" : true,
             "proxy" : {
-                "/" : {
+                "^/apis" : {
                     "target" : "http://106.13.70.95:888",
                     "changeOrigin" : true,
                     "ws" : false,
@@ -80,6 +80,6 @@
                 }
             }
         },
-        "domain" : "www.davhoon.com"
+        "domain" : "http://zh5.ranyunlong.com"
     }
 }

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "用户注册",
+  "backgroundColor": "#F0AD4E",
+  "usingComponents": {
+    "xyz-tab": "/components/xyz-tab/xyz-tab"
+  }
+}

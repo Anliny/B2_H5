@@ -1,0 +1,67 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/index/userInfo",
+    "pages/activity/index",
+    "pages/me/index",
+    "pages/userInfo/index",
+    "pages/me/editUserInfo",
+    "pages/me/detail",
+    "pages/me/editUserHeader",
+    "pages/me/editJokin",
+    "pages/me/editUserContact",
+    "pages/me/condition/index",
+    "pages/me/condition/editUserCondition",
+    "pages/me/editUserInfomation",
+    "pages/me/editUserAssetStatus",
+    "pages/components/uploadAvatar/upload",
+    "pages/components/uploadAvatar/jokinAvatar",
+    "pages/me/track/index",
+    "pages/index/vipTrack",
+    "pages/me/photo/index",
+    "pages/me/photo/addPhoto",
+    "pages/me/vip/index",
+    "pages/me/editUserDescrable",
+    "pages/me/setings/index",
+    "pages/me/track/addTrack",
+    "pages/activity/addActivity",
+    "pages/login/index",
+    "pages/register/index"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "rgb(255,119,170)",
+    "backgroundColor": "rgb(255,119,170)"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/icon/tuijian.png",
+        "selectedIconPath": "static/icon/tuijian_active.png",
+        "text": "推荐"
+      },
+      {
+        "pagePath": "pages/activity/index",
+        "iconPath": "static/icon/dongtai.png",
+        "selectedIconPath": "static/icon/dongtai_active.png",
+        "text": "活动"
+      },
+      {
+        "pagePath": "pages/me/index",
+        "iconPath": "static/icon/me.png",
+        "selectedIconPath": "static/icon/me_active.png",
+        "text": "个人中心"
+      }
+    ]
+  },
+  "usingComponents": {
+    "nav-bar": "/components/zhouWei-navBar/index"
+  }
+}

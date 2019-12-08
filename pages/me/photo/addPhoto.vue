@@ -5,11 +5,7 @@
 				<!-- <view class="form-lable">正文：</view> -->
 				<view class="form-inpput" style="width: 100vw;">
 					<textarea style="padding: 8px;line-break: 35px;" @blur="handleGetCon" :value="dynamic.content" placeholder-style="color:#cccccc"
-<<<<<<< HEAD:pages/me/photo/addTrack.vue
 					 placeholder="说说这段相册的来历吧" />
-=======
-					 placeholder="请填写相册说明" />
->>>>>>> 1697874dd0354a002fb5d03af3922ceed4bd8e23:pages/me/photo/addPhoto.vue
 					</view>
 		    </view>
 			<view class="uni-form-item uni-column">

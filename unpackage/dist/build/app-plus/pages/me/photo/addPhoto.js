@@ -1,0 +1,2 @@
+setCssToHead([".",[1],"content{ padding: 8px; }\n.",[1],"form-lable{ width: 100%; }\n.",[1],"uni-form-item{ height: auto; }\n",],undefined,{path:"./pages/me/photo/addPhoto.wxss"})();
+document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/me/photo/addPhoto.wxml') } }));

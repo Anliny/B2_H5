@@ -8,7 +8,6 @@ const appRequest = {
                 } else {
                     obj.header = { "Authorization": userToken.token };
                 }
-                obj.url = obj.url;
                 uni.request(obj)
             }
             else{

@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "添加动态",
+  "navigationBarBackgroundColor": "rgb(255,119,55)",
+  "backgroundColor": "rgb(255,119,55)",
+  "animationType": "pop-in",
+  "animationDuration": 200,
+  "usingComponents": {
+    "an-upload-img": "/pages/me/track/components/an-uploadImg"
+  }
+}

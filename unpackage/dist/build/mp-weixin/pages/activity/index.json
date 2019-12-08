@@ -1,0 +1,14 @@
+{
+  "navigationBarTitleText": "交友活动1111",
+  "navigationBarBackgroundColor": "rgb(255,119,55)",
+  "backgroundColor": "rgb(255,119,55)",
+  "transparentTitle": "auto",
+  "navigatonStyle": "custom",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "onReachBottomDistance": 50,
+  "usingComponents": {
+    "uni-icons": "/components/uni-icons/uni-icons",
+    "uni-load-more": "/components/uni-load-more/uni-load-more"
+  }
+}

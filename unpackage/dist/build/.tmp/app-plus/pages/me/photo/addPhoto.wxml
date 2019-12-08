@@ -1,0 +1,5 @@
+<view class="content"><form data-event-opts="{{[['submit',[['formSubmit',['$event']]]],['reset',[['formReset',['$event']]]]]}}" bindsubmit="__e" bindreset="__e"><view class="uni-form-item uni-column"><view class="form-inpput" style="width:100vw;"><<<<<<< HEAD:pages/me/photo/addTrack.vue
+					 placeholder="说说这段相册的来历吧" />
+=======
+					 placeholder="请填写相册说明" />
+>>>>>>> 1697874dd0354a002fb5d03af3922ceed4bd8e23:pages/me/photo/addPhoto.vue</view></view><view class="uni-form-item uni-column"><an-upload-img class="vue-ref" vue-id="1" data-ref="uploadimg" bind:__l="__l"></an-upload-img></view><view class="uni-btn-v"><button type="primary" form-type="submit">发布</button></view></form></view>

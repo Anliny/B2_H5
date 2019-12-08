@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "编辑其他信息",
+  "animationType": "pop-in",
+  "animationDuration": 200,
+  "usingComponents": {
+    "lotus-address": "/components/Winglau14-lotusAddress/Winglau14-lotusAddress"
+  }
+}
