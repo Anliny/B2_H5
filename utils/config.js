@@ -2,6 +2,7 @@ const appRequest = {
     baseRequest(obj) {
         try {
             const userToken = uni.getStorageSync('token');
+			console.log(userToken)
             if (userToken) {
                 if (obj.header) {
                     obj.header["Authorization"] = userToken.token;
@@ -12,13 +13,17 @@ const appRequest = {
             }
             else{
                 uni.showToast({
-                	title:"用户信息不存在",
-					success() {
-						// uni.redirectTo({
-						// 	url:'/pages/login/index'
-						// })
-					}
+                	title:"用户信息不存在,请登录",
+					icon:"none"
                 })
+				setTimeout(()=>{
+					uni.redirectTo({
+						url:'/pages/login/index',
+						success() {
+							uni.hideToast()
+						}
+					})
+				},2000)
             }
         } catch (e) {
             uni.showToast({

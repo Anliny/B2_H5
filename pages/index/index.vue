@@ -113,7 +113,7 @@
 			// 获取用户列表
 			getVipList() {
 				this.searchData.current = this.searchData.current + 1
-				uni.request({
+				appRequest.baseRequest({
 					url: '/common/member/queryPage',
 					method: 'get',
 					data: this.searchData,

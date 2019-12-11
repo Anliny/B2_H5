@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/login/index",
     "pages/index/index",
     "pages/index/userInfo",
     "pages/activity/index",
@@ -25,7 +26,6 @@
     "pages/me/setings/index",
     "pages/me/track/addTrack",
     "pages/activity/addActivity",
-    "pages/login/index",
     "pages/register/index"
   ],
   "subPackages": [],
@@ -63,5 +63,6 @@
   },
   "usingComponents": {
     "nav-bar": "/components/zhouWei-navBar/index"
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }

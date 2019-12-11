@@ -1,13 +1,16 @@
 <template>
 	<view class="contanner">
 		<view class="content">
-				<view class="uni-form-item uni-column">
-					<view style="width: 40vw;" class="form-lable">信息是否公开：</view>
-					<switch style="width: 60vw;" @change="switch2Change" />
-				</view>
-				<view class="uni-btn-v">
-					<button type="warn" :plain="true" form-type="submit">注销账号</button>
-				</view>
+			<template>
+				<uni-list>
+					<uni-list-item title="动态设置" :show-extra-icon="true" @switchChange="handleTrackChange" :show-switch="true" :show-arrow="false" :extra-icon="{color: '#4cd964',size: '22',type: 'pengyouquan'}"></uni-list-item>
+					<uni-list-item title="个人信息设置" :show-extra-icon="true" @switchChange="handleUserChange" :show-switch="true" :show-arrow="false" :extra-icon="{color: '#4cd964',size: '22',type: 'gear-filled'}"></uni-list-item>
+				</uni-list>
+			</template>
+			<view></view>
+			<view class="loutBtn">
+				<button type="warn" @click="logout">退出登录</button>
+			</view>
 		</view>
 	</view>
 </template>
@@ -17,7 +20,13 @@
 		Vips
 	} from "@/utils/fromCheck.js"
 	import appRequest from "@/utils/config.js"
+	import uniList from "@/components/uni-list/uni-list"
+	import uniListItem from "@/components/uni-list-item/uni-list-item"
 	export default {
+		components: {
+			uniList,
+			uniListItem
+		},
 		data() {
 			return {
 				loading: false,
@@ -34,16 +43,46 @@
 
 		},
 		methods: {
-			switch2Change(e){
-				
+			switch2Change(e) {
+
 			},
-			
+			// 切换是否显示朋友圈
+			handleTrackChange(e){
+				console.log(e)
+			},
+			// 设置是否显示个人信息
+			handleUserChange(e){
+				console.log(e)
+			},
+			// 退出登录
+			logout() {
+				try {
+					uni.clearStorageSync();
+					uni.navigateTo({
+						url: '/pages/login/index',
+						animationType: 'pop-in',
+						animationDuration: 200
+					});
+				} catch (e) {
+					// error
+				}
+			}
+
 		}
 	}
 </script>
 
 <style>
 	@import url("../../../assets/common.css");
+
+	uni-page-body {
+		height: 100%;
+	}
+
+	.contanner {
+		height: 100%;
+		position: relative;
+	}
 
 	.img-wrapper {
 		height: 200px;
@@ -61,13 +100,16 @@
 		font-size: 16px;
 	}
 
-	.content {
-		padding: 20rpx;
-	}
-
 	.tips {
 		color: #8F8F94;
 		line-height: 35px;
 		font-size: 14px;
+	}
+
+	.loutBtn {
+		position: absolute;
+		bottom: 30px;
+		width: 100%;
+		padding: 0 80px;
 	}
 </style>

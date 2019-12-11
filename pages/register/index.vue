@@ -16,25 +16,25 @@
 					<view class="uni-form-item uni-column">
 						<view class="form-lable">手机号：</view>
 						<view class="form-inpput">
-							<input v-model="userInfo.phone" type="number" />
+							<input v-model="userInfo.phone" type="number" placeholder-class="placeholder" placeholder="请填写手机号" />
 						</view>
 					</view>
 					<view class="uni-form-item uni-column">
 						<view class="form-lable">推荐码：</view>
 						<view class="form-inpput">
-							<input v-model="userInfo.inviteCode" type="number" />
+							<input v-model="userInfo.inviteCode" type="text" placeholder-class="placeholder" placeholder="选填推荐码" />
 						</view>
 					</view>
 					<view class="uni-form-item uni-column">
 						<view class="form-lable">密码：</view>
 						<view class="form-inpput">
-							<input v-model="userInfo.password" type="number" />
+							<input v-model="userInfo.password" type="password" placeholder-class="placeholder" placeholder="请输入密码" />
 						</view>
 					</view>
 					<view class="uni-form-item uni-column">
 						<view class="form-lable">确认密码：</view>
 						<view class="form-inpput">
-							<input v-model="userInfo.confirmpassword" type="number" />
+							<input v-model="userInfo.confirmpassword" type="password" placeholder-class="placeholder" placeholder="请输入确认密码" />
 						</view>
 					</view>
 					<view class="uni-form-item uni-column">
@@ -228,7 +228,7 @@
 					return false
 				}
 				
-				let timeNumber = 5
+				let timeNumber = 60
 				let timeObj = setInterval(() => {
 					if (timeNumber == 0) {
 						clearInterval(timeObj)

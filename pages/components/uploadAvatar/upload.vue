@@ -77,6 +77,7 @@
 				// 上传服务器地址
 				this.weCropper.getCropperImage(avatar => {
 					if (avatar) {
+						console.log(avatar)
 						//  获取到裁剪后的图片
 						//  获取到裁剪后的图片
 

@@ -8,8 +8,9 @@ view {
 	box-sizing: border-box;
 	font-size: 14px;
 }
-.uni-button{
+uni-button{
 	font-size: 14px;
+	line-height: 2.3;
 }
 /* 表单样式 */
 .uni-form-item {
@@ -23,12 +24,12 @@ view {
 	width: 75vw;
 	line-height: 35px;
 	background-color: #fff;
-	font-size: 14px;
+	font-size: 13px;
 }
 
 .form-inpput .uni-input-input,
 .form-inpput .placeholder {
-	font-size: 14px;
+	font-size: 13px;
 }
 
 .form-inpput .form-radio-group {

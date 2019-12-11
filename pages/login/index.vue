@@ -75,12 +75,12 @@
 				if (valLoginRes.isOk) {
 					var formdata = this.userInfo
 					// 会员
-					if(!this.isTitleBar){
+					if (!this.isTitleBar) {
 						this.vipRequst(formdata)
-					}else{
+					} else {
 						this.jokRequst(formdata)
 					}
-					
+
 				} else {
 					uni.showToast({
 						icon: 'none',
@@ -91,112 +91,97 @@
 				}
 			},
 			// 会员登录
-			vipRequst(formdata){
+			vipRequst(formdata) {
 				uni.request({
-					url: '/common/login', 
+					url: '/common/login',
 					data: formdata,
 					method: 'POST',
 					success: (res) => {
 						this.loading = false
-						uni.setStorageSync('token', res.data.data)
-						uni.showToast({
-							title: `登录成功！`,
-							icon: 'success',
-							showCancel: false,
-							success: () => {
-								uni.setStorage({
-									key: 'token',
-									data: res.data.data,
-									success: function() {
-										console.log(uni.getStorageSync('token'))
-										appRequest.baseRequest({
-											url: '/member/queryById',
-											method: 'get',
-											success: (res) => {
-												// 用户状态存到缓存中去
-												try {
-													this.userInfo = res.data.data
-													console.log(res.data.data)
-													// uni.setStorageSync('userInfo', res.data.data)
-													uni.setStorage({
-														key: 'userInfo',
-														data: res.data.data,
-														success: function() {
-															uni.switchTab({
-																url: '/pages/index/index',
-																animationType: 'pop-in',
-																animationDuration: 200,
-																success() {
-																	uni.hideToast()
-																}
-															});
-														}
-													});
-				
-												} catch (e) {
-													//TODO handle the exception
-												}
-											}
-										})
-									}
-								});
+						try {
+							if (res.data.code == "-1") {
+								uni.showToast({
+									title: res.data.message,
+									icon: "none"
+								})
+							} else {
+								uni.setStorageSync('token', res.data.data)
+								uni.showToast({
+									title: `登录成功！`,
+									icon: 'success',
+									showCancel: false,
+									success: () => {
+										this.getUserInfo(true)
+									},
+								})
 							}
-						});
+						} catch (e) {
+							//TODO handle the exception
+						}
 					}
 				})
 			},
+
+			// 获取用户信息
+			getUserInfo(bool) {
+				appRequest.baseRequest({
+					url: bool ? '/member/queryById' :'/matchmaker/queryById',
+					method: 'get',
+					success: (res) => {
+						// 用户状态存到缓存中去
+						try {
+							this.userInfo = res.data.data
+							console.log(res.data.data)
+							// uni.setStorageSync('userInfo', res.data.data)
+							uni.setStorage({
+								key: 'userInfo',
+								data: res.data.data,
+								success: function() {
+									uni.switchTab({
+										url: '/pages/index/index',
+										animationType: 'pop-in',
+										animationDuration: 200,
+										success() {
+											uni.hideToast()
+										}
+									});
+								}
+							});
+						} catch (e) {
+							//TODO handle the exception
+						}
+					}
+				})
+			},
+
 			// 红娘登录
-			jokRequst(formdata){
+			jokRequst(formdata) {
 				uni.request({
-					url: '/common/login', 
+					url: '/common/login',
 					data: formdata,
 					method: 'POST',
 					success: (res) => {
 						this.loading = false
-						uni.setStorageSync('token', res.data.data)
-						uni.showToast({
-							title: `登录成功！`,
-							icon: 'success',
-							showCancel: false,
-							success: () => {
-								uni.setStorage({
-									key: 'token',
-									data: res.data.data,
-									success: function() {
-										console.log(uni.getStorageSync('token'))
-										appRequest.baseRequest({
-											url: '/matchmaker/queryById',
-											method: 'get',
-											success: (res) => {
-												// 用户状态存到缓存中去
-												try {
-													this.userInfo = res.data.data
-													console.log(res.data.data)
-													// uni.setStorageSync('userInfo', res.data.data)
-													uni.setStorage({
-														key: 'userInfo',
-														data: res.data.data,
-														success: function() {
-															uni.switchTab({
-																url: '/pages/index/index',
-																animationType: 'pop-in',
-																animationDuration: 200,
-																success() {
-																	uni.hideToast()
-																}
-															});
-														}
-													});
-				
-												} catch (e) {
-													//TODO handle the exception
-												}
-											}
-										})
-									}
-								});
+						try {
+							if (res.data.code == "-1") {
+								uni.showToast({
+									title: res.data.message,
+									icon: "none"
+								})
+							} else {
+								uni.setStorageSync('token', res.data.data)
+								uni.showToast({
+									title: `登录成功！`,
+									icon: 'success',
+									showCancel: false,
+									success: () => {
+										this.getUserInfo(false)
+									},
+								})
 							}
-						});
+						} catch (e) {
+							//TODO handle the exception
+						}
 					}
 				})
 			},
@@ -212,11 +197,12 @@
 
 <style>
 	@import url("../../assets/common.css");
+
 	.bar-wrapper {
 		display: flex;
 		justify-content: center;
 	}
-	
+
 	.bar-item {
 		line-height: 34px;
 		margin-left: 10px;
@@ -224,10 +210,11 @@
 		text-align: center;
 		padding: 0 20px;
 	}
-	
+
 	.bar-item-active {
 		border-bottom: 1px solid rgb(255, 119, 170);
 	}
+
 	.img-wrapper {
 		height: 200px;
 	}
