@@ -111,7 +111,6 @@
 			},
 			// 获取活动列表
 			getActivitys() {
-				console.log(12312312);
 				this.pageObj.current++
 				appRequest.baseRequest({
 					url: 'activity/queryPage',

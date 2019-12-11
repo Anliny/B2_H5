@@ -2,7 +2,6 @@ const appRequest = {
     baseRequest(obj) {
         try {
             const userToken = uni.getStorageSync('token');
-			console.log(userToken)
             if (userToken) {
                 if (obj.header) {
                     obj.header["Authorization"] = userToken.token;
@@ -17,7 +16,7 @@ const appRequest = {
 					icon:"none"
                 })
 				setTimeout(()=>{
-					uni.redirectTo({
+					uni.reLaunch({
 						url:'/pages/login/index',
 						success() {
 							uni.hideToast()

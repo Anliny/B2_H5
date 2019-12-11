@@ -11,8 +11,8 @@
 			<view class="shearch-wrapper">
 				<uni-search-bar placeholder="关键字查询" @input="input" @cancel="cancel" />
 			</view>
-			<view class="content-btn-wrapper" @click="handleBtnGroupVip()">
-				<view class="content-btn-item">
+			<!-- <view class="content-btn-wrapper" >
+				<view class="content-btn-item" @click="handleBtnGroupVip()">
 					<view class="content-btn-item-icons">
 						<image class="img" src="/static/icon/city.png"></image>
 					</view>
@@ -30,7 +30,11 @@
 					</view>
 					<text>会员动态</text>
 				</view>
-			</view>
+				<view class="content-btn-item">
+					
+				</view>
+			</view> -->
+			<btn-group :groupBtnData="groupBtnData" @emitBtnGroup="emitBtnGroup"></btn-group>
 
 			<!-- 会员列表 -->
 			<view class="list-wrapper">
@@ -59,6 +63,7 @@
 	import Skeleton from '@/components/J-skeleton/J-skeleton.vue'
 	import youScroll from '../components/you-scroll.vue'
 	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
+	import btnGroup from "./components/btnGroup.vue"
 	import appRequest from "@/utils/config.js"
 	export default {
 		components: {
@@ -67,10 +72,26 @@
 			uniIcons,
 			Skeleton,
 			youScroll,
-			uniLoadMore
+			uniLoadMore,
+			btnGroup
 		},
 		data() {
 			return {
+				groupBtnData:[
+					{
+						img:require('@/static/icon/city.png'),
+						url:'',
+						text:'同城会员'
+					},{
+						img:require('@/static/icon/redMather.png'),
+						url:'',
+						text:'红娘牵线'
+					},{
+						img:require('@/static/icon/activity.png'),
+						url:'/pages/index/vipTrack',
+						text:'会员动态'
+					}
+				],
 				loading: true,
 				loadMore: "more",
 				skeleton1: {
@@ -102,7 +123,7 @@
 			this.dataInfo = []
 			this.getVipList()
 			this.loading = true
-			
+
 		},
 		// 页面滚动到底部触发
 		onReachBottom() {
@@ -147,10 +168,11 @@
 				this.searchData.nickName = e.value
 				this.searchData.current = 0
 				this.dataInfo = []
-				this.getVipList()
+				setTimeout(() => {
+					this.getVipList()
+				}, 300)
 			},
-			cancel(e) {
-			},
+			cancel(e) {},
 			// 获取用户详细信息
 			handelGetUserInfo(item) {
 				// 判断是否登录
@@ -172,7 +194,7 @@
 					})
 				} else {
 					uni.navigateTo({
-						url: '/pages/index/userInfo?id='+item.id,
+						url: '/pages/index/userInfo?id=' + item.id,
 						animationType: 'pop-in',
 						animationDuration: 200
 					})
@@ -180,24 +202,22 @@
 
 
 			},
-
-			// 同城会员
-			handleBtnGroupVip() {},
-			// 红娘牵线
-			handleBtnGroupRedMather() {
-				uni.showToast({
-					icon: "none",
-					title: "此功能暂未开通,敬请期待"
-				})
-			},
-			// 会员动态
-			handleBtnGroupActive() {
-				uni.navigateTo({
-					url: '/pages/index/vipTrack',
-					animationType: 'pop-in',
-					animationDuration: 200
-				})
+			// 点击按钮组
+			emitBtnGroup(data){
+				if(data.url){
+					uni.navigateTo({
+						url: '/pages/index/vipTrack',
+						animationType: 'pop-in',
+						animationDuration: 200
+					})
+				}else{
+					uni.showToast({
+						icon: "none",
+						title: "此功能暂未开通,敬请期待"
+					})
+				}
 			}
+			
 		}
 	}
 </script>
@@ -219,35 +239,7 @@
 		margin-bottom: 50rpx;
 	}
 
-	.content-btn-wrapper {
-		width: 100%;
-		margin-bottom: 8px;
-		padding: 8px;
-		display: flex;
-		background-color: #fff;
-	}
-
-	.content-btn-item {
-		border: 1px solid rgb(255, 119, 170);
-		margin-right: 10px;
-		width: 20vw;
-		text-align: center;
-		font-size: 14px;
-		color: rgb(255, 119, 170);
-		border-radius: 5px;
-	}
-
-	.content-btn-item .content-btn-item-icons {
-		margin: auto;
-		height: 35px;
-		width: 35px;
-		color: #fff;
-	}
-
-	.content-btn-item .content-btn-item-icons image {
-		height: 100%;
-		width: 100%;
-	}
+	
 
 	.uni-card__content-extra {
 		color: #000;

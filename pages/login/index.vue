@@ -24,10 +24,13 @@
 				</view>
 				<view class="uni-btn-v">
 					<button type="primary" :loading="loading" form-type="submit">登录</button>
-					<view class="tips">还没有账号？
-						<router-link to="/pages/register/index">
-							现在注册
-						</router-link>
+					<view class="tips">
+						<navigator url="/pages/register/index" hover-class="navigator-hover">
+							没有账号？去注册
+						</navigator>
+						<navigator url="/pages/login/retrieveIndex" hover-class="navigator-hover">
+							忘记密码？去找回
+						</navigator>
 					</view>
 				</view>
 			</form>
@@ -125,7 +128,7 @@
 			// 获取用户信息
 			getUserInfo(bool) {
 				appRequest.baseRequest({
-					url: bool ? '/member/queryById' :'/matchmaker/queryById',
+					url: bool ? '/member/queryById' : '/matchmaker/queryById',
 					method: 'get',
 					success: (res) => {
 						// 用户状态存到缓存中去
@@ -230,6 +233,8 @@
 	}
 
 	.tips {
+		display: flex;
+		justify-content: space-between;
 		color: #8F8F94;
 		line-height: 35px;
 		font-size: 14px;

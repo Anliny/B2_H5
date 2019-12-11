@@ -16,6 +16,11 @@
 				"navigationBarTitleText": "用户登录"
 			}
 		}, {
+			"path": "pages/login/retrieveIndex",
+			"style": {
+				"navigationBarTitleText": "找回密码"
+			}
+		}, {
 			"path": "pages/index/userInfo",
 			"style": {
 				"navigationBarTitleText": "用户信息"

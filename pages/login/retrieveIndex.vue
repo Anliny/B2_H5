@@ -5,14 +5,11 @@
 		</view>
 		<!-- <xyz-tab :tabList="tabList"></xyz-tab> -->
 		<!-- 切换注册用户 -->
-		<view class="bar-wrapper">
-			<view class="bar-item" v-for="(item,index) in tabList" :key="index" :class="isTitleBar == index ? 'bar-item-active' : ''"
-			 @click="handleCheckLabel(index)">{{item.label}}</view>
-		</view>
+		
 		<view class="content">
 			<form @submit="formSubmit" @reset="formReset">
 				<!-- 会员注册 -->
-				<view v-if="!isTitleBar">
+				<view>
 					<view class="uni-form-item uni-column">
 						<view class="form-lable">手机号：</view>
 						<view class="form-inpput">
@@ -20,9 +17,10 @@
 						</view>
 					</view>
 					<view class="uni-form-item uni-column">
-						<view class="form-lable">推荐码：</view>
-						<view class="form-inpput">
-							<input v-model="userInfo.inviteCode" type="text" placeholder-class="placeholder" placeholder="选填推荐码" />
+						<view class="form-lable">验证码：</view>
+						<view class="form-inpput verification-wrapper">
+							<input class="verification-input" v-model="userInfo.sms" type="number" />
+							<button class="verification-btn" :disabled="btnDisable" @click="handleGetSms">{{btnText}}</button>
 						</view>
 					</view>
 					<view class="uni-form-item uni-column">
@@ -37,49 +35,15 @@
 							<input v-model="userInfo.confirmpassword" type="password" placeholder-class="placeholder" placeholder="请输入确认密码" />
 						</view>
 					</view>
-					<view class="uni-form-item uni-column">
-						<view class="form-lable">验证码：</view>
-						<view class="form-inpput verification-wrapper">
-							<input class="verification-input" v-model="userInfo.sms" type="number" />
-							<button class="verification-btn" :disabled="btnDisable" @click="handleGetSms">{{btnText}}</button>
-						</view>
-					</view>
+					
 				</view>
 
-				<!-- 红娘注册 -->
-				<view v-if="isTitleBar">
-					<view class="uni-form-item uni-column">
-						<view class="form-lable">手机号：</view>
-						<view class="form-inpput">
-							<input v-model="userInfo.phone" type="number" />
-						</view>
-					</view>
-					<view class="uni-form-item uni-column">
-						<view class="form-lable">密码：</view>
-						<view class="form-inpput">
-							<input v-model="userInfo.password" type="number" />
-						</view>
-					</view>
-					<view class="uni-form-item uni-column">
-						<view class="form-lable">确认密码：</view>
-						<view class="form-inpput">
-							<input v-model="userInfo.confirmpassword" type="number" />
-						</view>
-					</view>
-					<view class="uni-form-item uni-column">
-						<view class="form-lable">验证码：</view>
-						<view class="form-inpput verification-wrapper">
-							<input class="verification-input" v-model="userInfo.sms" type="number" />
-							<button class="verification-btn" :disabled="btnDisable" @click="handleGetSms">{{btnText}}</button>
-						</view>
-					</view>
-				</view>
 
 				<view class="uni-btn-v">
-					<button type="primary" :loading="loading" form-type="submit">注册</button>
+					<button type="primary" :loading="loading" form-type="submit">确定</button>
 					<view class="tips">
 						<navigator url="/pages/login/index" hover-class="navigator-hover">
-							没有账号？去登录
+						去登录
 						</navigator>
 					</view>
 				</view>
@@ -96,18 +60,12 @@
 		},
 		data() {
 			return {
-				tabList: [{
-					label: "会员注册"
-				}, {
-					label: "红娘注册"
-				}],
+				
 				btnDisable: false,
 				btnText: '获取验证码',
 				loading: false,
-				isTitleBar: 0,
 				userInfo: {
 					phone: '',
-					inviteCode: '', //邀请码
 					sms: '', //验证码
 					password: '',
 					confirmpassword: ''
@@ -176,39 +134,34 @@
 					return false
 				}
 				var formdata = this.userInfo
-				formdata.type = this.isTitleBar
+				console.log(formdata)
+				// uni.request({
+				// 	url: '/common/register', //仅为示例，并非真实接口地址。
+				// 	data: formdata,
+				// 	method: 'POST',
+				// 	success: (res) => {
+				// 		console.log(res.data);
+				// 		let userInfo = res.data.data
+				// 		try {
+				// 			uni.setStorageSync('userInfo', userInfo);
+				// 			this.loading = false
+				// 			uni.showToast({
+				// 				title: `注册成功！`,
+				// 				icon: 'success',
+				// 				showCancel: false,
+				// 			});
+				// 			setTimeout(() => {
+				// 				this.$router.push('/pages/login/index')
+				// 			}, 1200)
+				// 		} catch (e) {
+				// 			// error
+				// 		}
 
-				console.log(this.isTitleBar)
-				uni.request({
-					url: '/common/register', //仅为示例，并非真实接口地址。
-					data: formdata,
-					method: 'POST',
-					success: (res) => {
-						console.log(res.data);
-						let userInfo = res.data.data
-						try {
-							uni.setStorageSync('userInfo', userInfo);
-							this.loading = false
-							uni.showToast({
-								title: `注册成功！`,
-								icon: 'success',
-								showCancel: false,
-							});
-							setTimeout(() => {
-								this.$router.push('/pages/login/index')
-							}, 1200)
-						} catch (e) {
-							// error
-						}
-
-					}
-				});
+				// 	}
+				// });
 			},
 			formReset: (e) => {
 				console.log('清空数据')
-			},
-			handleCheckLabel(index) {
-				this.isTitleBar = index;
 			},
 			// 获取验证码
 			handleGetSms() {
@@ -240,6 +193,7 @@
 						this.btnDisable = true;
 					}
 				}, 1000)
+				
 				uni.request({
 					url: '/common/querySms', //仅为示例，并非真实接口地址。
 					data: {phone:this.userInfo.phone},
