@@ -13,10 +13,10 @@
 		</nav-bar>
 		<!-- #endif -->
 		<view class="backImg">
-			<image src="/static/header.jpeg" class="image" mode=""></image>
+			<image src="/static/active.jpeg" mode="aspectFill"></image>
 			<text class="name">{{userInfo.nickName}}</text>
 			<view class="header">
-				<image :src="userAvatar()" class="image" mode=""></image>
+				<image :src="userAvatar()" mode="aspectFill"></image>
 			</view>
 		</view>
 		<view class="desc text-two-line">

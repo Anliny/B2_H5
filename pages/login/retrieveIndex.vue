@@ -90,6 +90,7 @@
 		methods: {
 			formSubmit() {
 				this.loading = true
+				this.loading = false
 				let registerRules = [{
 						name: 'phone',
 						required: true,
@@ -134,7 +135,11 @@
 					return false
 				}
 				var formdata = this.userInfo
-				console.log(formdata)
+				uni.showToast({
+					title:"功能占未开通",
+					icon:"none"
+				})
+				
 				// uni.request({
 				// 	url: '/common/register', //仅为示例，并非真实接口地址。
 				// 	data: formdata,

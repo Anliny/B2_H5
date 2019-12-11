@@ -11,29 +11,7 @@
 			<view class="shearch-wrapper">
 				<uni-search-bar placeholder="关键字查询" @input="input" @cancel="cancel" />
 			</view>
-			<!-- <view class="content-btn-wrapper" >
-				<view class="content-btn-item" @click="handleBtnGroupVip()">
-					<view class="content-btn-item-icons">
-						<image class="img" src="/static/icon/city.png"></image>
-					</view>
-					<text>同城会员</text>
-				</view>
-				<view class="content-btn-item" @click="handleBtnGroupRedMather()">
-					<view class="content-btn-item-icons">
-						<image class="img" src="/static/icon/redMather.png"></image>
-					</view>
-					<text>红娘牵线</text>
-				</view>
-				<view class="content-btn-item" @click="handleBtnGroupActive()">
-					<view class="content-btn-item-icons">
-						<image class="img" src="/static/icon/activity.png"></image>
-					</view>
-					<text>会员动态</text>
-				</view>
-				<view class="content-btn-item">
-					
-				</view>
-			</view> -->
+			<!-- 首页列表 -->
 			<btn-group :groupBtnData="groupBtnData" @emitBtnGroup="emitBtnGroup"></btn-group>
 
 			<!-- 会员列表 -->

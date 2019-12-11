@@ -15,7 +15,7 @@
 		</nav-bar>
 		<!-- #endif -->
 		<view class="backImg">
-			<image src="/static/header.jpeg" class="image" mode=""></image>
+			<image src="/static/active.jpg" class="image" mode="aspectFill"></image>
 			<text class="name">{{userInfo.name }}</text>
 			<view class="header">
 				<image :src="userInfo.userAvatar ? userInfo.userAvatar :'/static/header.jpeg'" class="image" mode=""></image>
