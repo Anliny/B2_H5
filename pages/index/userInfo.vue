@@ -487,7 +487,7 @@
 		height: 30px;
 		line-height: 30px;
 		color: #fff;
-		font-size: 14px;
+		font-size: 12px;
 		text-align: center;
 		border-radius: 20px;
 		margin-left: 8px;
@@ -527,7 +527,7 @@
 	}
 
 	.card-warp .card-item-lable {
-		font-size: 14px;
+		font-size: 12px;
 		color: #a0a0a0;
 	}
 
@@ -536,7 +536,7 @@
 	}
 
 	.card-warp .card-item-text {
-		font-size: 14px;
+		font-size: 12px;
 	}
 
 	.code2 {

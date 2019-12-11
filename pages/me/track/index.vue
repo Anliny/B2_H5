@@ -16,7 +16,7 @@
 			<image src="/static/header.jpeg" class="image" mode=""></image>
 			<text class="name">{{userInfo.nickName}}</text>
 			<view class="header">
-				<image :src="userAvatar()" class="image" mode=""></image>
+				<image :src="userAvatar()" @click="handleGoUserInfo" class="image" mode=""></image>
 			</view>
 		</view>
 		<view class="desc text-two-line">
@@ -143,6 +143,15 @@
 						}
 					}
 				})
+			},
+			// 点击头像，
+			handleGoUserInfo(){
+				// 跳转路由
+				uni.switchTab({
+					url: '/pages/me/index',
+					animationType: 'pop-in',
+					animationDuration: 200
+				});
 			}
 		},
 	}

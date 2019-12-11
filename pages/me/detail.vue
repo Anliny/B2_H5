@@ -3,7 +3,7 @@
 		<view class="base">
 			<view class="base-wrapper card-shadow">
 				<view class="img">
-					<image :src="userAvatar" class="image" mode=""></image>
+					<image :src="userAvatar" :data-src="userAvatar" @tap="previewImage" class="image" mode=""></image>
 				</view>
 				<view class="edit-btn" @click="handleEditUserHeader(userInfo)">
 					<image src="/static/icon/edit.png" class="image" mode=""></image>
@@ -228,6 +228,7 @@
 	import uniList from "@/components/uni-list/uni-list"
 	import uniListItem from "@/components/uni-list-item/uni-list-item"
 	import uniIcons from "@/components/uni-icons/uni-icons"
+	import utils from "@/utils/utils.js"
 	export default {
 		components: {
 			uniList,
@@ -391,7 +392,11 @@
 					animationType: 'pop-in',
 					animationDuration: 200
 				})
-			}
+			},
+			//头像大图
+			 previewImage(e){
+				 utils.fullImage(e)
+			 }
 		}
 	}
 </script>
@@ -456,7 +461,7 @@
 		height: 30px;
 		line-height: 30px;
 		color: #fff;
-		font-size: 14px;
+		font-size: 12px;
 		text-align: center;
 		border-radius: 20px;
 		margin-left: 8px;
@@ -498,7 +503,7 @@
 	}
 
 	.card-warp .card-item-lable {
-		font-size: 14px;
+		font-size: 12px;
 		color: #a0a0a0;
 		flex: 0 0 95px;
 	}
@@ -508,7 +513,7 @@
 	}
 
 	.card-warp .card-item-text {
-		font-size: 14px;
+		font-size: 12px;
 	}
 
 	.code2 {

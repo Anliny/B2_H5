@@ -116,6 +116,7 @@
 	import uniListItem from "@/components/uni-list-item/uni-list-item"
 	import uniIcons from "@/components/uni-icons/uni-icons.vue"
 	import appRequest from "@/utils/config.js"
+	import utils from "@/utils/utils.js"
 	export default {
 		components: {
 			uniList,
@@ -278,11 +279,12 @@
 			},
 			//头像大图
 			 previewImage(e){
-				 var current = e.target.dataset.src
-				 uni.previewImage({
-				 	current: current,
-				 	urls: [current]
-				 })
+				 // var current = e.target.dataset.src
+				 // uni.previewImage({
+				 // 	current: current,
+				 // 	urls: [current]
+				 // })
+				 utils.fullImage(e)
 			 }
 
 		}
