@@ -134,8 +134,6 @@
 						// 用户状态存到缓存中去
 						try {
 							this.userInfo = res.data.data
-							console.log(res.data.data)
-							// uni.setStorageSync('userInfo', res.data.data)
 							uni.setStorage({
 								key: 'userInfo',
 								data: res.data.data,
