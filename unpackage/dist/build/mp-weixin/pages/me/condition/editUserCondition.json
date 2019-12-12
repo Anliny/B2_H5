@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "编辑征友条件",
-  "animationType": "pop-in",
-  "animationDuration": 200,
-  "usingComponents": {
-    "lotus-address": "/components/Winglau14-lotusAddress/Winglau14-lotusAddress"
-  }
-}

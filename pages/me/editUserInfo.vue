@@ -9,9 +9,9 @@
 					</view>
 				</view>
 				<view class="uni-form-item uni-column">
-					<view class="form-lable">省份证号</view>
+					<view class="form-lable">身份证号</view>
 					<view class="form-inpput">
-						<input v-model="userDetailInfo.idCare" type="text" placeholder-class="placeholder" placeholder="请填写身份证号" />
+						<input @blur="handleIdCard" v-model="userDetailInfo.idCare" type="text" placeholder-class="placeholder" placeholder="请填写身份证号" />
 					</view>
 				</view>
 				<view class="uni-form-item uni-column">
@@ -20,7 +20,7 @@
 						<radio-group class="form-radio-group" @change="handleRadioChange">
 							<label class="formRadio" v-for="(item, index) in sexList" :key="item.value">
 								<view>
-									<radio :value="item.value" :checked="index+1 === userDetailInfo.gender" />
+									<radio :value="item.value" disabled="true" :checked="index+1 === userDetailInfo.gender" />
 								</view>
 								<view>{{item.name}}</view>
 							</label>
@@ -31,17 +31,19 @@
 				<view class="uni-form-item uni-column">
 					<view class="form-lable">年龄</view>
 					<view class="form-inpput">
-						<picker class="picker" :range="years" @change="handleYearChange">
+						<!-- <picker class="picker" :range="years" @change="handleYearChange">
 							{{ years[yearsIndex] }}
-						</picker>
+						</picker> -->
+						<input  v-model="userDetailInfo.age" disabled="true" type="text" placeholder-class="placeholder" placeholder="请填写年龄" />
 					</view>
 				</view>
 				<view class="uni-form-item uni-column">
 					<view class="form-lable">出生日期</view>
 					<view class="form-inpput">
-						<picker class="picker" mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange">
+						<input  v-model="userDetailInfo.birthday" disabled="true" type="text" placeholder-class="placeholder" placeholder="请填写身份证号" />
+						<!-- <picker class="picker" mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange">
 							{{date}}
-						</picker>
+						</picker> -->
 					</view>
 				</view>
 				<view class="uni-form-item uni-column">
@@ -87,6 +89,7 @@
 		educations
 	} from "@/utils/fromCheck.js"
 	import appRequest from "@/utils/config.js"
+	import utils from "@/utils/utils.js"
 	export default {
 		data() {
 			const currentDate = this.getDate({
@@ -209,7 +212,10 @@
 					},
 				]
 				let valLoginRes = this.$validate.validate(this.userDetailInfo, loginRules)
-				console.log(this.userDetailInfo);
+				if(!utils.checkIdCard(this.userDetailInfo.idCare)){
+					return false
+				}
+				console.log(utils.getBirthday(this.userDetailInfo.idCare))
 				if (!valLoginRes.isOk) {
 					uni.showToast({
 						icon: 'none',
@@ -247,14 +253,31 @@
 			formReset: (e) => {
 				console.log('清空数据')
 			},
-
+			
+			// 身份证号码文本框失去焦点
+			handleIdCard(e){
+				let idCard = e.detail.value
+				if(!idCard) {
+					uni.showToast({
+						title: "请填写身份证号码",
+						icon: "none"
+					})
+					return false;
+				}
+				if(!utils.checkIdCard(idCard)){
+					return false
+				}
+				// 身份证号码获取生日
+				this.userDetailInfo.birthday = utils.getBirthday(idCard)
+				this.userDetailInfo.gender = utils.getSex(idCard)
+				this.userDetailInfo.age = utils.getAge(idCard)
+				console.log(utils.getAge(idCard))
+			},
 			// 城市
 			bindPickerChange(e) {
-				console.log('picker发送选择改变，携带值为', e.target.value)
 				this.index = e.target.value
 			},
 			handleYearChange: function(e) {
-				console.log(e)
 				this.yearsIndex = e.detail.value;
 				this.userDetailInfo.age = years[this.yearsIndex]
 			},

@@ -13,7 +13,7 @@
 		</nav-bar>
 		<!-- #endif -->
 		<view class="backImg">
-			<image src="/static/header.jpeg" class="image" mode=""></image>
+			<image src="/static/active.jpg" class="image" mode=""></image>
 			<text class="name">{{userInfo.nickName}}</text>
 			<view class="header">
 				<image :src="userAvatar()" class="image" mode=""></image>

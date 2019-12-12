@@ -13,7 +13,7 @@
 		</nav-bar>
 		<!-- #endif -->
 		<view class="backImg">
-			<image src="/static/active.jpg"  mode="aspectFill"></image>
+			<image src="/static/active.jpg" class="image"  mode="aspectFill"></image>
 			<text class="name">{{userInfo.nickName}}</text>
 			<view class="header">
 				<image :src="userAvatar()" @click="handleGoUserInfo" class="image" mode=""></image>

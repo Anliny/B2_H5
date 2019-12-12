@@ -51,8 +51,8 @@
 					label: "红娘登录"
 				}],
 				userInfo: {
-					userName: '',
-					password: ''
+					userName: '16602330054',
+					password: '123456'
 				},
 				token: ''
 			}

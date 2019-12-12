@@ -1,8 +1,0 @@
-{
-  "navigationBarTitleText": "查看征友条件",
-  "animationType": "pop-in",
-  "animationDuration": 200,
-  "usingComponents": {
-    "uni-icons": "/components/uni-icons/uni-icons"
-  }
-}

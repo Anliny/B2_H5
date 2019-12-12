@@ -94,6 +94,7 @@
 		},
 		onLoad() {
 			uni.startPullDownRefresh();
+			this.getVipList()
 		},
 		onPullDownRefresh() {
 			// 获取用户列表
@@ -111,6 +112,7 @@
 		methods: {
 			// 获取用户列表
 			getVipList() {
+				console.log(33333)
 				this.searchData.current = this.searchData.current + 1
 				appRequest.baseRequest({
 					url: '/common/member/queryPage',
