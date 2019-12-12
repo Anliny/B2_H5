@@ -56,16 +56,7 @@
 			},
 			// 退出登录
 			logout() {
-				try {
-					uni.clearStorageSync();
-					uni.navigateTo({
-						url: '/pages/login/index',
-						animationType: 'pop-in',
-						animationDuration: 200
-					});
-				} catch (e) {
-					// error
-				}
+				appRequest.logOut()
 			}
 
 		}
@@ -106,10 +97,5 @@
 		font-size: 14px;
 	}
 
-	.loutBtn {
-		position: absolute;
-		bottom: 30px;
-		width: 100%;
-		padding: 0 80px;
-	}
+	
 </style>

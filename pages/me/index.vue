@@ -106,6 +106,9 @@
 					{{matchmaker.motto}}
 				</view>
 			</view>
+			<view class="loutBtn">
+				<button type="warn" @click="logout">退出登录</button>
+			</view>
 		</view>
 	</view>
 
@@ -285,6 +288,10 @@
 				 // 	urls: [current]
 				 // })
 				 utils.fullImage(e)
+			 },
+			 // 红娘退出登录
+			 logout(){
+				 appRequest.logOut()
 			 }
 
 		}

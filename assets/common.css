@@ -8,10 +8,12 @@ view {
 	box-sizing: border-box;
 	font-size: 14px;
 }
-uni-button{
+
+uni-button {
 	font-size: 14px;
 	line-height: 2.3;
 }
+
 /* 表单样式 */
 .uni-form-item {
 	height: 35px;
@@ -59,12 +61,15 @@ uni-button{
 	padding: 0 3px;
 	border-radius: 3px;
 }
-.form-inpput uni-textarea{
+
+.form-inpput uni-textarea {
 	width: auto;
 }
-.form-inpput-textarea{
+
+.form-inpput-textarea {
 	height: 150px;
 }
+
 .verification-wrapper {
 	display: flex;
 }
@@ -108,20 +113,31 @@ uni-button{
 }
 
 /* 加载跟多 */
-.loadMore{
+.loadMore {
 	color: #cccccc;
 	line-height: 30px;
 }
-.rotate{
+
+.rotate {
 	animation: myMove 2s linear infinite;
 	margin-right: 8px;
 	/* transition: roall 2s linear; */
 }
-@keyframes myMove{
-	from{
+
+@keyframes myMove {
+	from {
 		transform: rotate(0deg)
 	}
-	to{
+
+	to {
 		transform: rotate(359deg)
 	}
+}
+
+
+.loutBtn {
+	position: absolute;
+	bottom: 30px;
+	width: 100%;
+	padding: 0 80px;
 }

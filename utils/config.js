@@ -29,6 +29,19 @@ const appRequest = {
             	title:"用户信息不存在"
             })
         } 
-    }
+    },
+	// 退出登录
+	logOut(){
+		try {
+			uni.clearStorageSync();
+			uni.navigateTo({
+				url: '/pages/login/index',
+				animationType: 'pop-in',
+				animationDuration: 200
+			});
+		} catch (e) {
+			// error
+		}
+	}
 }
 export default appRequest;

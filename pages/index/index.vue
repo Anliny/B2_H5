@@ -68,6 +68,10 @@
 						img:require('@/static/icon/activity.png'),
 						url:'/pages/index/vipTrack',
 						text:'会员动态'
+					},{
+						img:require('@/static/icon/Chat.png'),
+						url:'',
+						text:'加入群聊'
 					}
 				],
 				loading: true,
