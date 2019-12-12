@@ -60,6 +60,22 @@ const utils = {
 			}
 			return age
 		}
+	},
+	/**
+	 *  密码验证
+	 * 
+	 */
+	verifPassword(pwd){
+		let pwdRegex = new RegExp('^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$')
+		if(!pwdRegex.test(pwd)){
+			uni.showToast({
+				title:"密码复杂程度过低,密码包含:数字和字母,至少6个字符",
+				icon:"none"
+			})
+			return false
+		}else{
+			return true
+		}
 	}
 }
 export default utils

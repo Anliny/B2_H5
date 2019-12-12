@@ -28,7 +28,7 @@
 					<view class="uni-form-item uni-column">
 						<view class="form-lable">密码：</view>
 						<view class="form-inpput">
-							<input v-model="userInfo.password" type="password" placeholder-class="placeholder" placeholder="请输入密码" />
+							<input v-model="userInfo.password" @blur="handleRegPwd" type="password" placeholder-class="placeholder" placeholder="请输入密码" />
 						</view>
 					</view>
 					<view class="uni-form-item uni-column">
@@ -90,6 +90,7 @@
 
 <script>
 	import xyzTab from "@/components/xyz-tab/xyz-tab"
+	import utils from "@/utils/utils.js"
 	export default {
 		components: {
 			xyzTab
@@ -154,7 +155,10 @@
 						errmsg: '请输入验证码'
 					}
 				]
-
+				if(!utils.verifPassword(this.userInfo.password)){
+					this.loading = false
+					return false
+				}
 
 				let valRegisterRes = this.$validate.validate(this.userInfo, registerRules)
 				if (!valRegisterRes.isOk) {
@@ -209,6 +213,10 @@
 			},
 			handleCheckLabel(index) {
 				this.isTitleBar = index;
+			},
+			// 密码规则验证
+			handleRegPwd(e){
+				utils.verifPassword(e.detail.value)
 			},
 			// 获取验证码
 			handleGetSms() {
