@@ -5,6 +5,7 @@
 				<uni-list>
 					<uni-list-item title="动态设置" :show-extra-icon="true" @switchChange="handleTrackChange" :show-switch="true" :show-arrow="false" :extra-icon="{color: '#4cd964',size: '22',type: 'pengyouquan'}"></uni-list-item>
 					<uni-list-item title="个人信息设置" :show-extra-icon="true" @switchChange="handleUserChange" :show-switch="true" :show-arrow="false" :extra-icon="{color: '#4cd964',size: '22',type: 'gear-filled'}"></uni-list-item>
+					<uni-list-item title="修改密码" :show-extra-icon="true" :show-arrow="true" :extra-icon="{color: '#4cd964',size: '22',type: 'gear-filled'}"></uni-list-item>
 				</uni-list>
 			</template>
 			<view></view>

@@ -15,10 +15,10 @@
 		</nav-bar>
 		<!-- #endif -->
 		<view class="backImg">
-			<image src="/static/active.jpg" class="image" mode="aspectFill"></image>
-			<text class="name">{{userInfo.name }}</text>
+			<image src="/static/active.jpg" class="image"  mode="aspectFill"></image>
+			<text class="name">{{userInfo.nickName}}</text>
 			<view class="header">
-				<image :src="userInfo.userAvatar ? userInfo.userAvatar :'/static/header.jpeg'" class="image" mode=""></image>
+				<image :src="userInfo.userAvatar ? userInfo.userAvatar :'/static/header.jpeg'" class="image" ></image>
 			</view>
 		</view>
 
@@ -74,7 +74,7 @@
 		data() {
 			return {
 				token: uni.getStorageSync("token"),
-				userInfo:uni.getStorageSync("userInfo"),
+				userInfo: uni.getStorageSync("userInfo"),
 				activityList: [],
 				pageObj: {
 					current: 0
@@ -96,7 +96,7 @@
 		},
 		methods: {
 			// 添加数据成功  调用的方法
-			parmentOnLoad(){
+			parmentOnLoad() {
 				this.pageObj.current = 0
 				this.activityList = []
 				this.getActivitys()
@@ -153,7 +153,9 @@
 				this.activityList[index]['isPartake'] = 0
 				appRequest.baseRequest({
 					url: 'memberActivity/save',
-					data: {activityId:this.activityList[index].id},
+					data: {
+						activityId: this.activityList[index].id
+					},
 					method: 'post',
 					success: (res) => {
 						console.log(res)
@@ -166,8 +168,8 @@
 				appRequest.baseRequest({
 					url: 'memberActivity/save',
 					data: {
-						activityId:this.activityList[index].id,
-						deleted:false
+						activityId: this.activityList[index].id,
+						deleted: false
 					},
 					method: 'post',
 					success: (res) => {

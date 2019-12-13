@@ -14,6 +14,18 @@
 						<input v-model="userDetailInfo.wechatNumber" type="text" placeholder-class="placeholder" placeholder="请填写微信号" />
 					</view>
 				</view>
+				<view class="uni-form-item uni-column">
+					<view class="form-lable">QQ号：</view>
+					<view class="form-inpput">
+						<input v-model="userDetailInfo.qq" type="text" placeholder-class="placeholder" placeholder="请填写微信号" />
+					</view>
+				</view>
+				<view class="uni-form-item uni-column">
+					<view class="form-lable">E-mail：</view>
+					<view class="form-inpput">
+						<input v-model="userDetailInfo.email" type="text" placeholder-class="placeholder" placeholder="请填写微信号" />
+					</view>
+				</view>
 				<!-- <view class="uni-form-item uni-column">
 					<view class="form-lable">会员等级</view>
 					<view class="form-inpput">
@@ -33,6 +45,7 @@
 <script>
 	import {Vips} from "@/utils/fromCheck.js"
 	import appRequest from "@/utils/config.js"
+	import utils from "@/utils/utils.js"
 	export default {
 		data() {
 			return {
@@ -43,14 +56,18 @@
 				userDetailInfo: {
 					phone: '',
 					wechatNumber: '',
+					qq:'',
+					email:''
 				}
 			}
 		},
 		onLoad(options) {
-			let  {phone,wechatNumber} = JSON.parse(options.info)
+			let  {phone,wechatNumber,qq,email} = JSON.parse(options.info)
 			this.userDetailInfo = {
 				phone : phone ? phone :'',
-				wechatNumber:wechatNumber ? wechatNumber :''
+				wechatNumber:wechatNumber ? wechatNumber :'',
+				qq:qq?qq:'',
+				email:email?email:''
 			}
 		},
 		methods: {
@@ -66,9 +83,24 @@
 						required: true,
 						type: 'text',
 						errmsg: '请输入微信号'
+					},
+					{
+						name: 'qq',
+						required: true,
+						type: 'text',
+						errmsg: '请输入QQ号码'
+					},
+					{
+						name: 'email',
+						required: true,
+						type: 'text',
+						errmsg: '请输入邮箱'
 					}
 				]
 				let valLoginRes = this.$validate.validate(this.userDetailInfo, loginRules)
+				if(!utils.verifEmail(this.userDetailInfo.email)){
+					return false
+				}
 				if (!valLoginRes.isOk) {
 					uni.showToast({
 						icon: 'none',
@@ -77,6 +109,7 @@
 					return false
 				}
 				this.userDetailInfo.id = uni.getStorageSync('userInfo').id
+				
 				appRequest.baseRequest({
 					url: 'member/save',
 					data:this.userDetailInfo,

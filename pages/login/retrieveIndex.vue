@@ -5,7 +5,7 @@
 		</view>
 		<!-- <xyz-tab :tabList="tabList"></xyz-tab> -->
 		<!-- 切换注册用户 -->
-		
+
 		<view class="content">
 			<form @submit="formSubmit" @reset="formReset">
 				<!-- 会员注册 -->
@@ -13,7 +13,7 @@
 					<view class="uni-form-item uni-column">
 						<view class="form-lable">手机号：</view>
 						<view class="form-inpput">
-							<input v-model="userInfo.phone" type="number" placeholder-class="placeholder" placeholder="请填写手机号" />
+							<input v-model="userInfo.userName" type="number" placeholder-class="placeholder" placeholder="请填写手机号" />
 						</view>
 					</view>
 					<view class="uni-form-item uni-column">
@@ -35,7 +35,7 @@
 							<input v-model="userInfo.confirmpassword" type="password" placeholder-class="placeholder" placeholder="请输入确认密码" />
 						</view>
 					</view>
-					
+
 				</view>
 
 
@@ -43,7 +43,7 @@
 					<button type="primary" :loading="loading" form-type="submit">确定</button>
 					<view class="tips">
 						<navigator url="/pages/login/index" hover-class="navigator-hover">
-						去登录
+							去登录
 						</navigator>
 					</view>
 				</view>
@@ -54,18 +54,19 @@
 
 <script>
 	import xyzTab from "@/components/xyz-tab/xyz-tab"
+	import utils from "@/utils/utils.js"
 	export default {
 		components: {
 			xyzTab
 		},
 		data() {
 			return {
-				
+
 				btnDisable: false,
 				btnText: '获取验证码',
 				loading: false,
 				userInfo: {
-					phone: '',
+					userName: '',
 					sms: '', //验证码
 					password: '',
 					confirmpassword: ''
@@ -92,7 +93,7 @@
 				this.loading = true
 				this.loading = false
 				let registerRules = [{
-						name: 'phone',
+						name: 'userName',
 						required: true,
 						type: 'text',
 						errmsg: '请输入账号'
@@ -114,6 +115,10 @@
 					}
 				]
 
+				if (!utils.verifPassword(this.userInfo.password)) {
+					this.loading = false
+					return false
+				}
 
 				let valRegisterRes = this.$validate.validate(this.userInfo, registerRules)
 				if (!valRegisterRes.isOk) {
@@ -136,34 +141,42 @@
 				}
 				var formdata = this.userInfo
 				uni.showToast({
-					title:"功能占未开通",
-					icon:"none"
+					title: "功能占未开通",
+					icon: "none"
 				})
-				
-				// uni.request({
-				// 	url: '/common/register', //仅为示例，并非真实接口地址。
-				// 	data: formdata,
-				// 	method: 'POST',
-				// 	success: (res) => {
-				// 		console.log(res.data);
-				// 		let userInfo = res.data.data
-				// 		try {
-				// 			uni.setStorageSync('userInfo', userInfo);
-				// 			this.loading = false
-				// 			uni.showToast({
-				// 				title: `注册成功！`,
-				// 				icon: 'success',
-				// 				showCancel: false,
-				// 			});
-				// 			setTimeout(() => {
-				// 				this.$router.push('/pages/login/index')
-				// 			}, 1200)
-				// 		} catch (e) {
-				// 			// error
-				// 		}
 
-				// 	}
-				// });
+				uni.request({
+					url: 'common/updatePassword', //仅为示例，并非真实接口地址。
+					data: formdata,
+					method: 'POST',
+					success: (res) => {
+						let userInfo = res.data.data
+						this.loading = false
+						try {
+							if (userInfo.code == -1) {
+								uni.showToast({
+									title: userInfo.message,
+									icon: "none"
+								});
+							} else {
+								uni.showToast({
+									title: `密码修改成功！`,
+									icon: 'success',
+									showCancel: false,
+								});
+								setTimeout(() => {
+									uni.navigateTo({
+										url: '/pages/login/index'
+									})
+								}, 1200)
+							}
+
+						} catch (e) {
+							// error
+						}
+
+					}
+				});
 			},
 			formReset: (e) => {
 				console.log('清空数据')
@@ -171,12 +184,11 @@
 			// 获取验证码
 			handleGetSms() {
 				let registerRules = [{
-						name: 'phone',
-						required: true,
-						type: 'text',
-						errmsg: '请输入电话号码'
-					}
-				]
+					name: 'userName',
+					required: true,
+					type: 'text',
+					errmsg: '请输入电话号码'
+				}]
 				let valRegisterRes = this.$validate.validate(this.userInfo, registerRules)
 				if (!valRegisterRes.isOk) {
 					uni.showToast({
@@ -185,7 +197,7 @@
 					})
 					return false
 				}
-				
+
 				let timeNumber = 60
 				let timeObj = setInterval(() => {
 					if (timeNumber == 0) {
@@ -198,17 +210,19 @@
 						this.btnDisable = true;
 					}
 				}, 1000)
-				
+
 				uni.request({
 					url: '/common/querySms', //仅为示例，并非真实接口地址。
-					data: {phone:this.userInfo.phone},
+					data: {
+						phone: this.userInfo.userName
+					},
 					method: 'get',
 					success: (res) => {
 						uni.showToast({
 							title: `短信已发送，请注意查收！`,
 							icon: 'success',
 							showCancel: false,
-							success:() => {
+							success: () => {
 								// console.log(this.userInfo)
 								// this.userInfo.sms = res.data.data
 								uni.hideToast()

@@ -3,13 +3,14 @@
 		<view class="list-content" v-for="(item,index) in dynamicList" :key="index">
 			<view class="list-header">
 				<view class="img-wrapper header">
-					<image src="/static/header.jpeg" class="image" mode=""></image>
+					<image :src="item.userAvatar" class="image" mode=""></image>
 				</view>
-				<text class="name">张三</text>
-				<text class="list-dateTime time" style="flex: 1;
-text-align: right;">{{item.rawAddTime}}</text>
+				<view class="">
+					<text class="name">{{item.nickName}}</text><br />
+					<text class="list-dateTime time">{{item.rawAddTime}}</text>
+				</view>
 			</view>
-			<text class="list-dateTime">{{item.content}}</text>
+			<text class="list-dateTime content">{{item.content}}</text>
 			<view class="list-image-wrapper">
 				<view class="list-image-item" v-for="(imageItem,i) in pictureUrl(item.pictureUrl)" :key="i">
 					<image :src="imageItem" :data-src="imageItem" @tap="previewImage" class="image" mode=""></image>
@@ -42,7 +43,13 @@ text-align: right;">{{item.rawAddTime}}</text>
 		methods: {
 			// 序列化
 			pictureUrl(url) {
-				return JSON.parse(url)
+
+				if (url.indexOf('[') == '-1') {
+					return url
+				} else {
+
+					return JSON.parse(url)
+				}
 			},
 			// 删除动态
 			handleMoveDynamic(data) {
@@ -85,6 +92,7 @@ text-align: right;">{{item.rawAddTime}}</text>
 
 	.list-header {
 		display: flex;
+		margin-bottom: 8px;
 		/* justify-content: space-between; */
 	}
 
@@ -98,7 +106,6 @@ text-align: right;">{{item.rawAddTime}}</text>
 	.list-header .name {
 		font-size: 16px;
 		font-weight: bold;
-		line-height: 40px;
 	}
 
 	.list-header .time {
@@ -114,6 +121,11 @@ text-align: right;">{{item.rawAddTime}}</text>
 	.list-dateTime {
 		color: #353535;
 		font-size: 16px;
+	}
+
+	.content {
+		margin-top: 8px;
+		font-size: 14px;
 	}
 
 	.list-image-wrapper {

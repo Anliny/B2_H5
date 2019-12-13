@@ -112,6 +112,20 @@
 				</view>
 				<view class="card-item-text">{{userInfo.wechatNumber}}</view>
 			</view>
+			<view class="card-item">
+				<view class="card-item-lable">
+					<uni-icons type="person" color="#ff77aa"></uni-icons>
+					qq号：
+				</view>
+				<view class="card-item-text">{{userInfo.qq}}</view>
+			</view>
+			<view class="card-item">
+				<view class="card-item-lable">
+					<uni-icons type="person" color="#ff77aa"></uni-icons>
+					email：
+				</view>
+				<view class="card-item-text">{{userInfo.email}}</view>
+			</view>
 			<view class="tips">仅银卡会员可查看</view>
 		</view>
 
@@ -344,7 +358,9 @@
 			handleEditUserContact(data) {
 				let info = {
 					phone: data.phone,
-					wechatNumber: data.wechatNumber
+					wechatNumber: data.wechatNumber,
+					qq:data.qq,
+					email:data.email
 				}
 				uni.navigateTo({
 					url: '/pages/me/editUserContact?info=' + JSON.stringify(info),

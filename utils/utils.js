@@ -76,6 +76,21 @@ const utils = {
 		}else{
 			return true
 		}
+	},
+	/**
+	 *  邮箱验证
+	 */
+	verifEmail(email){
+		let emailReg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+		if(!emailReg.test(email)){
+			uni.showToast({
+				title:"邮箱格式错误",
+				icon:"none"
+			})
+			return false
+		}else{
+			return true
+		}
 	}
 }
 export default utils

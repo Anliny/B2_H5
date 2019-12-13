@@ -28,7 +28,8 @@
 					<view class="uni-form-item uni-column">
 						<view class="form-lable">密码：</view>
 						<view class="form-inpput">
-							<input v-model="userInfo.password" @blur="handleRegPwd" type="password" placeholder-class="placeholder" placeholder="请输入密码" />
+							<input v-model="userInfo.password" @blur="handleRegPwd" type="password" placeholder-class="placeholder"
+							 placeholder="请输入密码" />
 						</view>
 					</view>
 					<view class="uni-form-item uni-column">
@@ -107,11 +108,11 @@
 				loading: false,
 				isTitleBar: 0,
 				userInfo: {
-					phone: '',
+					phone: '16602330054',
 					inviteCode: '', //邀请码
 					sms: '', //验证码
-					password: '',
-					confirmpassword: ''
+					password: '123456zdf',
+					confirmpassword: '123456zdf'
 				}
 			}
 		},
@@ -155,7 +156,7 @@
 						errmsg: '请输入验证码'
 					}
 				]
-				if(!utils.verifPassword(this.userInfo.password)){
+				if (!utils.verifPassword(this.userInfo.password)) {
 					this.loading = false
 					return false
 				}
@@ -181,26 +182,34 @@
 				}
 				var formdata = this.userInfo
 				formdata.type = this.isTitleBar
-
-				console.log(this.isTitleBar)
 				uni.request({
 					url: '/common/register', //仅为示例，并非真实接口地址。
 					data: formdata,
 					method: 'POST',
 					success: (res) => {
-						console.log(res.data);
-						let userInfo = res.data.data
+						this.loading = false
+						let userInfo = res.data
+						console.log(userInfo);
 						try {
-							uni.setStorageSync('userInfo', userInfo);
-							this.loading = false
-							uni.showToast({
-								title: `注册成功！`,
-								icon: 'success',
-								showCancel: false,
-							});
-							setTimeout(() => {
-								this.$router.push('/pages/login/index')
-							}, 1200)
+							if (userInfo.code == "-1") {
+								uni.showToast({
+									title: userInfo.message,
+									icon:"none"
+								});
+							} else {
+								uni.setStorageSync('userInfo', userInfo);
+								uni.showToast({
+									title: `注册成功！`,
+									icon: 'success',
+									showCancel: false,
+								});
+								setTimeout(() => {
+									uni.navigateTo({
+										url: '/pages/login/index'
+									})
+								}, 1200)
+							}
+
 						} catch (e) {
 							// error
 						}
@@ -215,18 +224,17 @@
 				this.isTitleBar = index;
 			},
 			// 密码规则验证
-			handleRegPwd(e){
+			handleRegPwd(e) {
 				utils.verifPassword(e.detail.value)
 			},
 			// 获取验证码
 			handleGetSms() {
 				let registerRules = [{
-						name: 'phone',
-						required: true,
-						type: 'text',
-						errmsg: '请输入电话号码'
-					}
-				]
+					name: 'phone',
+					required: true,
+					type: 'text',
+					errmsg: '请输入电话号码'
+				}]
 				let valRegisterRes = this.$validate.validate(this.userInfo, registerRules)
 				if (!valRegisterRes.isOk) {
 					uni.showToast({
@@ -235,7 +243,7 @@
 					})
 					return false
 				}
-				
+
 				let timeNumber = 60
 				let timeObj = setInterval(() => {
 					if (timeNumber == 0) {
@@ -250,14 +258,16 @@
 				}, 1000)
 				uni.request({
 					url: '/common/querySms', //仅为示例，并非真实接口地址。
-					data: {phone:this.userInfo.phone},
+					data: {
+						phone: this.userInfo.phone
+					},
 					method: 'get',
 					success: (res) => {
 						uni.showToast({
 							title: `短信已发送，请注意查收！`,
 							icon: 'success',
 							showCancel: false,
-							success:() => {
+							success: () => {
 								// console.log(this.userInfo)
 								// this.userInfo.sms = res.data.data
 								uni.hideToast()
