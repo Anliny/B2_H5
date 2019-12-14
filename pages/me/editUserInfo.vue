@@ -134,7 +134,7 @@
 		},
 		onLoad(option) { 
 			
-			let  {name,idCare,gender,birthday,age,height,nation,weight,education} = JSON.parse(option.data) 
+			let  {name,idCare,gender,birthday,age,height,nation,weight,education,nickName} = JSON.parse(option.info) 
 			this.userDetailInfo = {
 				name: name ? name:'',
 				idCare: idCare ? idCare:'',
@@ -144,7 +144,8 @@
 				height: height,
 				nation: nation ? nation:'',
 				weight: weight ? weight : '',
-				education: education
+				education: education,
+				nickName:nickName ? nickName :''
 			}
 			let ageItme = age ? age : "请选择年龄";
 			this.yearsIndex = this.years.indexOf(ageItme)
@@ -155,6 +156,21 @@
 			this.date = birthday ? birthday :new Date()
 		},
 		methods: {
+			upload() {
+				uni.chooseImage({
+					count: 1, // 默认9
+					sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
+					sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+					success(res) {
+						const src = res.tempFilePaths[0];
+						uni.navigateTo({
+							url: '/pages/components/uploadAvatar/upload?src=' + src
+						});
+					}
+				});
+			},
+			
+			
 			formSubmit(e) {
 				let loginRules = [{
 						name: 'name',
@@ -321,7 +337,6 @@
 
 <style>
 	@import url("../../assets/common.css");
-
 	.img-wrapper {
 		height: 200px;
 	}

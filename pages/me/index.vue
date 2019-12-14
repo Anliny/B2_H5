@@ -2,7 +2,7 @@
 	<view v-if="!isVip">
 		<view class="content">
 			<view class="base">
-				<view class="base-wrapper card-shadow" >
+				<view class="base-wrapper card-shadow">
 					<view class="img">
 						<image :src="userAvatar()" :data-src="userAvatar()" @tap="previewImage" class="image" mode=""></image>
 					</view>
@@ -18,14 +18,17 @@
 					</view>
 				</view>
 			</view>
+			<btn-group :groupBtnData="groupBtnData" @emitBtnGroup="emitBtnGroup"></btn-group>
+			<!-- <btn-group :groupBtnData="groupBtnData" @emitBtnGroup="emitBtnGroup"></btn-group> -->
+
 			<template>
 				<uni-list>
 					<uni-list-item title="我的动态" :show-extra-icon="true" @click="handleGoTrack" :extra-icon="{color: '#4cd964',size: '22',type: 'pengyouquan'}">
 					</uni-list-item>
 					<uni-list-item title="我的相册" :show-extra-icon="true" @click="handleGoPhone" :extra-icon="{color: '#4cd964',size: '22',type: 'image'}">
 					</uni-list-item>
-					<uni-list-item title="征友条件" :show-extra-icon="true" @click="handleGoCondition" :extra-icon="{color: '#4cd964',size: '22',type: 'compose'}">
-					</uni-list-item>
+					<!-- <uni-list-item title="征友条件" :show-extra-icon="true" @click="handleGoCondition" :extra-icon="{color: '#4cd964',size: '22',type: 'compose'}">
+					</uni-list-item> -->
 					<uni-list-item title="会员中心" :show-extra-icon="true" @click="handleGoVip" :extra-icon="{color: '#4cd964',size: '22',type: 'contact-filled'}">
 					</uni-list-item>
 					<uni-list-item title="设置" :show-extra-icon="true" @click="handleGoSeting" :extra-icon="{color: '#4cd964',size: '22',type: 'gear'}">
@@ -120,17 +123,52 @@
 	import uniIcons from "@/components/uni-icons/uni-icons.vue"
 	import appRequest from "@/utils/config.js"
 	import utils from "@/utils/utils.js"
+	import btnGroup from "@/components/btnGroup.vue"
 	export default {
 		components: {
 			uniList,
 			uniListItem,
-			uniIcons
+			uniIcons,
+			btnGroup
 		},
 		data() {
 			return {
 				userInfo: {},
-				matchmaker:{},
+				matchmaker: {},
 				isVip: 0,
+				groupBtnData: [{
+					img: require('@/static/icon/btnGroup1.png'),
+					url: '/pages/me/editUserHeader',
+					text: '头像编辑'
+				}, {
+					img: require('@/static/icon/btnGroup2.png'),
+					url: '/pages/me/editUserInfo',
+					text: '基本资料'
+				}, {
+					img: require('@/static/icon/btnGroup3.png'),
+					url: '/pages/me/editUserContact',
+					text: '联系方式'
+				}, {
+					img: require('@/static/icon/btnGroup4.png'),
+					url: '/pages/me/editUserInfomation',
+					text: '其他信息'
+				}, {
+					img: require('@/static/icon/btnGroup5.png'),
+					url: '/pages/me/editUserAssetStatus',
+					text: '资产状况'
+				}, {
+					img: require('@/static/icon/btnGroup6.png'),
+					url: '/pages/me/editUserDescrable',
+					text: '自我介绍'
+				}, {
+					img: require('@/static/icon/btnGroup7.png'),
+					url: '/pages/me/condition/editUserCondition',
+					text: '征友条件'
+				}, {
+					img: require('@/static/icon/btnGroup8.png'),
+					url: '',
+					text: '私密显示设置'
+				}]
 			}
 		},
 		onShow() {
@@ -161,19 +199,27 @@
 					return '-'
 				}
 			},
-			nativePlace(){
-				if(this.matchmaker.nativePlace){
-					let {province,city,town} = JSON.parse(this.matchmaker.nativePlace)
+			nativePlace() {
+				if (this.matchmaker.nativePlace) {
+					let {
+						province,
+						city,
+						town
+					} = JSON.parse(this.matchmaker.nativePlace)
 					return `${province}${city}${town}`
-				}else{
+				} else {
 					return '-'
 				}
 			},
-			workingAddress(){
-				if(this.matchmaker.workingAddress){
-					let {province,city,town} = JSON.parse(this.matchmaker.workingAddress)
+			workingAddress() {
+				if (this.matchmaker.workingAddress) {
+					let {
+						province,
+						city,
+						town
+					} = JSON.parse(this.matchmaker.workingAddress)
 					return `${province}${city}${town}`
-				}else{
+				} else {
 					return '-'
 				}
 			}
@@ -266,14 +312,14 @@
 				})
 			},
 			// 我的钱包   &&  牵线统计
-			handleNobtn(){
+			handleNobtn() {
 				uni.showToast({
-					title:"暂未开通，敬请期待！",
-					icon:"none"
+					title: "暂未开通，敬请期待！",
+					icon: "none"
 				})
 			},
 			// 我的相册
-			handleGoPhone(){
+			handleGoPhone() {
 				uni.navigateTo({
 					url: '/pages/me/photo/index',
 					animationType: 'pop-in',
@@ -281,18 +327,91 @@
 				})
 			},
 			//头像大图
-			 previewImage(e){
-				 // var current = e.target.dataset.src
-				 // uni.previewImage({
-				 // 	current: current,
-				 // 	urls: [current]
-				 // })
-				 utils.fullImage(e)
-			 },
-			 // 红娘退出登录
-			 logout(){
-				 appRequest.logOut()
-			 }
+			previewImage(e) {
+				// var current = e.target.dataset.src
+				// uni.previewImage({
+				// 	current: current,
+				// 	urls: [current]
+				// })
+				utils.fullImage(e)
+			},
+			// 红娘退出登录
+			logout() {
+				appRequest.logOut()
+			},
+			//  按钮组点击跳转
+			emitBtnGroup(data) {
+				console.log(data)
+				let info = {}
+				if (data.index == 0) {
+					info = {
+						userAvatar: this.userInfo.userAvatar,
+						nickName: this.userInfo.nickName
+					}
+				}
+				if (data.index == 1) {
+					info = {
+						name: this.userInfo.name,
+						idCare: this.userInfo.idCare,
+						gender: this.userInfo.gender,
+						age: this.userInfo.age,
+						birthday: this.userInfo.birthday,
+						height: this.userInfo.height,
+						nation: this.userInfo.nation,
+						weight: this.userInfo.weight,
+						education: this.userInfo.education,
+						nickName: this.userInfo.nickName
+					}
+				}
+				if (data.index == 2) {
+					info = {
+						phone: this.userInfo.phone,
+						wechatNumber: this.userInfo.wechatNumber,
+						qq: this.userInfo.qq,
+						email: this.userInfo.email
+					}
+				}
+				if (data.index == 3) {
+					info = {
+						position: this.userInfo.position,
+						nativePlace: this.userInfo.nativePlace,
+						currentAddress: this.userInfo.currentAddress,
+						industry: this.userInfo.industry,
+						isMarry: this.userInfo.isMarry
+					}
+				}
+				if (data.index == 4) {
+					info = {
+						income: this.userInfo.income,
+						housing: this.userInfo.housing,
+						vehicle: this.userInfo.vehicle
+					}
+				}
+				if (data.index == 5) {
+					info = {
+						declaration: this.userInfo.declaration,
+						hobby: this.userInfo.hobby,
+						otherStandards: this.userInfo.otherStandards
+					}
+				}
+				if(data.index == 6) {
+					info = {
+						partnerAge:this.userInfo.partnerAge,
+						partnerHeight:this.userInfo.partnerHeight,
+						partnerNation:this.userInfo.partnerNation,
+						partnerEducation:this.userInfo.partnerEducation,
+						partnerIsMarry:this.userInfo.partnerIsMarry,
+						partnerNativePlace:this.userInfo.partnerNativePlace,
+						partnerIncome:this.userInfo.partnerIncome
+					}
+				}
+				console.log(info)
+				uni.navigateTo({
+					url: `${data.item.url}?info=` + JSON.stringify(info),
+					animationType: 'pop-in',
+					animationDuration: 200
+				})
+			}
 
 		}
 	}
@@ -309,21 +428,21 @@
 
 	.base-wrapper {
 		position: relative;
-		margin-top: 83px;
+		margin-top: 50px;
 		background-color: #fff9f9;
 		border-radius: 20px;
 	}
 
 	.img {
-		width: 150px;
-		height: 150px;
+		width: 100px;
+		height: 100px;
 		border: 1px solid rgb(255, 119, 170);
 		border-radius: 50%;
 		overflow: hidden;
-		top: -75px;
-		left: -75px;
+		top: -50px;
+		left: 50%;
 		position: absolute;
-		margin-left: 50%;
+		margin-left: -50px;
 	}
 
 	.edit-btn {
@@ -340,7 +459,7 @@
 
 	.base-name {
 		display: block;
-		margin-top: 83px;
+		margin-top: 58px;
 		font-size: 24px;
 		text-align: center;
 	}

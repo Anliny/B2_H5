@@ -323,7 +323,6 @@
 
 			// 编辑用户信息
 			handleEditUserInfo(data) {
-				console.log(data)
 				let info = {
 					name: data.name,
 					idCare: data.idCare,
@@ -343,7 +342,6 @@
 			},
 			// 编辑头像和昵称
 			handleEditUserHeader(item) {
-				console.log(item);
 				let {
 					userAvatar,
 					nickName
