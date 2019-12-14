@@ -204,7 +204,11 @@
 							this.userInfo = res.data.data
 							uni.setStorageSync('userInfo', res.data.data)
 							setTimeout(() => {
-								this.$router.replace('/pages/me/detail')
+								uni.switchTab({
+									url: '/pages/me/index',
+									animationType: 'pop-in',
+									animationDuration: 200
+								});
 							}, 1200)
 
 						} catch (e) {
