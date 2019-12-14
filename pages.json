@@ -94,6 +94,13 @@
 				"animationType": "pop-in",
 				"animationDuration": 200
 			}
+		},{
+			"path": "pages/me/editUserDisSetting",
+			"style": {
+				"navigationBarTitleText": "私密显示设置",
+				"animationType": "pop-in",
+				"animationDuration": 200
+			}
 		}, {
 			"path": "pages/me/editUserInfomation",
 			"style": {

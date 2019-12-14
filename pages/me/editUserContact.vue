@@ -26,14 +26,7 @@
 						<input v-model="userDetailInfo.email" type="text" placeholder-class="placeholder" placeholder="请填写微信号" />
 					</view>
 				</view>
-				<!-- <view class="uni-form-item uni-column">
-					<view class="form-lable">会员等级</view>
-					<view class="form-inpput">
-						<picker class="picker" :range="vips" range-key="label" @change="handleVipChange">
-							{{ vips[vipIndex].label }}
-						</picker>
-					</view>
-				</view> -->
+				<uni-tag type="error" style="display: inline-block;" size="small" :inverted="true" :text="compLevel"></uni-tag><br /><br />
 				<view class="uni-btn-v">
 					<button type="primary" :loading="loading" form-type="submit">提交</button>
 				</view>
@@ -43,31 +36,57 @@
 </template>
 
 <script>
-	import {Vips} from "@/utils/fromCheck.js"
+	import {
+		Vips
+	} from "@/utils/fromCheck.js"
 	import appRequest from "@/utils/config.js"
 	import utils from "@/utils/utils.js"
+	import uniTag from "@/components/uni-tag/uni-tag.vue"
+
 	export default {
+		components: {
+			uniTag
+		},
 		data() {
 			return {
 				loading: false,
 				vips: Vips,
 				vipIndex: 0,
-				
+
 				userDetailInfo: {
 					phone: '',
 					wechatNumber: '',
-					qq:'',
-					email:''
+					qq: '',
+					email: ''
 				}
 			}
 		},
+		computed: {
+			compLevel() {
+				let str = ""
+				Vips.find((item, index) => {
+					if (item.val == this.userDetailInfo.level) {
+						console.log(`你设置了${item.label}以上会员可查看！`)
+						str = `你设置了${item.label}以上会员可查看！(如想修改请移步私密设置)`
+					}
+				})
+				return str
+			}
+		},
 		onLoad(options) {
-			let  {phone,wechatNumber,qq,email} = JSON.parse(options.info)
+			let {
+				phone,
+				wechatNumber,
+				qq,
+				email,
+				level
+			} = JSON.parse(options.info)
 			this.userDetailInfo = {
-				phone : phone ? phone :'',
-				wechatNumber:wechatNumber ? wechatNumber :'',
-				qq:qq?qq:'',
-				email:email?email:''
+				phone: phone ? phone : '',
+				wechatNumber: wechatNumber ? wechatNumber : '',
+				qq: qq ? qq : '',
+				email: email ? email : '',
+				level: level
 			}
 		},
 		methods: {
@@ -98,7 +117,7 @@
 					}
 				]
 				let valLoginRes = this.$validate.validate(this.userDetailInfo, loginRules)
-				if(!utils.verifEmail(this.userDetailInfo.email)){
+				if (!utils.verifEmail(this.userDetailInfo.email)) {
 					return false
 				}
 				if (!valLoginRes.isOk) {
@@ -109,26 +128,26 @@
 					return false
 				}
 				this.userDetailInfo.id = uni.getStorageSync('userInfo').id
-				
+
 				appRequest.baseRequest({
 					url: 'member/save',
-					data:this.userDetailInfo,
+					data: this.userDetailInfo,
 					method: 'post',
 					success: (res) => {
 						// 用户状态存到缓存中去
 						try {
 							uni.showToast({
 								title: `保存成功！`,
-								icon:'success',
+								icon: 'success',
 								showCancel: false
 							});
 							this.userInfo = res.data.data
 							uni.setStorageSync('userInfo', res.data.data)
-							
+
 							setTimeout(() => {
 								this.$router.replace('/pages/me/detail')
-							},1200)
-							
+							}, 1200)
+
 						} catch (e) {
 							//TODO handle the exception
 						}

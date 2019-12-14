@@ -166,7 +166,7 @@
 					text: '征友条件'
 				}, {
 					img: require('@/static/icon/btnGroup8.png'),
-					url: '',
+					url: '/pages/me/editUserDisSetting',
 					text: '私密显示设置'
 				}]
 			}
@@ -368,7 +368,8 @@
 						phone: this.userInfo.phone,
 						wechatNumber: this.userInfo.wechatNumber,
 						qq: this.userInfo.qq,
-						email: this.userInfo.email
+						email: this.userInfo.email,
+						level: this.userInfo.level
 					}
 				}
 				if (data.index == 3) {
@@ -384,14 +385,15 @@
 					info = {
 						income: this.userInfo.income,
 						housing: this.userInfo.housing,
-						vehicle: this.userInfo.vehicle
+						vehicle: this.userInfo.vehicle,
+						level: this.userInfo.level
 					}
 				}
 				if (data.index == 5) {
 					info = {
 						declaration: this.userInfo.declaration,
 						hobby: this.userInfo.hobby,
-						otherStandards: this.userInfo.otherStandards
+						otherStandards: this.userInfo.otherStandards,
 					}
 				}
 				if(data.index == 6) {
@@ -403,6 +405,11 @@
 						partnerIsMarry:this.userInfo.partnerIsMarry,
 						partnerNativePlace:this.userInfo.partnerNativePlace,
 						partnerIncome:this.userInfo.partnerIncome
+					}
+				}
+				if(data.index == 7){
+					info = {
+						level: this.userInfo.level
 					}
 				}
 				console.log(info)

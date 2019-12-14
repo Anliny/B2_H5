@@ -1,27 +1,17 @@
 <template>
 	<view class="contanner">
+
 		<view class="content">
 			<form @submit="formSubmit" @reset="formReset">
+				
 				<view class="uni-form-item uni-column">
-					<view class="form-lable">收入</view>
+					<view class="form-lable">私密可看权限</view>
 					<view class="form-inpput">
-						<input v-model="userDetailInfo.income" type="text" placeholder-class="placeholder" placeholder="请填写每月收入情况" />
+						<picker class="picker" :range="Vips" range-key="label" @change="handleVipsChange">
+							{{ Vips[VipsIndex].label }}
+						</picker>
 					</view>
 				</view>
-				<view class="uni-form-item uni-column">
-					<view class="form-lable">住房情况</view>
-					<view class="form-inpput">
-						<input v-model="userDetailInfo.housing" type="text" placeholder-class="placeholder" placeholder="请填写住房情况" />
-					</view>
-				</view>
-				<view class="uni-form-item uni-column">
-					<view class="form-lable">是否有车</view>
-					<view class="form-inpput">
-						<input v-model="userDetailInfo.vehicle" type="text" placeholder-class="placeholder" placeholder="请填写是否购车" />
-					</view>
-				</view>
-
-<uni-tag type="error" style="display: inline-block;" size="small" :inverted="true" :text="compLevel"></uni-tag><br /><br />
 				<view class="uni-btn-v">
 					<button type="primary" :loading="loading" form-type="submit">提交</button>
 				</view>
@@ -35,73 +25,45 @@
 		Vips
 	} from "@/utils/fromCheck.js"
 	import appRequest from "@/utils/config.js"
-import uniTag from "@/components/uni-tag/uni-tag.vue"
+
 	export default {
 		components: {
-			uniTag
+			
 		},
 		data() {
 			return {
-				isAdress: 0,
 				loading: false,
-				vips: Vips,
-				vipIndex: 0,
+				Vips: Vips,
+				VipsIndex: 0,
 				userDetailInfo: {
-					income: '', //收入
-					housing: '', //住房情况，
-					vehicle: '',//是否有车
+					level:''
 				}
-			}
-		},
-		computed: {
-			compLevel() {
-				let str = ""
-				Vips.find((item, index) => {
-					if (item.val == this.userDetailInfo.level) {
-						console.log(`你设置了${item.label}以上会员可查看！`)
-						str = `你设置了${item.label}以上会员可查看！(如想修改请移步私密设置)`
-					}
-				})
-				return str
 			}
 		},
 		onLoad(options) {
 			let {
-				income,
-				housing,
-				vehicle,
 				level
 			} = JSON.parse(options.info)
+			
 			this.userDetailInfo = {
-				income: income ? income : "",
-				housing: housing ? housing : '',
-				vehicle: vehicle ? vehicle : '',
-				level:level
+				level: level ? level : ''
 			}
+			Vips.find((item, index) => {
+				if (item.val == level) {
+					this.VipsIndex = index
+				}
+			})
 		},
 		methods: {
 			formSubmit(e) {
-				// console.log(e)
 				let loginRules = [{
-					name: 'income',
+					name: 'level',
 					required: true,
 					type: 'text',
-					errmsg: '请填写每月收入情况'
-				}, {
-					name: 'housing',
-					required: true,
-					type: 'text',
-					errmsg: '请填写住房情况'
-				}, {
-					name: 'housing',
-					required: true,
-					type: 'text',
-					errmsg: '请填写是否购车'
+					errmsg: '请输入职位'
 				}]
 				this.userDetailInfo.id = uni.getStorageSync('userInfo').id
-				console.log(this.userDetailInfo)
 				let valLoginRes = this.$validate.validate(this.userDetailInfo, loginRules)
-				// console.log(this.userDetailInfo);
 				if (!valLoginRes.isOk) {
 					uni.showToast({
 						icon: 'none',
@@ -109,7 +71,6 @@ import uniTag from "@/components/uni-tag/uni-tag.vue"
 					})
 					return false
 				}
-
 				appRequest.baseRequest({
 					url: 'member/save',
 					data: this.userDetailInfo,
@@ -125,7 +86,11 @@ import uniTag from "@/components/uni-tag/uni-tag.vue"
 							this.userInfo = res.data.data
 							uni.setStorageSync('userInfo', res.data.data)
 							setTimeout(() => {
-								this.$router.replace('/pages/me/detail')
+								uni.switchTab({
+									url: '/pages/me/index',
+									animationType: 'pop-in',
+									animationDuration: 200
+								});
 							}, 1200)
 
 						} catch (e) {
@@ -136,6 +101,11 @@ import uniTag from "@/components/uni-tag/uni-tag.vue"
 			},
 			formReset: (e) => {
 				console.log('清空数据')
+			},
+			// 婚姻状况
+			handleVipsChange(e) {
+				this.VipsIndex = e.target.value
+				this.userDetailInfo.level = Vips[this.VipsIndex].val
 			}
 		}
 	}
