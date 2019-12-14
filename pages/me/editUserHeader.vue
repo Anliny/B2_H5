@@ -19,6 +19,7 @@
 			</view>
 		</form>
 	</view>
+	
 </template>
 
 <script>
