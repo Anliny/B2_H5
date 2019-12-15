@@ -2,15 +2,20 @@
 	<view class="content">
 		<view class="vip-title">开通会员</view>
 		<view class="vip-warp" v-for="(item,index) in vipList" :key="index">
-			<view class="vip-warp-title">{{item.title}}</view>
-			<view class="vip-warp-list">
-				<view class="vip-warp-item">原价：￥{{item.originalPrice}}</view>
-				<view class="vip-warp-item">现价：￥{{item.presentPrice}}</view>
+			<view class="vip-warp-title">
+				<view class="title">{{item.title}}
+				</view>
 				<view class="vip-warp-item">
 					<button type="primary" class="btn" size="mini" @click="handleBtn" :plain="true">确认开通</button>
 				</view>
 			</view>
+			<view class="vip-warp-list">
+				<view class="vip-warp-item">原价：{{item.originalPrice}}</view>
+				<view class="vip-warp-item">现价：{{item.presentPrice}}</view>
+
+			</view>
 			<view class="vip-warp-desc">{{item.desc}}</view>
+
 		</view>
 	</view>
 </template>
@@ -21,31 +26,31 @@
 			return {
 				vipList: [{
 					title: '银卡会员',
-					originalPrice: 20,
-					presentPrice: 1,
-					desc: "服务说明：这个服务就比较牛B了，  给了钱的，包一年"
+					originalPrice: '19或1元加一本小学生课外书',
+					presentPrice: "优惠价1元需在一个月内拉四名实名会员",
+					desc: "服务说明：每天查看五名信息占广告一次"
 				}, {
 					title: '金卡会员',
-					originalPrice: 20,
-					presentPrice: 1,
-					desc: "服务说明：这个服务就比较牛B了，  给了钱的，包一年"
+					originalPrice: 99,
+					presentPrice: '优惠价1元需在一个月内拉二十名实名会员',
+					desc: "服务说明：每天查看五名信息占广告一次"
 				}, {
 					title: '砖石会员',
-					originalPrice: 20,
-					presentPrice: 1,
-					desc: "服务说明：这个服务就比较牛B了，  给了钱的，包一年"
+					originalPrice: 1999,
+					presentPrice: '',
+					desc: "服务说明：无需看广告"
 				}, {
 					title: '黑卡会员',
-					originalPrice: 20,
-					presentPrice: 1,
-					desc: "服务说明：这个服务就比较牛B了，  给了钱的，包一年"
+					originalPrice: "洽谈",
+					presentPrice: '',
+					desc: "服务说明：无需看广告"
 				}]
 			}
 		},
 		methods: {
 			handleBtn() {
 				uni.showToast({
-					icon:"none",
+					icon: "none",
 					title: `该功能暂未开通，请与管理联系！`,
 					showCancel: false
 				});
@@ -77,22 +82,31 @@
 	}
 
 	.vip-warp-title {
+		display: flex; 
+		justify-content: space-between;
 		font-size: 16px;
 		line-height: 30px;
 	}
+	.vip-warp-title .title{
+		font-size: 16px;
+	}
 
 	.vip-warp-list {
-		display: flex;
-		justify-content: space-between;
+		/* display: flex; */
+		/* justify-content: space-between; */
 	}
+
 	.vip-warp-item {
 		line-height: 25px;
 	}
-	.vip-warp-item .btn{
-		height: 25px;
-		line-height: 23px;
+
+	.vip-warp-item .btn {
+		height: 20px;
+		line-height: 18px;
+		font-size: 12px;
 	}
-	.vip-warp-desc{
+
+	.vip-warp-desc {
 		font-size: 13px;
 	}
 </style>

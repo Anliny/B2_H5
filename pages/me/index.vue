@@ -6,10 +6,14 @@
 					<view class="img">
 						<image :src="userAvatar()" :data-src="userAvatar()" @tap="previewImage" class="image" mode=""></image>
 					</view>
-					<view class="edit-btn" @click="handleShowDetail">
-						<image src="/static/icon/edit.png" class="image" mode=""></image>
-					</view>
-					<text class="base-name">{{userInfo.nickName ? userInfo.nickName : "去取一个昵称吧" }}</text>
+					<!-- <view class="edit-btn" > -->
+						<!-- <image src="/static/icon/edit.png" class="image" mode=""></image> -->
+						<uni-tag style="display: inline-block;float: right;" size="small" type="error" :inverted="true" :text="compGrade"></uni-tag>
+					<!-- </view> -->
+					<text class="base-name">
+						{{userInfo.nickName ? userInfo.nickName : "去取一个昵称吧" }}
+						
+					</text>
 					<text class="base-id">ID：{{userInfo.memberId}}</text>
 					<view class="base-code-wrapper">
 						<view class="base-code-item">{{ address }}</view>
@@ -124,12 +128,17 @@
 	import appRequest from "@/utils/config.js"
 	import utils from "@/utils/utils.js"
 	import btnGroup from "@/components/btnGroup.vue"
+	import uniTag from "@/components/uni-tag/uni-tag.vue"
+	import {
+		Vips
+	} from "@/utils/fromCheck.js"
 	export default {
 		components: {
 			uniList,
 			uniListItem,
 			uniIcons,
-			btnGroup
+			btnGroup,
+			uniTag
 		},
 		data() {
 			return {
@@ -198,6 +207,15 @@
 				} else {
 					return '-'
 				}
+			},
+			compGrade(){
+				let str = ""
+				Vips.find((item, index) => {
+					if (item.val == this.userInfo.gender) {
+						str = `${item.label}`
+					}
+				})
+				return str
 			},
 			nativePlace() {
 				if (this.matchmaker.nativePlace) {
@@ -268,13 +286,13 @@
 				});
 			},
 			// 查看用户详情
-			handleShowDetail() {
-				uni.navigateTo({
-					url: '/pages/me/detail',
-					animationType: 'pop-in',
-					animationDuration: 200
-				});
-			},
+			// handleShowDetail() {
+			// 	uni.navigateTo({
+			// 		url: '/pages/me/detail',
+			// 		animationType: 'pop-in',
+			// 		animationDuration: 200
+			// 	});
+			// },
 			// 去VIP充值
 			handleGoVip() {
 				uni.navigateTo({
