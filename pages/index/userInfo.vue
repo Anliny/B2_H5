@@ -105,7 +105,7 @@
 				</view>
 				<view class="card-item-text">{{userInfo.wechatNumber}}</view>
 			</view>
-			<view class="tips">仅银卡会员可查看</view>
+			<view class="tips">{{compGrade}}</view>
 		</view>
 
 		<!-- 其他信息 -->
@@ -181,7 +181,7 @@
 				</view>
 				<view class="card-item-text">{{userInfo.vehicle}}</view>
 			</view>
-			<view class="tips">仅银卡会员可查看</view>
+			<view class="tips">{{compGrade}}</view>
 		</view>
 		
 		<!-- 自我描述 -->
@@ -274,6 +274,9 @@
 	import uniListItem from "@/components/uni-list-item/uni-list-item"
 	import uniIcons from "@/components/uni-icons/uni-icons"
 	import appRequest from "@/utils/config.js"
+	import {
+		Vips
+	} from "@/utils/fromCheck.js"
 	export default {
 		components: {
 			uniList,
@@ -305,6 +308,15 @@
 			})
 		},
 		computed: {
+			compGrade(){
+				let str = ""
+				Vips.find((item, index) => {
+					if (item.val == this.userInfo.level) {
+						str = `对方设置仅${item.label}以上会员可查看`
+					}
+				})
+				return str
+			},
 			isMarry() {
 				if(this.userInfo.partnerIsMarry == 1){
 					return '未婚'

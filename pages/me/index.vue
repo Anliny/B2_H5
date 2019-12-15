@@ -31,9 +31,10 @@
 					</uni-list-item>
 					<uni-list-item title="我的相册" :show-extra-icon="true" @click="handleGoPhone" :extra-icon="{color: '#4cd964',size: '22',type: 'image'}">
 					</uni-list-item>
-					<!-- <uni-list-item title="征友条件" :show-extra-icon="true" @click="handleGoCondition" :extra-icon="{color: '#4cd964',size: '22',type: 'compose'}">
-					</uni-list-item> -->
+					
 					<uni-list-item title="会员中心" :show-extra-icon="true" @click="handleGoVip" :extra-icon="{color: '#4cd964',size: '22',type: 'contact-filled'}">
+					</uni-list-item>
+					<uni-list-item title="关于我们" :show-extra-icon="true" :extra-icon="{color: '#4cd964',size: '22',type: 'compose'}">
 					</uni-list-item>
 					<uni-list-item title="设置" :show-extra-icon="true" @click="handleGoSeting" :extra-icon="{color: '#4cd964',size: '22',type: 'gear'}">
 					</uni-list-item>
