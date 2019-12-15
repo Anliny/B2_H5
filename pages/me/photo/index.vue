@@ -75,7 +75,7 @@
 			getDynamics() {
 				this.pageObj.current ++
 				appRequest.baseRequest({
-					url: 'dynamic/queryPage',
+					url: 'photo/queryPage',
 					data: this.pageObj,
 					method: 'get',
 					success: (res) => {

@@ -38,6 +38,7 @@
 		methods: {
 			// 序列化
 			pictureUrl(url) {
+				console.log(url)
 				return JSON.parse(url)
 			},
 			// 删除动态
@@ -65,7 +66,7 @@
 					current: current,
 					urls: this.imageList
 				})
-			},
+			}
 		},
 	}
 </script>

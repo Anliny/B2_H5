@@ -6,14 +6,10 @@
 					<view class="img">
 						<image :src="userAvatar()" :data-src="userAvatar()" @tap="previewImage" class="image" mode=""></image>
 					</view>
-					<!-- <view class="edit-btn" > -->
-						<!-- <image src="/static/icon/edit.png" class="image" mode=""></image> -->
-						<uni-tag style="display: inline-block;float: right;" size="small" type="error" :inverted="true" :text="compGrade"></uni-tag>
-					<!-- </view> -->
-					<text class="base-name">
-						{{userInfo.nickName ? userInfo.nickName : "去取一个昵称吧" }}
-						
-					</text>
+					<view class="base-name">
+						<view class="item">{{userInfo.nickName ? userInfo.nickName : "去取一个昵称吧" }}</view> 
+						<view class="item"><uni-tag style="display: inline-block;" size="small" type="error" :inverted="true" :text="compGrade"></uni-tag></view>
+					</view>
 					<text class="base-id">ID：{{userInfo.memberId}}</text>
 					<view class="base-code-wrapper">
 						<view class="base-code-item">{{ address }}</view>
@@ -484,10 +480,12 @@
 	}
 
 	.base-name {
-		display: block;
+		display: flex;
 		margin-top: 58px;
 		font-size: 24px;
-		text-align: center;
+	}
+	.base-name .item{
+		flex: 1;
 	}
 
 	.base-id {

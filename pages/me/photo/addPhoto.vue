@@ -69,7 +69,7 @@
 					return false
 				}
 				appRequest.baseRequest({
-					url: 'dynamic/save',
+					url: 'photo/save',
 					data: this.dynamic,
 					method: 'post',
 					success: (res) => {

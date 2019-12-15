@@ -3,9 +3,10 @@
 		<view class="content">
 			<template>
 				<uni-list>
-					<uni-list-item title="动态设置" :show-extra-icon="true" @switchChange="handleTrackChange" :show-switch="true" :show-arrow="false" :extra-icon="{color: '#4cd964',size: '22',type: 'pengyouquan'}"></uni-list-item>
-					<uni-list-item title="个人信息设置" :show-extra-icon="true" @switchChange="handleUserChange" :show-switch="true" :show-arrow="false" :extra-icon="{color: '#4cd964',size: '22',type: 'gear-filled'}"></uni-list-item>
-					<uni-list-item title="修改密码" :show-extra-icon="true" :show-arrow="true" :extra-icon="{color: '#4cd964',size: '22',type: 'gear-filled'}"></uni-list-item>
+					<!-- <uni-list-item title="动态设置" :show-extra-icon="true" @switchChange="handleTrackChange" :show-switch="true" :show-arrow="false" :extra-icon="{color: '#4cd964',size: '22',type: 'pengyouquan'}"></uni-list-item> -->
+					<!-- <uni-list-item title="个人信息设置" :show-extra-icon="true" @switchChange="handleUserChange" :show-switch="true" :show-arrow="false" :extra-icon="{color: '#4cd964',size: '22',type: 'gear-filled'}"></uni-list-item> -->
+					<!-- <uni-list-item title="修改密码" :show-extra-icon="true" :show-arrow="true" :extra-icon="{color: '#4cd964',size: '22',type: 'gear-filled'}"></uni-list-item> -->
+					<uni-list-item title="生成推荐码" :note="'你的推荐码:'+recommendCode" @click="handleGetRecommend" :show-extra-icon="true" :show-arrow="true" :extra-icon="{color: '#4cd964',size: '22',type: 'gear-filled'}"></uni-list-item>
 				</uni-list>
 			</template>
 			<view></view>
@@ -33,7 +34,7 @@
 				loading: false,
 				vips: Vips,
 				vipIndex: 0,
-
+				recommendCode:'',
 				userDetailInfo: {
 					phone: '',
 					wechatNumber: '',
@@ -58,6 +59,19 @@
 			// 退出登录
 			logout() {
 				appRequest.logOut()
+			},
+			
+			// 生成推荐码
+			handleGetRecommend(){
+				let {phone,wechatNumber} = uni.getStorageSync("userInfo")
+				appRequest.baseRequest({
+					url: 'recommend/save',
+					data: {phone,wechatNumber},
+					method: 'post',
+					success: (res) => {
+						this.recommendCode = res.data.data.recommendCode
+					},
+				})	
 			}
 
 		}
