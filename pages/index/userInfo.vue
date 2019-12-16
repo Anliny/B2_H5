@@ -124,6 +124,20 @@
 				</view>
 				<view class="card-item-text">{{userInfo.wechatNumber}}</view>
 			</view>
+			<view class="card-item">
+				<view class="card-item-lable">
+					<uni-icons type="person" color="#ff77aa"></uni-icons>
+					QQ：
+				</view>
+				<view class="card-item-text">{{userInfo.qq}}</view>
+			</view>
+			<view class="card-item">
+				<view class="card-item-lable">
+					<uni-icons type="person" color="#ff77aa"></uni-icons>
+					E-mail：
+				</view>
+				<view class="card-item-text">{{userInfo.email}}</view>
+			</view>
 			<view class="tips">{{compGrade}}</view>
 		</view>
 
