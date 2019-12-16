@@ -13,7 +13,7 @@
 					<view class="uni-form-item uni-column">
 						<view class="form-lable">手机号：</view>
 						<view class="form-inpput">
-							<input v-model="userInfo.userName" type="number" placeholder-class="placeholder" placeholder="请填写手机号" />
+							<input v-model="userInfo.phone" type="number" placeholder-class="placeholder" placeholder="请填写手机号" />
 						</view>
 					</view>
 					<view class="uni-form-item uni-column">
@@ -32,7 +32,7 @@
 					<view class="uni-form-item uni-column">
 						<view class="form-lable">确认密码：</view>
 						<view class="form-inpput">
-							<input v-model="userInfo.confirmpassword" type="password" placeholder-class="placeholder" placeholder="请输入确认密码" />
+							<input v-model="userInfo.repeatPassword" type="password" placeholder-class="placeholder" placeholder="请输入确认密码" />
 						</view>
 					</view>
 
@@ -66,10 +66,10 @@
 				btnText: '获取验证码',
 				loading: false,
 				userInfo: {
-					userName: '',
+					phone: '',
 					sms: '', //验证码
 					password: '',
-					confirmpassword: ''
+					repeatPassword: ''
 				}
 			}
 		},
@@ -93,7 +93,7 @@
 				this.loading = true
 				this.loading = false
 				let registerRules = [{
-						name: 'userName',
+						name: 'phone',
 						required: true,
 						type: 'text',
 						errmsg: '请输入账号'
@@ -104,7 +104,7 @@
 						errmsg: '请输入密码'
 					},
 					{
-						name: 'confirmpassword',
+						name: 'repeatPassword',
 						type: 'required',
 						errmsg: '请输入确认密码'
 					},
@@ -119,7 +119,6 @@
 					this.loading = false
 					return false
 				}
-
 				let valRegisterRes = this.$validate.validate(this.userInfo, registerRules)
 				if (!valRegisterRes.isOk) {
 					uni.showToast({
@@ -130,9 +129,9 @@
 				}
 				let {
 					password,
-					confirmpassword
+					repeatPassword
 				} = this.userInfo
-				if (password !== confirmpassword) {
+				if (password !== repeatPassword) {
 					uni.showToast({
 						icon: 'none',
 						title: '两次密码不一致'
@@ -140,10 +139,10 @@
 					return false
 				}
 				var formdata = this.userInfo
-				uni.showToast({
-					title: "功能占未开通",
-					icon: "none"
-				})
+				// uni.showToast({
+				// 	title: "功能占未开通",
+				// 	icon: "none"
+				// })
 
 				uni.request({
 					url: 'common/updatePassword', //仅为示例，并非真实接口地址。
@@ -184,7 +183,7 @@
 			// 获取验证码
 			handleGetSms() {
 				let registerRules = [{
-					name: 'userName',
+					name: 'phone',
 					required: true,
 					type: 'text',
 					errmsg: '请输入电话号码'
@@ -214,7 +213,7 @@
 				uni.request({
 					url: '/common/querySms', //仅为示例，并非真实接口地址。
 					data: {
-						phone: this.userInfo.userName
+						phone: this.userInfo.phone
 					},
 					method: 'get',
 					success: (res) => {
