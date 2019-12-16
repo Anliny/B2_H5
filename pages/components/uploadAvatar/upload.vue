@@ -77,7 +77,7 @@
 				// 上传服务器地址
 				this.weCropper.getCropperImage(avatar => {
 					if (avatar) {
-						console.log(avatar)
+						// console.log(avatar)
 						//  获取到裁剪后的图片
 						//  获取到裁剪后的图片
 
@@ -91,14 +91,15 @@
 							// 	userId: userId
 							// },
 							success: res => {
-								console.log(JSON.parse(res.data));
+								// console.log(JSON.parse(res.data));
+								let userAvatar = JSON.parse(res.data).data
 								uni.showToast({
 									title: '上传成功',
 									icon: 'success',
 									duration: 1000
 								});
 								wx.redirectTo({
-								  url: '/pages/me/editUserHeader?userAvatar=' + JSON.parse(res.data).data
+								  url: '/pages/me/editUserHeader?info=' + JSON.stringify({userAvatar})
 								})
 							},
 							ail: err => {

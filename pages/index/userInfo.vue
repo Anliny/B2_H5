@@ -1,20 +1,39 @@
 <template>
 	<view class="content">
+		<!-- #ifndef MP-WEIXIN -->
+		<nav-bar transparentFixedFontColor="#333" fontColor="#fff" bgColor="#ff77aa" type="transparentFixed" title="用户信息">
+			<!-- //透明状态下的按钮 -->
+			<view class="transparent_fixed_preview" slot="transparentFixedRight" >
+				<!-- <uni-icons type="plus" size="26" color="#fff"></uni-icons> -->
+			</view>
+			<view class="transparent_fixed_preview" slot="transparentFixedLeft" @click="handleGoBack">
+				<uni-icons type="arrowleft" size="26" color="#333"></uni-icons>
+			</view>
+			<!-- //不透明状态下的按钮 -->
+			<view class="preview" slot="right">
+				<!-- <uni-icons type="plus" size="26" color="#fff"></uni-icons> -->
+			</view>
+			<view class="transparent_fixed_preview" slot="left" @click="handleGoBack">
+				<uni-icons type="arrowleft" size="26" color="#fff"></uni-icons>
+			</view>
+		</nav-bar>
+		<!-- #endif -->
 		<view class="base">
 			<view class="base-wrapper card-shadow">
 				<view class="img">
-					<image :src="userAvatar" :data-src="userAvatar" @tap="previewImage"  class="image" mode=""></image>
+					<image :src="userAvatar" :data-src="userAvatar" @tap="previewImage" class="image" mode=""></image>
 				</view>
-				<!-- <view class="edit-btn" @click="handleEditUserHeader">
-					<image src="/static/icon/edit.png" class="image" mode=""></image>
-				</view> -->
-				<text class="base-name">{{userInfo.nickName}}</text>
+				<view class="base-name">
+					<view class="item">{{userInfo.nickName ? userInfo.nickName : "该用户还没设置昵称" }}</view>
+					<view class="item">
+						<uni-tag style="display: inline-block;" size="small" type="error" :inverted="true" :text="compVip"></uni-tag>
+					</view>
+				</view>
 				<text class="base-id">ID：{{userInfo.memberId}}</text>
 				<view class="base-code-wrapper">
-					<view class="base-code-item">{{address}}</view>
+					<view class="base-code-item">{{ address }}</view>
 					<view class="base-code-item code2">{{userInfo.education}}</view>
 					<view class="base-code-item code3">{{userInfo.position}}</view>
-					<!-- <view class="base-code-item code4">{{}}</view> -->
 				</view>
 			</view>
 		</view>
@@ -183,7 +202,7 @@
 			</view>
 			<view class="tips">{{compGrade}}</view>
 		</view>
-		
+
 		<!-- 自我描述 -->
 		<view class="card-warp card-shadow">
 			<view class="card-title">
@@ -214,7 +233,7 @@
 				<view class="card-item-text">{{userInfo.vehicle}}</view>
 			</view>
 		</view>
-		
+
 		<!-- 征友条件 -->
 		<view class="card-warp card-shadow">
 			<view class="card-title">
@@ -277,16 +296,18 @@
 	import {
 		Vips
 	} from "@/utils/fromCheck.js"
+	import uniTag from "@/components/uni-tag/uni-tag.vue"
 	export default {
 		components: {
 			uniList,
 			uniListItem,
-			uniIcons
+			uniIcons,
+			uniTag
 		},
 		data() {
 			return {
-				userInfo:{
-					userAvatar:''
+				userInfo: {
+					userAvatar: ''
 				}
 			}
 		},
@@ -294,7 +315,7 @@
 			console.log(options)
 			appRequest.baseRequest({
 				url: '/member/queryById',
-				data:options,
+				data: options,
 				method: 'get',
 				success: (res) => {
 					// 用户状态存到缓存中去
@@ -308,7 +329,7 @@
 			})
 		},
 		computed: {
-			compGrade(){
+			compGrade() {
 				let str = ""
 				Vips.find((item, index) => {
 					if (item.val == this.userInfo.level) {
@@ -317,37 +338,54 @@
 				})
 				return str
 			},
+			compVip() {
+				let str = ""
+				Vips.find((item, index) => {
+					if (item.val == this.userInfo.grade) {
+						str = `${item.label}`
+					}
+				})
+				return str
+			},
 			isMarry() {
-				if(this.userInfo.partnerIsMarry == 1){
+				if (this.userInfo.partnerIsMarry == 1) {
 					return '未婚'
 				}
-				if(this.userInfo.partnerIsMarry == 2){
+				if (this.userInfo.partnerIsMarry == 2) {
 					return '离异'
 				}
-				if(this.userInfo.partnerIsMarry == 3){
+				if (this.userInfo.partnerIsMarry == 3) {
 					return '丧偶'
 				}
 				return "未填写"
 			},
 			// 判断头像
 			userAvatar() {
-				return this.userInfo.userAvatar ? this.userInfo.userAvatar : "/static/icon/defult_header.jpg" 
+				return this.userInfo.userAvatar ? this.userInfo.userAvatar : "/static/icon/defult_header.jpg"
 			},
 			// 籍贯
-			nativePlaceAdress(){
-				if(this.userInfo.nativePlace){
-					let {province,city,town} = JSON.parse(this.userInfo.nativePlace)
+			nativePlaceAdress() {
+				if (this.userInfo.nativePlace) {
+					let {
+						province,
+						city,
+						town
+					} = JSON.parse(this.userInfo.nativePlace)
 					return `${province}${city}${town}`
-				}else{
+				} else {
 					return '-'
 				}
 			},
 			// 现住地址
-			currentAddress(){
-				if(this.userInfo.currentAddress){
-					let {province,city,town} = JSON.parse(this.userInfo.nativePlace)
+			currentAddress() {
+				if (this.userInfo.currentAddress) {
+					let {
+						province,
+						city,
+						town
+					} = JSON.parse(this.userInfo.nativePlace)
 					return `${province}${city}${town}`
-				}else{
+				} else {
 					return "-"
 				}
 			},
@@ -359,11 +397,15 @@
 					return '-'
 				}
 			},
-			partnerNativePlace(){
-				if(this.userInfo.partnerNativePlace){
-					let {province,city,town} = JSON.parse(this.userInfo.partnerNativePlace)
+			partnerNativePlace() {
+				if (this.userInfo.partnerNativePlace) {
+					let {
+						province,
+						city,
+						town
+					} = JSON.parse(this.userInfo.partnerNativePlace)
 					return `${province}${city}${town}`
-				}else{
+				} else {
 					return "-"
 				}
 			}
@@ -378,9 +420,9 @@
 					animationDuration: 200
 				});
 			},
-			
+
 			// 编辑用户信息
-			handleEditUserInfo(){
+			handleEditUserInfo() {
 				uni.navigateTo({
 					url: '/pages/me/editUserInfo',
 					animationType: 'pop-in',
@@ -388,7 +430,7 @@
 				})
 			},
 			// 编辑头像和昵称
-			handleEditUserHeader(){
+			handleEditUserHeader() {
 				uni.navigateTo({
 					url: '/pages/me/editUserHeader',
 					animationType: 'pop-in',
@@ -396,7 +438,7 @@
 				})
 			},
 			// 编辑联系方式
-			handleEditUserContact(){
+			handleEditUserContact() {
 				uni.navigateTo({
 					url: '/pages/me/editUserContact',
 					animationType: 'pop-in',
@@ -404,7 +446,7 @@
 				})
 			},
 			// 编辑其他信息
-			handleEditUserInfomation(){
+			handleEditUserInfomation() {
 				uni.navigateTo({
 					url: '/pages/me/editUserInfomation',
 					animationType: 'pop-in',
@@ -412,7 +454,7 @@
 				})
 			},
 			// 编辑资产状况
-			handleEditUserAssetStatus(){
+			handleEditUserAssetStatus() {
 				uni.navigateTo({
 					url: '/pages/me/editUserAssetStatus',
 					animationType: 'pop-in',
@@ -420,7 +462,7 @@
 				})
 			},
 			// 编辑自我描述
-			handleEditUserDescrable(){
+			handleEditUserDescrable() {
 				uni.navigateTo({
 					url: '/pages/me/editUserDescrable',
 					animationType: 'pop-in',
@@ -428,13 +470,18 @@
 				})
 			},
 			//头像大图
-			 previewImage:function(e){
-				 var current = e.target.dataset.src
-				 uni.previewImage({
-				 	current: current,
-				 	urls: [current]
-				 })
-			 }
+			previewImage: function(e) {
+				var current = e.target.dataset.src
+				uni.previewImage({
+					current: current,
+					urls: [current]
+				})
+			},
+			handleGoBack(){
+				uni.navigateBack({
+					delta: 1
+				});
+			}
 		}
 	}
 </script>
@@ -443,28 +490,29 @@
 	.content {}
 
 	.base {
+		margin-top: 44px;
 		padding: 8px;
 	}
-
+	
 	.base-wrapper {
 		position: relative;
-		margin-top: 83px;
+		margin-top: 50px;
 		background-color: #fff9f9;
 		border-radius: 20px;
 	}
-
+	
 	.img {
-		width: 150px;
-		height: 150px;
+		width: 100px;
+		height: 100px;
 		border: 1px solid rgb(255, 119, 170);
 		border-radius: 50%;
 		overflow: hidden;
-		top: -75px;
-		left: -75px;
+		top: -50px;
+		left: 50%;
 		position: absolute;
-		margin-left: 50%;
+		margin-left: -50px;
 	}
-
+	
 	.edit-btn {
 		width: 35px;
 		height: 35px;
@@ -476,12 +524,19 @@
 		right: 5px;
 		top: 5px;
 	}
-
+	
 	.base-name {
-		display: block;
-		margin-top: 83px;
+		display: flex;
+		margin-top: 58px;
 		font-size: 24px;
-		text-align: center;
+	}
+	.base-name .item{
+		flex: 1;
+		margin-right: 8px;
+	}
+	.base-name .item:first-child{
+		text-align: right;
+		font-size: 16px;
 	}
 
 	.base-id {
@@ -518,12 +573,14 @@
 		display: flex;
 		justify-content: space-between;
 	}
+
 	.card-warp .card-edit {
 		width: 35px;
 		height: 35px;
 		text-align: center;
 	}
-	.card-warp .card-edit .uni-icons{
+
+	.card-warp .card-edit .uni-icons {
 		font-size: 30px !important;
 	}
 

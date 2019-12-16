@@ -38,7 +38,7 @@
 			let {
 				userAvatar,
 				nickName
-			} = option;
+			} = JSON.parse(option.info) ;
 			if (userAvatar) {
 				this.userDetailInfo.userAvatar = userAvatar;
 			}

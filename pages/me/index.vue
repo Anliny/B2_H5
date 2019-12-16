@@ -486,6 +486,11 @@
 	}
 	.base-name .item{
 		flex: 1;
+		margin-right: 8px;
+	}
+	.base-name .item:first-child{
+		text-align: right;
+		font-size: 16px;
 	}
 
 	.base-id {

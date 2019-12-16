@@ -23,7 +23,11 @@
 		}, {
 			"path": "pages/index/userInfo",
 			"style": {
-				"navigationBarTitleText": "用户信息"
+				// "navigationBarTitleText": "用户信息",
+				// "navigationBarBackgroundColor": "rgb(255,119,55)",
+				// "backgroundColor": "rgb(255,119,55)",
+				// "transparentTitle": "auto",
+				"navigationStyle": "custom"
 			}
 		}, {
 			"path": "pages/activity/index",

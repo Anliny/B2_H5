@@ -2,13 +2,13 @@
 	<view>
 		<view class="list-content" v-for="(item,index) in dynamicList" :key="index">
 			<view class="list-header">
-				<text class="list-dateTime">{{item.rawAddTime}}</text>
+				<text class="list-dateTime">{{item.days}}</text>
 				<uni-icons type="trash" color="red" @click="handleMoveDynamic(item)" size="18"></uni-icons>
 			</view>
-			<text class="list-dateTime">{{item.content}}</text>
+			<!-- <text class="list-dateTime">{{item}}</text> -->
 			<view class="list-image-wrapper">
-				<view class="list-image-item" v-for="(imageItem,i) in pictureUrl(item.pictureUrl)" :key="i">
-					<image :src="imageItem" :data-src="imageItem" @tap="previewImage" class="image" mode=""></image>
+				<view class="list-image-item" v-for="(imageItem,i) in imgUrl(item.photo)" :key="i">
+					<image :src="imageItem" :data-src="imageItem" @tap="previewImage(imageItem,imgUrl(item.photo))" class="image" mode=""></image>
 				</view>
 			</view>
 		</view>
@@ -31,16 +31,19 @@
 		},
 		data() {
 			return {
-				imageList:[]
+				imageList: []
 			}
 		},
-		
 		methods: {
-			// 序列化
-			pictureUrl(url) {
-				console.log(url)
-				return JSON.parse(url)
+			imgUrl(list) {
+				let imgList = []
+				list.forEach((item) => {
+					let list = JSON.parse(item.pictureUrl)
+					imgList = [...imgList,...list]
+				})
+				return imgList
 			},
+
 			// 删除动态
 			handleMoveDynamic(data) {
 				uni.showModal({
@@ -51,20 +54,16 @@
 							let id = data.id
 							this.$emit('removeDynamic', id)
 						} else if (res.cancel) {
-							
+
 						}
 					}
 				});
 			},
 			//  图片放大
-			previewImage: function(e) {
-				var current = e.target.dataset.src
-				let array = []
-				array=[...this.dynamicList.map(item => {return JSON.parse(item.pictureUrl)})]
-				this.imageList = array.flat();  //flat()   降维数组
+			previewImage: function(e,v) {
 				uni.previewImage({
-					current: current,
-					urls: this.imageList
+					current: e,
+					urls: v
 				})
 			}
 		},
@@ -100,11 +99,16 @@
 	.list-image-wrapper {
 		display: flex;
 		padding-top: 8px;
+		flex-flow: row wrap;
 	}
 
 	.list-image-wrapper .list-image-item {
 		height: 80px;
 		width: 80px;
 		margin-right: 8px;
+		margin-bottom: 8px;
+	}
+	.list-image-wrapper .list-image-item:nth-child(4n){
+		margin-right: 0;
 	}
 </style>

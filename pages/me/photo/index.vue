@@ -1,7 +1,7 @@
 <template>
 	<view class="">
 		<!-- #ifndef MP-WEIXIN -->
-		<nav-bar transparentFixedFontColor="#fff" fontColor="#fff" bgColor="#ff77aa" type="transparentFixed" title="我的相册">
+		<nav-bar transparentFixedFontColor="#fff" fontColor="#fff" bgColor="#ff77aa" type="transparentFixed" title="用户信息">
 			<!-- //透明状态下的按钮 -->
 			<view class="transparent_fixed_preview" slot="transparentFixedRight" @click="handleTrack">
 				<uni-icons type="plus" size="26" color="#fff"></uni-icons>
@@ -52,7 +52,7 @@
 				pageObj: {
 					current: 0
 				},
-				dynamicList:[]
+				dynamicList: []
 			}
 		},
 		onLoad() {
@@ -68,12 +68,12 @@
 			this.dynamicList = []
 			this.getDynamics()
 			// this.loading = true
-			
+
 		},
 		methods: {
 			// 获取列表
 			getDynamics() {
-				this.pageObj.current ++
+				this.pageObj.current++
 				appRequest.baseRequest({
 					url: 'photo/queryPage',
 					data: this.pageObj,
@@ -95,7 +95,7 @@
 							} else {
 								this.loadMore = "more"
 								this.dynamicList = [...this.dynamicList, ...records]
-								
+
 							}
 							uni.stopPullDownRefresh();
 						} catch (e) {
@@ -122,8 +122,15 @@
 				});
 			},
 			// 删除动态
-			removeDynamic(id){
-				console.log(id);
+			removeDynamic(id) {
+				appRequest.baseRequest({
+					url: 'photo/delete',
+					data: this.pageObj,
+					method: 'get',
+					success: (res) => {
+						''
+					},
+				})
 			}
 		},
 	}
