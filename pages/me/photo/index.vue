@@ -123,12 +123,29 @@
 			},
 			// 删除动态
 			removeDynamic(id) {
+				console.log(id)
 				appRequest.baseRequest({
 					url: 'photo/delete',
-					data: this.pageObj,
-					method: 'get',
+					data: {
+						days: id
+					},
+					method: 'post',
 					success: (res) => {
-						''
+						console.log(res)
+						try {
+							uni.showToast({
+								title: "删除成功！",
+								icon: "none",
+								success: () => {
+									this.pageObj.current = 0
+									this.dynamicList = []
+									this.getDynamics()
+									uni.hideToast()
+								}
+							})
+						} catch (e) {
+							//TODO handle the exception
+						}
 					},
 				})
 			}

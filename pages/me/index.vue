@@ -28,7 +28,7 @@
 					<uni-list-item title="我的相册" :show-extra-icon="true" @click="handleGoPhone" :extra-icon="{color: '#4cd964',size: '22',type: 'image'}">
 					</uni-list-item>
 					
-					<uni-list-item title="会员中心" :show-extra-icon="true" @click="handleGoVip" :extra-icon="{color: '#4cd964',size: '22',type: 'contact-filled'}">
+					<uni-list-item title="开通会员" :show-extra-icon="true" @click="handleGoVip" :extra-icon="{color: '#4cd964',size: '22',type: 'contact-filled'}">
 					</uni-list-item>
 					<uni-list-item title="关于我们" :show-extra-icon="true" :extra-icon="{color: '#4cd964',size: '22',type: 'compose'}">
 					</uni-list-item>

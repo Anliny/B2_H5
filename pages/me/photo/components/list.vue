@@ -3,7 +3,7 @@
 		<view class="list-content" v-for="(item,index) in dynamicList" :key="index">
 			<view class="list-header">
 				<text class="list-dateTime">{{item.days}}</text>
-				<uni-icons type="trash" color="red" @click="handleMoveDynamic(item)" size="18"></uni-icons>
+				<uni-icons type="trash" color="red" @click="handleMoveDynamic(item.days)" size="18"></uni-icons>
 			</view>
 			<!-- <text class="list-dateTime">{{item}}</text> -->
 			<view class="list-image-wrapper">
@@ -51,8 +51,7 @@
 					content: '确定删除这条动态？',
 					success: (res) => {
 						if (res.confirm) {
-							let id = data.id
-							this.$emit('removeDynamic', id)
+							this.$emit('removeDynamic', data)
 						} else if (res.cancel) {
 
 						}

@@ -1,53 +1,55 @@
 <template>
 	<view class="content">
 		<view class="vip-title">开通会员</view>
-		<view class="vip-warp" v-for="(item,index) in vipList" :key="index">
+		<view class="vip-warp" v-for="(item,index) in gradeList" :key="index">
 			<view class="vip-warp-title">
-				<view class="title">{{item.title}}
+				<view class="title">{{item.gradeName}}
 				</view>
 				<view class="vip-warp-item">
 					<button type="primary" class="btn" size="mini" @click="handleBtn" :plain="true">确认开通</button>
 				</view>
 			</view>
 			<view class="vip-warp-list">
-				<view class="vip-warp-item">原价：{{item.originalPrice}}</view>
-				<view class="vip-warp-item">现价：{{item.presentPrice}}</view>
+				<view class="vip-warp-item">原价：￥{{item.originalPrice}}</view>
+				<view class="vip-warp-item">现价：￥{{item.presentPrice}}</view>
 
 			</view>
-			<view class="vip-warp-desc">{{item.desc}}</view>
+			<view class="vip-warp-desc">{{item.illustrate}}</view>
 
 		</view>
 	</view>
 </template>
 
 <script>
+	import appRequest from "@/utils/config.js"
 	export default {
 		data() {
 			return {
-				vipList: [{
-					title: '银卡会员',
-					originalPrice: '19或1元加一本小学生课外书',
-					presentPrice: "优惠价1元需在一个月内拉四名实名会员",
-					desc: "服务说明：每天查看五名信息占广告一次"
-				}, {
-					title: '金卡会员',
-					originalPrice: 99,
-					presentPrice: '优惠价1元需在一个月内拉二十名实名会员',
-					desc: "服务说明：每天查看五名信息占广告一次"
-				}, {
-					title: '砖石会员',
-					originalPrice: 1999,
-					presentPrice: '',
-					desc: "服务说明：无需看广告"
-				}, {
-					title: '黑卡会员',
-					originalPrice: "洽谈",
-					presentPrice: '',
-					desc: "服务说明：无需看广告"
-				}]
+				gradeList: []
 			}
 		},
+		onLoad() {
+			this.getGradeList()
+		},
 		methods: {
+			// 获取资费列表
+			getGradeList(){
+				appRequest.baseRequest({
+					url: '/grade/queryPage',
+					method: 'get',
+					success: (res) => {
+						// 用户状态存到缓存中去
+						console.log(res)
+						try {
+							let data = res.data.data.records
+							this.gradeList = data
+							uni.setStorageSync('vipList', data)
+						} catch (e) {
+							//TODO handle the exception
+						}
+					}
+				})
+			},
 			handleBtn() {
 				uni.showToast({
 					icon: "none",
@@ -61,7 +63,6 @@
 
 <style>
 	@import url("../../../assets/common.css");
-
 	.content {
 		padding: 8px;
 		background-color: #fff;

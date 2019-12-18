@@ -13,7 +13,7 @@
 			<text class="list-dateTime content">{{item.content}}</text>
 			<view class="list-image-wrapper">
 				<view class="list-image-item" v-for="(imageItem,i) in pictureUrl(item.pictureUrl)" :key="i">
-					<image :src="imageItem" :data-src="imageItem" @tap="previewImage" class="image" mode=""></image>
+					<image :src="imageItem" :data-src="imageItem" @tap="previewImage(imageItem,pictureUrl(item.pictureUrl))" class="image" mode=""></image>
 				</view>
 			</view>
 		</view>
@@ -67,16 +67,10 @@
 				});
 			},
 			//  图片放大
-			previewImage: function(e) {
-				var current = e.target.dataset.src
-				let array = []
-				array = [...this.dynamicList.map(item => {
-					return JSON.parse(item.pictureUrl)
-				})]
-				this.imageList = array.flat(); //flat()   降维数组
+			previewImage: function(e,v) {
 				uni.previewImage({
-					current: current,
-					urls: this.imageList
+					current: e,
+					urls: v
 				})
 			},
 		},

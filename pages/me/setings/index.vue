@@ -6,10 +6,10 @@
 					<!-- <uni-list-item title="动态设置" :show-extra-icon="true" @switchChange="handleTrackChange" :show-switch="true" :show-arrow="false" :extra-icon="{color: '#4cd964',size: '22',type: 'pengyouquan'}"></uni-list-item> -->
 					<!-- <uni-list-item title="个人信息设置" :show-extra-icon="true" @switchChange="handleUserChange" :show-switch="true" :show-arrow="false" :extra-icon="{color: '#4cd964',size: '22',type: 'gear-filled'}"></uni-list-item> -->
 					<!-- <uni-list-item title="修改密码" :show-extra-icon="true" :show-arrow="true" :extra-icon="{color: '#4cd964',size: '22',type: 'gear-filled'}"></uni-list-item> -->
-					<uni-list-item title="生成推荐码" :note="'你的推荐码:'+recommendCode" @click="handleGetRecommend" :show-extra-icon="true" :show-arrow="true" :extra-icon="{color: '#4cd964',size: '22',type: 'gear-filled'}"></uni-list-item>
+					<uni-list-item title="生成推荐码" @click="handleGetRecommend" :show-extra-icon="true" :show-arrow="true" :extra-icon="{color: '#4cd964',size: '22',type: 'gear-filled'}"></uni-list-item>
 				</uni-list>
 			</template>
-			<view></view>
+			<view class="recommendCode" v-if="recommendCode" @click="paste(recommendCode)">你的推荐码：<span>{{recommendCode}}</span>(长按复制)</view>
 			<view class="loutBtn">
 				<button type="warn" @click="logout">退出登录</button>
 			</view>
@@ -34,7 +34,7 @@
 				loading: false,
 				vips: Vips,
 				vipIndex: 0,
-				recommendCode:'',
+				recommendCode: '',
 				userDetailInfo: {
 					phone: '',
 					wechatNumber: '',
@@ -49,29 +49,40 @@
 
 			},
 			// 切换是否显示朋友圈
-			handleTrackChange(e){
+			handleTrackChange(e) {
 				console.log(e)
 			},
 			// 设置是否显示个人信息
-			handleUserChange(e){
+			handleUserChange(e) {
 				console.log(e)
 			},
 			// 退出登录
 			logout() {
 				appRequest.logOut()
 			},
-			
+
 			// 生成推荐码
-			handleGetRecommend(){
-				let {phone,wechatNumber} = uni.getStorageSync("userInfo")
+			handleGetRecommend() {
+				let {
+					phone,
+					wechatNumber
+				} = uni.getStorageSync("userInfo")
 				appRequest.baseRequest({
 					url: 'recommend/save',
-					data: {phone,wechatNumber},
+					data: {
+						phone,
+						wechatNumber
+					},
 					method: 'post',
 					success: (res) => {
 						this.recommendCode = res.data.data.recommendCode
 					},
-				})	
+				})
+			},
+			paste(value) {
+				uni.setClipboardData({
+					data: value
+				});
 			}
 
 		}
@@ -112,5 +123,14 @@
 		font-size: 14px;
 	}
 
-	
+	.recommendCode {
+		background-color: #fff;
+		margin: 8px 8px;
+		line-height: 2.3;
+	}
+
+	.recommendCode span {
+		font-size: 16px;
+		color: #ff77aa;
+	}
 </style>

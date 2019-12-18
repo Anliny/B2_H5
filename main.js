@@ -22,7 +22,6 @@ uni.uploadFile = (obj) => {
 Vue.prototype.$validate = validate
 Vue.config.productionTip = false
 Vue.component("nav-bar", zhouWeiNavBar);
-// Vue.use(router)
 App.mpType = 'app'
 
 const app = new Vue({
