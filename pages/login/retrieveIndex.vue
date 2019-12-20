@@ -49,6 +49,7 @@
 				</view>
 			</form>
 		</view>
+		<view class="bottom-tips">实名认证 安全放心</view>
 	</view>
 </template>
 

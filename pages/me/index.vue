@@ -7,8 +7,10 @@
 						<image :src="userAvatar()" :data-src="userAvatar()" @tap="previewImage" class="image" mode=""></image>
 					</view>
 					<view class="base-name">
-						<view class="item">{{userInfo.nickName ? userInfo.nickName : "去取一个昵称吧" }}</view> 
-						<view class="item"><uni-tag style="display: inline-block;" size="small" type="error" :inverted="true" :text="compGrade"></uni-tag></view>
+						<view class="item">{{userInfo.nickName ? userInfo.nickName : "去取一个昵称吧" }}</view>
+						<view class="item">
+							<uni-tag style="display: inline-block;" size="small" type="error" :inverted="true" :text="compGrade"></uni-tag>
+						</view>
 					</view>
 					<text class="base-id">ID：{{userInfo.memberId}}</text>
 					<view class="base-code-wrapper">
@@ -19,15 +21,17 @@
 				</view>
 			</view>
 			<btn-group :groupBtnData="groupBtnData" @emitBtnGroup="emitBtnGroup"></btn-group>
-			<!-- <btn-group :groupBtnData="groupBtnData" @emitBtnGroup="emitBtnGroup"></btn-group> -->
-
-			<template>
+			<view class="btn-group-title">其他信息</view>
+			<btn-group :groupBtnData="groupBtnOther" @emitBtnGroup="emitBtnOther"></btn-group>
+			<view class="btn-group-title">认证信息</view>
+			<btn-group :groupBtnData="groupBtnAuthentication" @emitBtnGroup="emitBtnGroup"></btn-group>
+			<!-- <template>
 				<uni-list>
 					<uni-list-item title="我的动态" :show-extra-icon="true" @click="handleGoTrack" :extra-icon="{color: '#4cd964',size: '22',type: 'pengyouquan'}">
 					</uni-list-item>
 					<uni-list-item title="我的相册" :show-extra-icon="true" @click="handleGoPhone" :extra-icon="{color: '#4cd964',size: '22',type: 'image'}">
 					</uni-list-item>
-					
+
 					<uni-list-item title="开通会员" :show-extra-icon="true" @click="handleGoVip" :extra-icon="{color: '#4cd964',size: '22',type: 'contact-filled'}">
 					</uni-list-item>
 					<uni-list-item title="关于我们" :show-extra-icon="true" :extra-icon="{color: '#4cd964',size: '22',type: 'compose'}">
@@ -35,7 +39,7 @@
 					<uni-list-item title="设置" :show-extra-icon="true" @click="handleGoSeting" :extra-icon="{color: '#4cd964',size: '22',type: 'gear'}">
 					</uni-list-item>
 				</uni-list>
-			</template>
+			</template> -->
 		</view>
 	</view>
 	<view v-else>
@@ -174,6 +178,52 @@
 					img: require('@/static/icon/btnGroup8.png'),
 					url: '/pages/me/editUserDisSetting',
 					text: '私密显示设置'
+				}],
+				groupBtnOther: [{
+					img: require('@/static/icon/btnGroup7.png'),
+					url: '/pages/me/track/index',
+					text: '我的动态'
+				}, {
+					img: require('@/static/icon/btnGroup7.png'),
+					url: '/pages/me/photo/index',
+					text: '我的相册'
+				}, {
+					img: require('@/static/icon/btnGroup7.png'),
+					url: '/pages/me/vip/index',
+					text: '开通会员'
+				}, {
+					img: require('@/static/icon/btnGroup7.png'),
+					url: '/pages/me/setings/index',
+					text: '关于我们'
+				}, {
+					img: require('@/static/icon/btnGroup7.png'),
+					url: '/pages/me/setings/index',
+					text: '设置'
+				}, {
+					img: '',
+					url: '',
+					text: ''
+				}, {
+					img: '',
+					url: '',
+					text: ''
+				}, {
+					img: '',
+					url: '',
+					text: ''
+				}],
+				groupBtnAuthentication: [{
+					img: require('@/static/icon/btnGroup7.png'),
+					url: '/pages/me/condition/editUserCondition',
+					text: '身份证认证'
+				}, {
+					img: require('@/static/icon/btnGroup7.png'),
+					url: '/pages/me/condition/editUserCondition',
+					text: '视频认证'
+				}, {
+					img: require('@/static/icon/btnGroup7.png'),
+					url: '/pages/me/condition/editUserCondition',
+					text: '银行卡认证'
 				}]
 			}
 		},
@@ -205,7 +255,7 @@
 					return '-'
 				}
 			},
-			compGrade(){
+			compGrade() {
 				let str = ""
 				Vips.find((item, index) => {
 					if (item.val == this.userInfo.gender) {
@@ -274,6 +324,7 @@
 				}
 
 			},
+			// w我的动态
 			handleGoTrack() {
 				// 跳转路由
 				uni.navigateTo({
@@ -282,14 +333,6 @@
 					animationDuration: 200
 				});
 			},
-			// 查看用户详情
-			// handleShowDetail() {
-			// 	uni.navigateTo({
-			// 		url: '/pages/me/detail',
-			// 		animationType: 'pop-in',
-			// 		animationDuration: 200
-			// 	});
-			// },
 			// 去VIP充值
 			handleGoVip() {
 				uni.navigateTo({
@@ -411,25 +454,31 @@
 						otherStandards: this.userInfo.otherStandards,
 					}
 				}
-				if(data.index == 6) {
+				if (data.index == 6) {
 					info = {
-						partnerAge:this.userInfo.partnerAge,
-						partnerHeight:this.userInfo.partnerHeight,
-						partnerNation:this.userInfo.partnerNation,
-						partnerEducation:this.userInfo.partnerEducation,
-						partnerIsMarry:this.userInfo.partnerIsMarry,
-						partnerNativePlace:this.userInfo.partnerNativePlace,
-						partnerIncome:this.userInfo.partnerIncome
+						partnerAge: this.userInfo.partnerAge,
+						partnerHeight: this.userInfo.partnerHeight,
+						partnerNation: this.userInfo.partnerNation,
+						partnerEducation: this.userInfo.partnerEducation,
+						partnerIsMarry: this.userInfo.partnerIsMarry,
+						partnerNativePlace: this.userInfo.partnerNativePlace,
+						partnerIncome: this.userInfo.partnerIncome
 					}
 				}
-				if(data.index == 7){
+				if (data.index == 7) {
 					info = {
 						level: this.userInfo.level
 					}
 				}
-				console.log(info)
 				uni.navigateTo({
 					url: `${data.item.url}?info=` + JSON.stringify(info),
+					animationType: 'pop-in',
+					animationDuration: 200
+				})
+			},
+			emitBtnOther(data){
+				uni.navigateTo({
+					url: data.item.url,
 					animationType: 'pop-in',
 					animationDuration: 200
 				})
@@ -443,6 +492,13 @@
 	@import url("style.css");
 
 	.content {}
+
+	.btn-group-title {
+		font-size: 12px;
+		text-indent: 12px;
+		color: #a7a7a7;
+		line-height: 20px;
+	}
 
 	.base {
 		padding: 8px;
@@ -484,11 +540,13 @@
 		margin-top: 58px;
 		font-size: 24px;
 	}
-	.base-name .item{
+
+	.base-name .item {
 		flex: 1;
 		margin-right: 8px;
 	}
-	.base-name .item:first-child{
+
+	.base-name .item:first-child {
 		text-align: right;
 		font-size: 16px;
 	}
