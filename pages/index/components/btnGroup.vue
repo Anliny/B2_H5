@@ -62,6 +62,7 @@
 		margin: auto;
 		height: 35px;
 		width: 35px;
+		padding: 5px;
 		color: #fff;
 	}
 	

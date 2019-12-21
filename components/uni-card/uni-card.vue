@@ -126,7 +126,7 @@ $uni-spacing-marign: 24upx;
 
 	&__thumbnailimage {
 		position: relative;
-		height: 120px;
+		height: 100px;
 
 		image {
 			width: 100%;

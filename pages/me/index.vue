@@ -180,23 +180,23 @@
 					text: '私密显示设置'
 				}],
 				groupBtnOther: [{
-					img: require('@/static/icon/btnGroup7.png'),
+					img: require('@/static/icon/btnGroup9.png'),
 					url: '/pages/me/track/index',
 					text: '我的动态'
 				}, {
-					img: require('@/static/icon/btnGroup7.png'),
+					img: require('@/static/icon/btnGroup10.png'),
 					url: '/pages/me/photo/index',
 					text: '我的相册'
 				}, {
-					img: require('@/static/icon/btnGroup7.png'),
+					img: require('@/static/icon/btnGroup11.png'),
 					url: '/pages/me/vip/index',
 					text: '开通会员'
 				}, {
-					img: require('@/static/icon/btnGroup7.png'),
+					img: require('@/static/icon/btnGroup12.png'),
 					url: '/pages/me/setings/index',
 					text: '关于我们'
 				}, {
-					img: require('@/static/icon/btnGroup7.png'),
+					img: require('@/static/icon/btnGroup13.png'),
 					url: '/pages/me/setings/index',
 					text: '设置'
 				}, {
@@ -213,15 +213,15 @@
 					text: ''
 				}],
 				groupBtnAuthentication: [{
-					img: require('@/static/icon/btnGroup7.png'),
+					img: require('@/static/icon/btnGroup14.png'),
 					url: '/pages/me/condition/editUserCondition',
 					text: '身份证认证'
 				}, {
-					img: require('@/static/icon/btnGroup7.png'),
+					img: require('@/static/icon/btnGroup15.png'),
 					url: '/pages/me/condition/editUserCondition',
 					text: '视频认证'
 				}, {
-					img: require('@/static/icon/btnGroup7.png'),
+					img: require('@/static/icon/btnGroup16.png'),
 					url: '/pages/me/condition/editUserCondition',
 					text: '银行卡认证'
 				}]

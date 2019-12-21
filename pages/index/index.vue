@@ -71,7 +71,7 @@
 					},{
 						img:require('@/static/icon/Chat.png'),
 						url:'',
-						text:'加入群聊'
+						text:'聊天'
 					}
 				],
 				loading: true,
