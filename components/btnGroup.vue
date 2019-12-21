@@ -6,7 +6,7 @@
 				<view class="content-btn-item-icons" >
 					<image class="img" :src="item.img"></image>
 				</view>
-				<text>{{item.text}}</text>
+				<text class="span">{{item.text}}</text>
 			</view>
 		</template>
 	</view>
@@ -59,11 +59,15 @@
 	.content-btn-item:nth-last-child(-n+4) {
 		border-bottom:none;
 	}
+	.content-btn-item .span{
+		color:#999;
+	}
 	
 	.content-btn-item .content-btn-item-icons {
 		margin: auto;
 		height: 35px;
 		width: 35px;
+		padding: 7px;
 		color: #fff;
 	}
 	

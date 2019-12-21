@@ -20,6 +20,7 @@
 					<view class="list-item" @click="handelGetUserInfo(item)">
 						<uni-card :title="item.nickName" mode="style" :is-shadow="true" :thumbnail="item.userAvatar" :extra="item.memberID"
 						 :note="item.iconArray">
+							<view class="uni-card-text">{{compGender(item.gender)}} | {{item.age ? item.age : "-" }} | {{compIsMarry(item.isMarry)}}</view>
 							<view class="uni-card-text">{{item.declaration}}</view>
 						</uni-card>
 					</view>
@@ -201,6 +202,22 @@
 						title: "此功能暂未开通,敬请期待"
 					})
 				}
+			},
+			// 格式化姓名，性别，是否已婚
+			compGender(gender){
+				return gender == 1?"男":"女";
+			},
+			compIsMarry(marry){
+				if(marry == 1){
+					return "未婚"
+				}
+				if(marry == 2){
+					return "离异"
+				}
+				if(marry == 3){
+					return "丧偶"
+				}
+				return "-"
 			}
 			
 		}
@@ -290,7 +307,7 @@
 	}
 
 	.uni-card-text {
-		font-size: 14px;
+		font-size: 12px;
 		text-overflow: -o-ellipsis-lastline;
 		overflow: hidden;
 		text-overflow: ellipsis;

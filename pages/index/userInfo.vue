@@ -3,7 +3,7 @@
 		<!-- #ifndef MP-WEIXIN -->
 		<nav-bar transparentFixedFontColor="#333" fontColor="#fff" bgColor="#ff77aa" type="transparentFixed" title="用户信息">
 			<!-- //透明状态下的按钮 -->
-			<view class="transparent_fixed_preview" slot="transparentFixedRight" >
+			<view class="transparent_fixed_preview" slot="transparentFixedRight">
 				<!-- <uni-icons type="plus" size="26" color="#fff"></uni-icons> -->
 			</view>
 			<view class="transparent_fixed_preview" slot="transparentFixedLeft" @click="handleGoBack">
@@ -322,25 +322,41 @@
 			return {
 				userInfo: {
 					userAvatar: ''
-				}
+				},
+				type:uni.getStorageSync('token').type
 			}
 		},
 		onLoad(options) {
-			console.log(options)
-			appRequest.baseRequest({
-				url: '/member/queryById',
-				data: options,
-				method: 'get',
-				success: (res) => {
-					// 用户状态存到缓存中去
-					try {
-						this.userInfo = res.data.data
-						console.log(this.userInfo)
-					} catch (e) {
-						//TODO handle the exception
+			if (this.type == 1) {
+				appRequest.baseRequest({
+					url: '/member/queryBackById',
+					data: options,
+					method: 'get',
+					success: (res) => {
+						// 用户状态存到缓存中去
+						try {
+							this.userInfo = res.data.data
+						} catch (e) {
+							//TODO handle the exception
+						}
 					}
-				}
-			})
+				})
+			} else {
+				appRequest.baseRequest({
+					url: '/member/queryById',
+					data: options,
+					method: 'get',
+					success: (res) => {
+						// 用户状态存到缓存中去
+						try {
+							this.userInfo = res.data.data
+						} catch (e) {
+							//TODO handle the exception
+						}
+					}
+				})
+			}
+
 		},
 		computed: {
 			compGrade() {
@@ -491,7 +507,7 @@
 					urls: [current]
 				})
 			},
-			handleGoBack(){
+			handleGoBack() {
 				uni.navigateBack({
 					delta: 1
 				});
@@ -507,14 +523,14 @@
 		margin-top: 44px;
 		padding: 8px;
 	}
-	
+
 	.base-wrapper {
 		position: relative;
 		margin-top: 50px;
 		background-color: #fff9f9;
 		border-radius: 20px;
 	}
-	
+
 	.img {
 		width: 100px;
 		height: 100px;
@@ -526,7 +542,7 @@
 		position: absolute;
 		margin-left: -50px;
 	}
-	
+
 	.edit-btn {
 		width: 35px;
 		height: 35px;
@@ -538,17 +554,19 @@
 		right: 5px;
 		top: 5px;
 	}
-	
+
 	.base-name {
 		display: flex;
 		margin-top: 58px;
 		font-size: 24px;
 	}
-	.base-name .item{
+
+	.base-name .item {
 		flex: 1;
 		margin-right: 8px;
 	}
-	.base-name .item:first-child{
+
+	.base-name .item:first-child {
 		text-align: right;
 		font-size: 16px;
 	}

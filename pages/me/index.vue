@@ -45,7 +45,7 @@
 	<view v-else>
 		<view class="header-warpper">
 			<view class="header-image image-wrapper">
-				<image src="../../static/header.jpeg" class="image" mode=""></image>
+				<image :src="userAvatar()" :data-src="userAvatar()" @tap="previewImage" class="image" mode=""></image>
 			</view>
 			<view class="header-wrapper">
 				<view class="header-item">
@@ -293,7 +293,9 @@
 			// 获取用户信息
 			getUserInfo() {
 				let token = uni.getStorageSync("token")
-				if (!token.type) {
+				console.log(token)
+				if (token.type == 0) {
+					console.log(1);
 					appRequest.baseRequest({
 						url: '/member/queryById',
 						method: 'get',
@@ -308,6 +310,7 @@
 						}
 					})
 				} else {
+					console.log(2);
 					appRequest.baseRequest({
 						url: 'matchmaker/queryById',
 						method: 'get',
@@ -357,14 +360,20 @@
 					animationDuration: 200
 				});
 			},
-			// 判断头像
+			// 判断会员头像
 			userAvatar() {
+				console.log(this.userInfo.userAvatar)
+				if(this.isVip){
+					return this.matchmaker.userAvatar ? this.matchmaker.userAvatar : "/static/icon/defult_header.jpg"
+				}else{
+					
 				return this.userInfo.userAvatar ? this.userInfo.userAvatar : "/static/icon/defult_header.jpg"
+				}
 			},
 			// 编辑红娘信息
 			handleEditUserContact(matchmaker) {
 				uni.navigateTo({
-					url: '/pages/me/editJokin?matchmakerId=' + matchmaker.id,
+					url: '/pages/me/editJokin?matchmakerId=' + matchmaker.id + "&userAvatar=" + matchmaker.userAvatar,
 					animationType: 'pop-in',
 					animationDuration: 200
 				})
@@ -476,7 +485,7 @@
 					animationDuration: 200
 				})
 			},
-			emitBtnOther(data){
+			emitBtnOther(data) {
 				uni.navigateTo({
 					url: data.item.url,
 					animationType: 'pop-in',
