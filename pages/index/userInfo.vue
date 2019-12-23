@@ -3,7 +3,7 @@
 		<!-- #ifndef MP-WEIXIN -->
 		<nav-bar transparentFixedFontColor="#333" fontColor="#fff" bgColor="#ff77aa" type="transparentFixed" title="用户信息">
 			<!-- //透明状态下的按钮 -->
-			<view class="transparent_fixed_preview" slot="transparentFixedRight" >
+			<view class="transparent_fixed_preview" slot="transparentFixedRight">
 				<!-- <uni-icons type="plus" size="26" color="#fff"></uni-icons> -->
 			</view>
 			<view class="transparent_fixed_preview" slot="transparentFixedLeft" @click="handleGoBack">
@@ -182,6 +182,13 @@
 					是否婚配：
 				</view>
 				<view class="card-item-text">{{isMarry}}</view>
+			</view>
+			<view class="card-item">
+				<view class="card-item-lable">
+					<uni-icons type="person" color="#ff77aa"></uni-icons>
+					是否有小孩：
+				</view>
+				<view class="card-item-text">{{userInfo.isChild ?  "无" :"有"}}</view>
 			</view>
 		</view>
 
@@ -491,7 +498,7 @@
 					urls: [current]
 				})
 			},
-			handleGoBack(){
+			handleGoBack() {
 				uni.navigateBack({
 					delta: 1
 				});
@@ -507,14 +514,14 @@
 		margin-top: 44px;
 		padding: 8px;
 	}
-	
+
 	.base-wrapper {
 		position: relative;
 		margin-top: 50px;
 		background-color: #fff9f9;
 		border-radius: 20px;
 	}
-	
+
 	.img {
 		width: 100px;
 		height: 100px;
@@ -526,7 +533,7 @@
 		position: absolute;
 		margin-left: -50px;
 	}
-	
+
 	.edit-btn {
 		width: 35px;
 		height: 35px;
@@ -538,17 +545,19 @@
 		right: 5px;
 		top: 5px;
 	}
-	
+
 	.base-name {
 		display: flex;
 		margin-top: 58px;
 		font-size: 24px;
 	}
-	.base-name .item{
+
+	.base-name .item {
 		flex: 1;
 		margin-right: 8px;
 	}
-	.base-name .item:first-child{
+
+	.base-name .item:first-child {
 		text-align: right;
 		font-size: 16px;
 	}

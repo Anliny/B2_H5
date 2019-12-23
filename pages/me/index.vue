@@ -436,7 +436,8 @@
 						nativePlace: this.userInfo.nativePlace,
 						currentAddress: this.userInfo.currentAddress,
 						industry: this.userInfo.industry,
-						isMarry: this.userInfo.isMarry
+						isMarry: this.userInfo.isMarry,
+						isChild:this.userInfo.isChild
 					}
 				}
 				if (data.index == 4) {

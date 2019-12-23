@@ -45,6 +45,19 @@
 						</picker>
 					</view>
 				</view>
+				<view class="uni-form-item uni-column">
+					<view class="form-lable">是否有小孩</view>
+					<view class="form-inpput">
+						<radio-group class="form-radio-group" @change="handleRadioChange">
+							<label class="formRadio" v-for="(item, index) in isChildList" :key="item.value">
+								<view>
+									<radio :value="item.value" :checked="index === userDetailInfo.isChild" />
+								</view>
+								<view>{{item.name}}</view>
+							</label>
+						</radio-group>
+					</view>
+				</view>
 				<view class="uni-btn-v">
 					<button type="primary" :loading="loading" form-type="submit">提交</button>
 				</view>
@@ -71,8 +84,16 @@
 				loading: false,
 				marrys: marrys,
 				marrysIndex: 0,
+				isChildList: [{
+					value: '0',
+					name: '有'
+				}, {
+					value: '1',
+					name: '无'
+				}],
 				userDetailInfo: {
 					position: '', //职位
+					isChild: '',
 					//籍贯
 					nativePlace: {
 						city: "",
@@ -109,7 +130,8 @@
 				nativePlace,
 				currentAddress,
 				industry,
-				isMarry
+				isMarry,
+				isChild
 			} = JSON.parse(options.info)
 			if (!nativePlace) {
 				nativePlace = {
@@ -139,6 +161,7 @@
 				position: position ? position : '',
 				industry: industry ? industry : '',
 				isMarry: isMarry ? isMarry : '',
+				isChild: isChild,
 				nativePlace,
 				currentAddress
 			}
@@ -149,8 +172,11 @@
 			})
 		},
 		methods: {
+			//是否有小孩
+			 handleRadioChange(e) {
+			 	this.userDetailInfo.isChild = e.target.value
+			 },
 			formSubmit(e) {
-				// console.log(e)
 				let loginRules = [{
 					name: 'position',
 					required: true,
@@ -163,7 +189,6 @@
 					errmsg: '请输入行业'
 				}]
 				this.userDetailInfo.id = uni.getStorageSync('userInfo').id
-				console.log(this.userDetailInfo)
 				let valLoginRes = this.$validate.validate(this.userDetailInfo, loginRules)
 				if (!valLoginRes.isOk) {
 					uni.showToast({
@@ -178,14 +203,15 @@
 					industry,
 					isMarry,
 					nativePlace,
+					isChild,
 					position
 				} = this.userDetailInfo
-				console.log(JSON.stringify(currentAddress))
 				let data = {
 					currentAddress: JSON.stringify(currentAddress),
 					id,
 					industry,
 					isMarry,
+					isChild,
 					nativePlace: JSON.stringify(nativePlace),
 					position
 				}
@@ -228,7 +254,6 @@
 			},
 			// 选择籍贯
 			bindPickerChange: function(e) {
-				console.log('picker发送选择改变，携带值为', e.target.value)
 				this.index = e.target.value
 			},
 
@@ -271,10 +296,7 @@
 				this.lotusAddressData.visible = res.visible; //visible为显示与关闭组件标识true显示false隐藏
 				//res.isChose = 1省市区已选 res.isChose = 0;未选
 				if (res.isChose) {
-					console.log(this.isAdress)
 					if (this.isAdress == 1) {
-
-						console.log(res);
 						this.userDetailInfo.nativePlace = res
 					}
 					if (this.isAdress == 2) {
@@ -287,6 +309,7 @@
 				}
 				this.isAdress = 0
 			}
+			
 		}
 	}
 </script>
