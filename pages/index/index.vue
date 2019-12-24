@@ -55,25 +55,23 @@
 		},
 		data() {
 			return {
-				groupBtnData:[
-					{
-						img:require('@/static/icon/city.png'),
-						url:'',
-						text:'同城会员'
-					},{
-						img:require('@/static/icon/redMather.png'),
-						url:'',
-						text:'红娘牵线'
-					},{
-						img:require('@/static/icon/activity.png'),
-						url:'/pages/index/vipTrack',
-						text:'会员动态'
-					},{
-						img:require('@/static/icon/Chat.png'),
-						url:'',
-						text:'聊天'
-					}
-				],
+				groupBtnData: [{
+					img: require('@/static/icon/city.png'),
+					url: '',
+					text: '同城会员'
+				}, {
+					img: require('@/static/icon/redMather.png'),
+					url: '',
+					text: '红娘牵线'
+				}, {
+					img: require('@/static/icon/activity.png'),
+					url: '/pages/index/vipTrack',
+					text: '会员动态'
+				}, {
+					img: require('@/static/icon/Chat.png'),
+					url: '',
+					text: '聊天'
+				}],
 				loading: true,
 				loadMore: "more",
 				skeleton1: {
@@ -88,6 +86,7 @@
 				},
 				searchData: {
 					nickName: "",
+					currentAddress: "",
 					current: 0,
 					pages: 1,
 					size: 10,
@@ -101,6 +100,7 @@
 			this.searchData.current = 0
 			this.dataInfo = []
 			this.getVipList()
+			this.getAdress()
 		},
 		onPullDownRefresh() {
 			// 获取用户列表
@@ -116,6 +116,51 @@
 			this.getVipList()
 		},
 		methods: {
+
+			// 获取地理位置
+			getAdress() {
+				console.log(1111)
+				uni.getLocation({
+					type: 'wgs84',
+					success: function(res) {
+						console.log('当前位置的经度：' + res.longitude);
+						console.log('当前位置的纬度：' + res.latitude);
+						uni.showModal({
+							content: '当前位置的经度：' + res.longitude+'当前位置的纬度：' + res.latitude,
+							showCancel: false
+						});
+						var point = new plus.maps.Point(res.longitude, res.latitude);
+						plus.maps.Map.reverseGeocode(
+							point, {},
+							function(event) {
+								var address = event.address; // 转换后的地理位置
+								var point = event.coord; // 转换后的坐标信息
+								var coordType = event.coordType; // 转换后的坐标系类型
+								console.log(address, 'address');
+								var reg = /.+?(省|市|自治区|自治州|县|区)/g;
+
+								console.log(address.match(reg));
+								uni.showModal({
+									content: address.match(reg),
+									showCancel: false
+								});
+								this.addressList = address.match(reg).toString().split(",");
+								this.address = this.addressList[1];
+								console.log(this.addressList[0]);
+								console.log(this.addressList[1]);
+								console.log(this.addressList[2]);
+								uni.showModal({
+									content: this.addressList[0]+this.addressList[1]+this.addressList[2],
+									showCancel: false
+								});
+
+							},
+							function(e) {}
+						);
+					}
+				});
+			},
+
 			// 获取用户列表
 			getVipList() {
 				this.searchData.current = this.searchData.current + 1
@@ -188,21 +233,45 @@
 
 			},
 			// 点击按钮组
-			emitBtnGroup(data){
-				if(data.url){
+			emitBtnGroup(data) {
+				console.log(uni.getStorageSync('userInfo'))
+				let {
+					currentAddress
+				} = uni.getStorageSync('userInfo')
+				// 同城搜索
+				if (data.index == 0) {
+
+					this.searchData.currentAddress = currentAddress
+					this.searchData.current = 0
+					this.dataInfo = []
+					this.getVipList()
+					this.loading = true
+					// this.onPullDownRefresh()
+				}
+				// 红娘牵线
+				if (data.index == 1) {
+					uni.showToast({
+						icon: "none",
+						title: "此功能暂未开通,敬请期待"
+					})
+				}
+				// 会员动态
+				if (data.index == 2) {
 					uni.navigateTo({
 						url: '/pages/index/vipTrack',
 						animationType: 'pop-in',
 						animationDuration: 200
 					})
-				}else{
+				}
+				// 聊天
+				if (data.index == 3) {
 					uni.showToast({
 						icon: "none",
 						title: "此功能暂未开通,敬请期待"
 					})
 				}
 			}
-			
+
 		}
 	}
 </script>
@@ -224,7 +293,7 @@
 		margin-bottom: 50rpx;
 	}
 
-	
+
 
 	.uni-card__content-extra {
 		color: #000;

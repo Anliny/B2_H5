@@ -2,7 +2,7 @@
 	
 	<view class="content-btn-wrapper" >
 		<template v-for="(item,index) in groupBtnData" >
-			<view class="content-btn-item"  @click="handleBtnGroup(item)">
+			<view class="content-btn-item"  @click="handleBtnGroup({item,index})">
 				<view class="content-btn-item-icons" >
 					<image class="img" :src="item.img"></image>
 				</view>
