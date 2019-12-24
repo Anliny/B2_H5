@@ -33,7 +33,8 @@
 						height: 300
 					}
 				},
-				weCropper: ''
+				weCropper: '',
+				id:""
 			};
 		},
 		methods: {
@@ -68,7 +69,6 @@
 				a.readAsDataURL(blob); //读取文件保存在result中
 				a.onload = function(e) {
 					var getRes = e.target.result; //读取的结果在result中
-					console.log(getRes);
 				};
 			},
 			getCropperImage() {
@@ -90,18 +90,16 @@
 							// 	userId: userId
 							// },
 							success: res => {
-								console.log(JSON.parse(res.data));
 								uni.showToast({
 									title: '上传成功',
 									icon: 'success',
 									duration: 1000
 								});
 								wx.redirectTo({
-								  url: '/pages/me/editJokin?userAvatar=' + JSON.parse(res.data).data
+								  url: '/pages/me/editJokin?matchmakerId='+ this.id +'&userAvatar=' + JSON.parse(res.data).data 
 								})
 							},
 							ail: err => {
-								console.log('uploadImage fail', err);
 								uni.showModal({
 									content: err.errMsg,
 									showCancel: false
@@ -137,6 +135,8 @@
 			// do something
 			const cropperOpt = this.cropperOpt;
 			const src = option.src;
+			this.id = option.id
+			console.log(option)
 			if (src) {
 				Object.assign(cropperOpt, {
 					src

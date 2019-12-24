@@ -158,7 +158,8 @@
 					townName: '',
 				},
 				region: '',
-				matchmakerId:''
+				matchmakerId:'',
+				userAvatar:''
 			}
 		},
 		computed: {
@@ -167,12 +168,15 @@
 				return `${province}${city}${town}`
 			},
 			nativePlace(){
+				if(this.jokinInfo.nativePlace == 'null'){return ""}
 				let {province,city,town} = this.jokinInfo.nativePlace
 				return `${province}${city}${town}`
 			}
 		},
 		onLoad(option) {
 			this.matchmakerId = option.matchmakerId
+			this.userAvatar = option.userAvatar
+			// this.jokinInfo.userAvatar = option.userAvatar
 			this.getUserInfo()
 		},
 		methods: {
@@ -183,27 +187,50 @@
 					data: {id:this.matchmakerId},
 					method: 'get',
 					success: (res) => {
-						// 用户状态存到缓存中去
 						try {
-							console.log(res)
 							let {userAvatar,name,gender,age,workingLife,phone,wechatNumber,nativePlace,workingAddress,field,motto} = res.data.data
+							let dataNativePlace = {}
+							let dataWorkingAddress = {}
+							if(!nativePlace){
+								dataNativePlace = {
+									city: "",
+									cityCode: "",
+									province: "",
+									provinceCode: "",
+									town: "",
+									townCode: ""
+								}
+							}else{
+								dataNativePlace = JSON.parse(nativePlace)
+							}
+							if(!workingAddress){
+								dataWorkingAddress = {
+									city: "",
+									cityCode: "",
+									province: "",
+									provinceCode: "",
+									town: "",
+									townCode: ""
+								}
+							}else{
+								dataWorkingAddress = JSON.parse(workingAddress)
+							}
 							this.jokinInfo = {
-								userAvatar,
-								name,
+								userAvatar:this.userAvatar,
+								name:name ? name :"",
 								gender,
 								age,
 								workingLife,
 								phone,
-								wechatNumber,
-								nativePlace:JSON.parse(nativePlace),
-								workingAddress:JSON.parse(workingAddress),
-								field,
-								motto
+								wechatNumber: wechatNumber ? wechatNumber : "",
+								nativePlace:dataNativePlace,
+								workingAddress:dataWorkingAddress,
+								field:field ? field : "",
+								motto:motto ? motto :""
 							}
 							let ages = age ? age : "请选择年龄";
 							this.yearsIndex = this.years.indexOf(ages)
 							this.jobYarIndex = this.jobYars.indexOf(workingLife)
-							console.log(this.jobYarIndex);
 						} catch (e) {
 							//TODO handle the exception
 						}
@@ -216,10 +243,10 @@
 					count: 1, // 默认9
 					sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
 					sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-					success(res) {
+					success:(res) => {
 						const src = res.tempFilePaths[0];
 						uni.navigateTo({
-							url: '/pages/components/uploadAvatar/jokinAvatar?src=' + src
+							url: '/pages/components/uploadAvatar/jokinAvatar?src=' + src + "&id=" + this.matchmakerId
 						});
 					}
 				});
@@ -283,8 +310,6 @@
 					errmsg: '请填写情感箴言'
 				}]
 				this.jokinInfo.id = uni.getStorageSync('userInfo').id
-				console.log(this.jokinInfo)
-				
 				let valLoginRes = this.$validate.validate(this.jokinInfo, loginRules)
 				if (!valLoginRes.isOk) {
 					uni.showToast({
@@ -335,9 +360,12 @@
 								showCancel: false
 							});
 							uni.setStorageSync('userInfo', res.data.data)
-							uni.switchTab({
+							setTimeout(() => {
+								uni.switchTab({
 								url:'/pages/me/index'
 							})
+							},1200)
+							
 
 						} catch (e) {
 							//TODO handle the exception
@@ -357,7 +385,6 @@
 			},
 			// 选择工作年限
 			handlejobYarsChange: function(e) {
-				console.log(e)
 				this.jobYarIndex = e.detail.value;
 				this.jokinInfo.workingLife = jobYars[this.jobYarIndex]
 			},
@@ -370,31 +397,16 @@
 			// 选择现住地址
 			handleCheckAdress() {
 				this.isAdress = 2;
-				console.log(1231)
 				this.openPicker()
 			},
 			// 省市区
 			//打开picker
 			openPicker() {
 				this.lotusAddressData.visible = true;
-				// this.lotusAddressData.provinceName = '广东省';
-				// this.lotusAddressData.cityName = '广州市';
-				// this.lotusAddressData.townName = '白云区';
 				let {
 					nativePlace,
 					workingAddress
 				} = this.jokinInfo
-				// if (this.isAdress == 1) {
-				// 	this.lotusAddressData.provinceName = nativePlace.province;
-				// 	this.lotusAddressData.cityName = nativePlace.city;
-				// 	this.lotusAddressData.townName = nativePlace.town;
-				// }
-				// if (this.isAdress == 2) {
-				// 	this.lotusAddressData.provinceName = workingAddress.province;
-				// 	this.lotusAddressData.cityName = workingAddress.city;
-				// 	this.lotusAddressData.townName = workingAddress.town;
-				// }
-
 			},
 			//回传已选的省市区的值
 			choseValue(res) {
@@ -402,19 +414,12 @@
 				this.lotusAddressData.visible = res.visible; //visible为显示与关闭组件标识true显示false隐藏
 				//res.isChose = 1省市区已选 res.isChose = 0;未选
 				if (res.isChose) {
-					console.log(this.isAdress)
 					if (this.isAdress == 1) {
-
-						console.log(res);
 						this.jokinInfo.nativePlace = res
 					}
 					if (this.isAdress == 2) {
 						this.jokinInfo.workingAddress = res
 					}
-					// this.lotusAddressData.provinceName = res.province; //省
-					// this.lotusAddressData.cityName = res.city; //市
-					// this.lotusAddressData.townName = res.town; //区
-					// this.region = `${res.province} ${res.city} ${res.town}`; //region为已选的省市区的值
 				}
 				this.isAdress = 0
 			},

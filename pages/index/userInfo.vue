@@ -329,25 +329,41 @@
 			return {
 				userInfo: {
 					userAvatar: ''
-				}
+				},
+				type:uni.getStorageSync('token').type
 			}
 		},
 		onLoad(options) {
-			console.log(options)
-			appRequest.baseRequest({
-				url: '/member/queryById',
-				data: options,
-				method: 'get',
-				success: (res) => {
-					// 用户状态存到缓存中去
-					try {
-						this.userInfo = res.data.data
-						console.log(this.userInfo)
-					} catch (e) {
-						//TODO handle the exception
+			if (this.type == 1) {
+				appRequest.baseRequest({
+					url: '/member/queryBackById',
+					data: options,
+					method: 'get',
+					success: (res) => {
+						// 用户状态存到缓存中去
+						try {
+							this.userInfo = res.data.data
+						} catch (e) {
+							//TODO handle the exception
+						}
 					}
-				}
-			})
+				})
+			} else {
+				appRequest.baseRequest({
+					url: '/member/queryById',
+					data: options,
+					method: 'get',
+					success: (res) => {
+						// 用户状态存到缓存中去
+						try {
+							this.userInfo = res.data.data
+						} catch (e) {
+							//TODO handle the exception
+						}
+					}
+				})
+			}
+
 		},
 		computed: {
 			compGrade() {
