@@ -117,8 +117,6 @@
 					data: this.pageObj,
 					method: 'get',
 					success: (res) => {
-						console.log(res);
-
 						try {
 							let {
 								current,
@@ -158,7 +156,6 @@
 					},
 					method: 'post',
 					success: (res) => {
-						console.log(res)
 					},
 				})
 			},
