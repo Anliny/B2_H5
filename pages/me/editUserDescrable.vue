@@ -18,8 +18,7 @@
 				<view class="uni-form-item uni-column" style="display: block;">
 					<view class="form-lable">选择标签：</view>
 					<view class="form-inpput clearfix" style="width: 100%;padding: 8px;">
-						<!-- item-lable-active -->
-						<view class="item-lable" @click="handleLable(item,index)" v-for="(item,index) in lableList" :key="index">{{item.name}}</view>
+						<view class="item-lable"   @click="handleLable(item,index)" v-for="(item,index) in lableList" :key="index" :class="item.isCheck ? 'item-lable-active' : ''">{{item.name}}</view>
 					</view>
 				</view>
 				<view class="uni-btn-v">
@@ -44,7 +43,8 @@
 					declaration: '',
 					hobby: '',
 					otherStandardsId:''
-				}
+				},
+				otherStandardsId:[]
 			}
 		},
 		onLoad(options) {
@@ -52,8 +52,9 @@
 			let {
 				declaration,
 				hobby,
-				otherStandards
+				otherStandardsId
 			} = JSON.parse(options.info)
+			this.otherStandardsId = JSON.parse(otherStandardsId)
 			this.userDetailInfo = {
 				declaration:declaration?declaration:'',
 				hobby:hobby?hobby:'',
@@ -79,7 +80,14 @@
 					}
 				]
 				let valLoginRes = this.$validate.validate(this.userDetailInfo, loginRules)
-				console.log(this.userDetailInfo);
+				let otherStandardsId = []
+				this.lableList.forEach((item,index) => {
+					if (item.isCheck) {
+						otherStandardsId.push(item.id)
+					} 
+				})
+				this.userDetailInfo.otherStandardsId = JSON.stringify(otherStandardsId);
+				
 				if (!valLoginRes.isOk) {
 					uni.showToast({
 						icon: 'none',
@@ -134,8 +142,15 @@
 					success: (res) => {
 						// 用户状态存到缓存中去
 						try {
-							console.log(res);
 							this.lableList = res.data.data.records;
+							this.lableList.forEach((item,index) => {
+								this.otherStandardsId.forEach(row => {
+									if(row == item.id){
+										item.isCheck = true
+									}
+								})
+								
+							})
 						} catch (e) {
 							//TODO handle the exception
 						}
@@ -143,13 +158,14 @@
 				})
 			},
 			// 点击lable
-			handleLable(item,index){
+			handleLable(data,index){
+				this.lableList[index].isCheck = !this.lableList[index].isCheck
+				// 强制刷新列表
+				this.$forceUpdate() 
 				
 			},
 			// 
 			bindTextAreaBlur(){}
-			
-			
 		}
 	}
 </script>
