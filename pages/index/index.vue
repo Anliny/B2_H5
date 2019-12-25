@@ -5,9 +5,36 @@
 		</skeleton>
 		<skeleton :loading="loading" :row="skeleton1.row" :showAvatar="skeleton1.showAvatar" :showTitle="true" avatarSize="false"></skeleton>
 		<view class="content" v-if="!loading">
-			<view class="img-wrapper">
+			<!-- banner 开始 -->
+			<!-- <view class="img-wrapper">
 				<image class="img" src="/static/banner.jpg"></image>
+			</view> -->
+			<view class="uni-padding-wrap">
+				<view class="page-section swiper">
+					<view class="page-section-spacing">
+						<swiper class="swiper" :circular="true" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
+							<swiper-item>
+								<view class="swiper-item">
+									<image class="" src="/static/banner.jpg" mode="aspectFit"></image>
+								</view>
+							</swiper-item>
+							<swiper-item>
+								<view class="swiper-item uni-bg-green">
+									<image src="/static/banner.jpg" mode="aspectFit"></image>
+								</view>
+							</swiper-item>
+							<swiper-item>
+								<view class="swiper-item uni-bg-blue">
+									<image src="/static/banner.jpg" mode="aspectFit"></image>
+								</view>
+							</swiper-item>
+						</swiper>
+					</view>
+				</view>
 			</view>
+
+
+			<!-- banner结束 -->
 			<view class="shearch-wrapper">
 				<uni-search-bar placeholder="关键字查询" @input="input" @cancel="cancel" />
 			</view>
@@ -20,7 +47,8 @@
 					<view class="list-item" @click="handelGetUserInfo(item)">
 						<uni-card :title="item.nickName" mode="style" :is-shadow="true" :thumbnail="item.userAvatar" :extra="item.memberID"
 						 :note="item.iconArray">
-							<view class="uni-card-text">{{compGender(item.gender)}} | {{item.age ? item.age : "-" }} | {{compIsMarry(item.isMarry)}}</view>
+							<view class="uni-card-text">{{compGender(item.gender)}} | {{item.age ? item.age : "-" }}岁 |
+								{{compIsMarry(item.isMarry)}}</view>
 							<view class="uni-card-text">{{item.declaration}}</view>
 						</uni-card>
 					</view>
@@ -56,6 +84,12 @@
 		},
 		data() {
 			return {
+				background: ['color1', 'color2', 'color3'],
+				indicatorDots: true,
+				autoplay: true,
+				interval: 2000000,
+				duration: 500,
+				// banner属性结束
 				groupBtnData: [{
 					img: require('@/static/icon/city.png'),
 					url: '',
@@ -101,7 +135,7 @@
 			this.searchData.current = 0
 			this.dataInfo = []
 			this.getVipList()
-			this.getAdress()
+			// this.getAdress()
 		},
 		onPullDownRefresh() {
 			// 获取用户列表
@@ -117,50 +151,62 @@
 			this.getVipList()
 		},
 		methods: {
-
-			// 获取地理位置
-			getAdress() {
-				console.log(1111)
-				uni.getLocation({
-					type: 'wgs84',
-					success: function(res) {
-						console.log('当前位置的经度：' + res.longitude);
-						console.log('当前位置的纬度：' + res.latitude);
-						uni.showModal({
-							content: '当前位置的经度：' + res.longitude+'当前位置的纬度：' + res.latitude,
-							showCancel: false
-						});
-						var point = new plus.maps.Point(res.longitude, res.latitude);
-						plus.maps.Map.reverseGeocode(
-							point, {},
-							function(event) {
-								var address = event.address; // 转换后的地理位置
-								var point = event.coord; // 转换后的坐标信息
-								var coordType = event.coordType; // 转换后的坐标系类型
-								console.log(address, 'address');
-								var reg = /.+?(省|市|自治区|自治州|县|区)/g;
-
-								console.log(address.match(reg));
-								uni.showModal({
-									content: address.match(reg),
-									showCancel: false
-								});
-								this.addressList = address.match(reg).toString().split(",");
-								this.address = this.addressList[1];
-								console.log(this.addressList[0]);
-								console.log(this.addressList[1]);
-								console.log(this.addressList[2]);
-								uni.showModal({
-									content: this.addressList[0]+this.addressList[1]+this.addressList[2],
-									showCancel: false
-								});
-
-							},
-							function(e) {}
-						);
-					}
-				});
+			// banner事件
+			changeIndicatorDots(e) {
+				this.indicatorDots = !this.indicatorDots
 			},
+			changeAutoplay(e) {
+				this.autoplay = !this.autoplay
+			},
+			intervalChange(e) {
+				this.interval = e.target.value
+			},
+			durationChange(e) {
+				this.duration = e.target.value
+			},
+			// // 获取地理位置
+			// getAdress() {
+			// 	console.log(1111)
+			// 	uni.getLocation({
+			// 		type: 'wgs84',
+			// 		success: function(res) {
+			// 			console.log('当前位置的经度：' + res.longitude);
+			// 			console.log('当前位置的纬度：' + res.latitude);
+			// 			uni.showModal({
+			// 				content: '当前位置的经度：' + res.longitude + '当前位置的纬度：' + res.latitude,
+			// 				showCancel: false
+			// 			});
+			// 			var point = new plus.maps.Point(res.longitude, res.latitude);
+			// 			plus.maps.Map.reverseGeocode(
+			// 				point, {},
+			// 				function(event) {
+			// 					var address = event.address; // 转换后的地理位置
+			// 					var point = event.coord; // 转换后的坐标信息
+			// 					var coordType = event.coordType; // 转换后的坐标系类型
+			// 					console.log(address, 'address');
+			// 					var reg = /.+?(省|市|自治区|自治州|县|区)/g;
+
+			// 					console.log(address.match(reg));
+			// 					uni.showModal({
+			// 						content: address.match(reg),
+			// 						showCancel: false
+			// 					});
+			// 					this.addressList = address.match(reg).toString().split(",");
+			// 					this.address = this.addressList[1];
+			// 					console.log(this.addressList[0]);
+			// 					console.log(this.addressList[1]);
+			// 					console.log(this.addressList[2]);
+			// 					uni.showModal({
+			// 						content: this.addressList[0] + this.addressList[1] + this.addressList[2],
+			// 						showCancel: false
+			// 					});
+
+			// 				},
+			// 				function(e) {}
+			// 			);
+			// 		}
+			// 	});
+			// },
 
 			// 获取用户列表
 			getVipList() {
@@ -273,17 +319,17 @@
 				}
 			},
 			// 格式化姓名，性别，是否已婚
-			compGender(gender){
-				return gender == 1?"男":"女";
+			compGender(gender) {
+				return gender == 1 ? "男" : "女";
 			},
-			compIsMarry(marry){
-				if(marry == 1){
+			compIsMarry(marry) {
+				if (marry == 1) {
 					return "未婚"
 				}
-				if(marry == 2){
+				if (marry == 2) {
 					return "离异"
 				}
-				if(marry == 3){
+				if (marry == 3) {
 					return "丧偶"
 				}
 				return "-"

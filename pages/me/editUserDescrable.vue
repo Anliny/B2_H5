@@ -15,12 +15,13 @@
 						<textarea @blur="bindTextAreaBlur" style="font-size: 14px;line-height: 35px;" placeholder-style="color:#F76260" placeholder="请输入兴趣爱好" v-model="userDetailInfo.hobby" auto-height />
 					</view>
 				</view>
-				<!-- <view class="uni-form-item uni-column">
+				<view class="uni-form-item uni-column" style="display: block;">
 					<view class="form-lable">选择标签：</view>
-					<view class="form-inpput">
-						<input v-model="userDetailInfo.wechatNumber" type="text" placeholder-class="placeholder" placeholder="请填写微信号" />
+					<view class="form-inpput clearfix" style="width: 100%;padding: 8px;">
+						<!-- item-lable-active -->
+						<view class="item-lable" @click="handleLable(item,index)" v-for="(item,index) in lableList" :key="index">{{item.name}}</view>
 					</view>
-				</view> -->
+				</view>
 				<view class="uni-btn-v">
 					<button type="primary" :loading="loading" form-type="submit">提交</button>
 				</view>
@@ -38,15 +39,16 @@
 				loading: false,
 				vips: Vips,
 				vipIndex: 0,
-				
+				lableList:[],
 				userDetailInfo: {
 					declaration: '',
 					hobby: '',
+					otherStandardsId:''
 				}
 			}
 		},
 		onLoad(options) {
-			console.log(options);
+			
 			let {
 				declaration,
 				hobby,
@@ -54,9 +56,12 @@
 			} = JSON.parse(options.info)
 			this.userDetailInfo = {
 				declaration:declaration?declaration:'',
-				hobby:hobby?hobby:''
-			}
+				hobby:hobby?hobby:'',
+				otherStandardsId:otherStandardsId? otherStandardsId :""
+			},
 			
+			// 查询标签
+			this.getLable()
 		},
 		methods: {
 			formSubmit(e) {
@@ -116,9 +121,35 @@
 			formReset: (e) => {
 				console.log('清空数据')
 			},
-
+			// 获取标签
+			getLable(){
+				let query = {
+					current:1,
+					size:9999
+				}
+				appRequest.baseRequest({
+					url: 'label/queryPage',
+					data:query,
+					method: 'get',
+					success: (res) => {
+						// 用户状态存到缓存中去
+						try {
+							console.log(res);
+							this.lableList = res.data.data.records;
+						} catch (e) {
+							//TODO handle the exception
+						}
+					}
+				})
+			},
+			// 点击lable
+			handleLable(item,index){
+				
+			},
 			// 
 			bindTextAreaBlur(){}
+			
+			
 		}
 	}
 </script>
@@ -154,4 +185,17 @@
 		line-height: 35px;
 		font-size: 14px;
 	}
+	
+	.item-lable{
+		padding: 0px 6px;
+		float: left;
+		border: 1px solid #dedede;
+		margin: 0px 4px 4px 0px;
+		line-height: 25px;
+	}
+	.item-lable-active{
+		border: 1px solid #FF77AA;
+		color: #FF77AA;
+	}
+	
 </style>

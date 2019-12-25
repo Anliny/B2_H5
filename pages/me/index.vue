@@ -24,7 +24,7 @@
 			<view class="btn-group-title">其他信息</view>
 			<btn-group :groupBtnData="groupBtnOther" @emitBtnGroup="emitBtnOther"></btn-group>
 			<view class="btn-group-title">认证信息</view>
-			<btn-group :groupBtnData="groupBtnAuthentication" @emitBtnGroup="emitBtnGroup"></btn-group>
+			<btn-group :groupBtnData="groupBtnAuthentication" @emitBtnGroup="emitAuthenticationGroup"></btn-group>
 			<!-- <template>
 				<uni-list>
 					<uni-list-item title="我的动态" :show-extra-icon="true" @click="handleGoTrack" :extra-icon="{color: '#4cd964',size: '22',type: 'pengyouquan'}">
@@ -179,6 +179,7 @@
 					url: '/pages/me/editUserDisSetting',
 					text: '私密显示设置'
 				}],
+				
 				groupBtnOther: [{
 					img: require('@/static/icon/btnGroup9.png'),
 					url: '/pages/me/track/index',
@@ -461,7 +462,7 @@
 					info = {
 						declaration: this.userInfo.declaration,
 						hobby: this.userInfo.hobby,
-						otherStandards: this.userInfo.otherStandards,
+						otherStandardsId: this.userInfo.otherStandardsId,
 					}
 				}
 				if (data.index == 6) {
@@ -492,8 +493,14 @@
 					animationType: 'pop-in',
 					animationDuration: 200
 				})
+			},
+			// 认证
+			emitAuthenticationGroup(){
+				uni.showToast({
+					title:"该目录信息，暂时未开通",
+					icon:"none"
+				})
 			}
-
 		}
 	}
 </script>
