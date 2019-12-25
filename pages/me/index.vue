@@ -294,9 +294,7 @@
 			// 获取用户信息
 			getUserInfo() {
 				let token = uni.getStorageSync("token")
-				console.log(token)
 				if (token.type == 0) {
-					console.log(1);
 					appRequest.baseRequest({
 						url: '/member/queryById',
 						method: 'get',
@@ -311,7 +309,6 @@
 						}
 					})
 				} else {
-					console.log(2);
 					appRequest.baseRequest({
 						url: 'matchmaker/queryById',
 						method: 'get',
@@ -363,7 +360,6 @@
 			},
 			// 判断会员头像
 			userAvatar() {
-				console.log(this.userInfo.userAvatar)
 				if(this.isVip){
 					return this.matchmaker.userAvatar ? this.matchmaker.userAvatar : "/static/icon/defult_header.jpg"
 				}else{
@@ -409,7 +405,6 @@
 			},
 			//  按钮组点击跳转
 			emitBtnGroup(data) {
-				console.log(data)
 				let info = {}
 				if (data.index == 0) {
 					info = {

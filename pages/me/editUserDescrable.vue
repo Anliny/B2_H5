@@ -58,7 +58,7 @@
 			this.userDetailInfo = {
 				declaration:declaration?declaration:'',
 				hobby:hobby?hobby:'',
-				otherStandardsId:otherStandardsId? otherStandardsId :""
+				otherStandardsId:""
 			},
 			
 			// 查询标签
@@ -202,16 +202,6 @@
 		font-size: 14px;
 	}
 	
-	.item-lable{
-		padding: 0px 6px;
-		float: left;
-		border: 1px solid #dedede;
-		margin: 0px 4px 4px 0px;
-		line-height: 25px;
-	}
-	.item-lable-active{
-		border: 1px solid #FF77AA;
-		color: #FF77AA;
-	}
+	
 	
 </style>

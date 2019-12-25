@@ -251,7 +251,9 @@
 					<uni-icons type="person" color="#ff77aa"></uni-icons>
 					选择标签：
 				</view>
-				<view class="card-item-text">{{userInfo.vehicle}}</view>
+				<view class="card-item-text">
+					<view class="item-lable item-lable-active"  v-for="(item,index) in otherList" :key="index">{{item.name}}</view>
+				</view>
 			</view>
 		</view>
 
@@ -330,10 +332,12 @@
 				userInfo: {
 					userAvatar: ''
 				},
+				otherList:[],
 				type:uni.getStorageSync('token').type
 			}
 		},
 		onLoad(options) {
+			
 			if (this.type == 1) {
 				appRequest.baseRequest({
 					url: '/member/queryBackById',
@@ -343,6 +347,8 @@
 						// 用户状态存到缓存中去
 						try {
 							this.userInfo = res.data.data
+							// 标签
+							this.getLable()
 						} catch (e) {
 							//TODO handle the exception
 						}
@@ -357,6 +363,8 @@
 						// 用户状态存到缓存中去
 						try {
 							this.userInfo = res.data.data
+							// 标签
+							this.getLable()
 						} catch (e) {
 							//TODO handle the exception
 						}
@@ -415,12 +423,13 @@
 			},
 			// 现住地址
 			currentAddress() {
+				
 				if (this.userInfo.currentAddress) {
 					let {
 						province,
 						city,
 						town
-					} = JSON.parse(this.userInfo.nativePlace)
+					} = JSON.parse(this.userInfo.currentAddress)
 					return `${province}${city}${town}`
 				} else {
 					return "-"
@@ -448,64 +457,36 @@
 			}
 		},
 		methods: {
-			// 获取用户信息
-			handleGoTrack() {
-				// 跳转路由
-				uni.navigateTo({
-					url: '/pages/me/track/index',
-					animationType: 'pop-in',
-					animationDuration: 200
-				});
-			},
-
-			// 编辑用户信息
-			handleEditUserInfo() {
-				uni.navigateTo({
-					url: '/pages/me/editUserInfo',
-					animationType: 'pop-in',
-					animationDuration: 200
+			// 获取标签
+			getLable(){
+				let query = {
+					current:1,
+					size:9999
+				}
+				appRequest.baseRequest({
+					url: 'label/queryPage',
+					data:query,
+					method: 'get',
+					success: (res) => {
+						// 用户状态存到缓存中去
+						try {
+							this.lableList = res.data.data.records;
+							let otherStandardsId = JSON.parse(this.userInfo.otherStandardsId) 
+							
+							this.lableList.forEach((item,index) => {
+								otherStandardsId.forEach(row => {
+									if(row == item.id){
+										this.otherList.push(item);
+									}
+								})
+							})
+						} catch (e) {
+							//TODO handle the exception
+						}
+					}
 				})
 			},
-			// 编辑头像和昵称
-			handleEditUserHeader() {
-				uni.navigateTo({
-					url: '/pages/me/editUserHeader',
-					animationType: 'pop-in',
-					animationDuration: 200
-				})
-			},
-			// 编辑联系方式
-			handleEditUserContact() {
-				uni.navigateTo({
-					url: '/pages/me/editUserContact',
-					animationType: 'pop-in',
-					animationDuration: 200
-				})
-			},
-			// 编辑其他信息
-			handleEditUserInfomation() {
-				uni.navigateTo({
-					url: '/pages/me/editUserInfomation',
-					animationType: 'pop-in',
-					animationDuration: 200
-				})
-			},
-			// 编辑资产状况
-			handleEditUserAssetStatus() {
-				uni.navigateTo({
-					url: '/pages/me/editUserAssetStatus',
-					animationType: 'pop-in',
-					animationDuration: 200
-				})
-			},
-			// 编辑自我描述
-			handleEditUserDescrable() {
-				uni.navigateTo({
-					url: '/pages/me/editUserDescrable',
-					animationType: 'pop-in',
-					animationDuration: 200
-				})
-			},
+			
 			//头像大图
 			previewImage: function(e) {
 				var current = e.target.dataset.src

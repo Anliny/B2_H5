@@ -181,3 +181,18 @@ uni-button {
 }
 
 /* 轮播图样式结束 */
+
+
+/* 标签样式 */
+.item-lable {
+	padding: 0px 6px;
+	float: left;
+	border: 1px solid #dedede;
+	margin: 0px 4px 4px 0px;
+	line-height: 20px;
+}
+
+.item-lable-active {
+	border: 1px solid #FF77AA;
+	color: #FF77AA;
+}
