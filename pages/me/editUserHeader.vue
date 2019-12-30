@@ -13,13 +13,13 @@
 					<input v-model="userDetailInfo.nickName" type="text" placeholder-class="placeholder" placeholder="请填写昵称" />
 				</view>
 			</view>
-			
+
 			<view class="uni-btn-v">
 				<button type="primary" :loading="loading" form-type="submit">提交</button>
 			</view>
 		</form>
 	</view>
-	
+
 </template>
 
 <script>
@@ -27,7 +27,7 @@
 	export default {
 		data() {
 			return {
-				loading:false,
+				loading: false,
 				userDetailInfo: {
 					userAvatar: '',
 					nickName: '',
@@ -38,11 +38,12 @@
 			let {
 				userAvatar,
 				nickName
-			} = JSON.parse(option.info) ;
+			} = JSON.parse(option.info);
 			if (userAvatar) {
 				this.userDetailInfo.userAvatar = userAvatar;
 			}
-			this.userDetailInfo.nickName = uni.getStorageSync("userInfo").nickName
+			// let nickName = uni.getStorageSync("userInfo").nickName
+			this.userDetailInfo.nickName = nickName ? nickName : ""
 		},
 		methods: {
 			upload() {
@@ -60,19 +61,17 @@
 			},
 			formSubmit(e) {
 				this.loading = true
-				let loginRules = [
-					{
-						name: 'userAvatar',
-						required: true,
-						type: 'text',
-						errmsg: '请上传头像'
-					},{
-						name: 'nickName',
-						required: true,
-						type: 'text',
-						errmsg: '请填写昵称'
-					}
-				]
+				let loginRules = [{
+					name: 'userAvatar',
+					required: true,
+					type: 'text',
+					errmsg: '请上传头像'
+				}, {
+					name: 'nickName',
+					required: true,
+					type: 'text',
+					errmsg: '请填写昵称'
+				}]
 				this.userDetailInfo.id = uni.getStorageSync('userInfo').id
 				let valLoginRes = this.$validate.validate(this.userDetailInfo, loginRules)
 				if (!valLoginRes.isOk) {
@@ -82,7 +81,7 @@
 					})
 					return false
 				}
-				
+
 				appRequest.baseRequest({
 					url: 'member/save',
 					data: this.userDetailInfo,
@@ -105,7 +104,7 @@
 									animationDuration: 200
 								});
 							}, 1200)
-							
+
 						} catch (e) {
 							//TODO handle the exception
 						}
@@ -118,30 +117,32 @@
 
 <style>
 	@import url("../../assets/common.css");
-	.contanner{
-	    width: 100%;
-	    height: 100%;
+
+	.contanner {
+		width: 100%;
+		height: 100%;
 		padding: 8px;
 	}
-	
-	.avatar-container{
-	    position: relative;
-	    text-align: center;
-	    padding-top: 50%;
+
+	.avatar-container {
+		position: relative;
+		text-align: center;
+		padding-top: 50%;
 	}
-	
-	
-	.avatar{
-	    width: 5rem;
-	    height: 5rem;
-	    background-color: #e5e5e5;
-	    border-radius: 50%;
+
+
+	.avatar {
+		width: 5rem;
+		height: 5rem;
+		background-color: #e5e5e5;
+		border-radius: 50%;
 	}
-	
-	.item{
-	    line-height: 3rem;
+
+	.item {
+		line-height: 3rem;
 	}
-	.uni-form-item{
+
+	.uni-form-item {
 		margin-top: 8px;
 	}
 </style>

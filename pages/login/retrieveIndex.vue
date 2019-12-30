@@ -1,6 +1,6 @@
 <template>
 	<view class="contanner">
-		<view class="img-wrapper">
+		<view class="img-wrapper image-wrapper">
 			<image src="/static/banner.jpg" :lazy-load="true" class="image" mode="widthFix"></image>
 		</view>
 		<!-- <xyz-tab :tabList="tabList"></xyz-tab> -->
@@ -19,7 +19,7 @@
 					<view class="uni-form-item uni-column">
 						<view class="form-lable">验证码：</view>
 						<view class="form-inpput verification-wrapper">
-							<input class="verification-input" v-model="userInfo.sms" type="number" />
+							<input class="verification-input"  v-model="userInfo.sms" type="number" placeholder-class="placeholder" placeholder="请输入验证码" />
 							<button class="verification-btn" :disabled="btnDisable" @click="handleGetSms">{{btnText}}</button>
 						</view>
 					</view>
@@ -267,5 +267,6 @@
 
 	.verification-btn {
 		font-size: 14px !important;
+		width: 240upx;
 	}
 </style>

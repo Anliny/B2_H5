@@ -31,9 +31,6 @@
 				<view class="uni-form-item uni-column">
 					<view class="form-lable">年龄</view>
 					<view class="form-inpput">
-						<!-- <picker class="picker" :range="years" @change="handleYearChange">
-							{{ years[yearsIndex] }}
-						</picker> -->
 						<input  v-model="userDetailInfo.age" disabled="true" type="text" placeholder-class="placeholder" placeholder="请填写年龄" />
 					</view>
 				</view>
@@ -41,9 +38,6 @@
 					<view class="form-lable">出生日期</view>
 					<view class="form-inpput">
 						<input  v-model="userDetailInfo.birthday" disabled="true" type="text" placeholder-class="placeholder" placeholder="请填写身份证号" />
-						<!-- <picker class="picker" mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange">
-							{{date}}
-						</picker> -->
 					</view>
 				</view>
 				<view class="uni-form-item uni-column">
@@ -99,8 +93,6 @@
 				loading: false,
 				heights: heights,
 				heightsIndex: 0,
-				years: years,
-				yearsIndex: 0,
 				educations: educations,
 				educationIndex: 0,
 				date: currentDate,
@@ -139,16 +131,15 @@
 				name: name ? name:'',
 				idCare: idCare ? idCare:'',
 				gender: gender,
-				age: age,
-				birthday: birthday,
+				age: age ? age : "",
+				birthday: birthday ? birthday :'',
 				height: height,
 				nation: nation ? nation:'',
 				weight: weight ? weight : '',
 				education: education,
 				nickName:nickName ? nickName :''
 			}
-			let ageItme = age ? age : "请选择年龄";
-			this.yearsIndex = this.years.indexOf(ageItme)
+			
 			let heightItem = height ? height : "请选择身高";
 			this.heightsIndex = this.heights.indexOf(heightItem)
 			let educationItem = education ? education :'请选择学历'
@@ -231,7 +222,6 @@
 				if(!utils.checkIdCard(this.userDetailInfo.idCare)){
 					return false
 				}
-				console.log(utils.getBirthday(this.userDetailInfo.idCare))
 				if (!valLoginRes.isOk) {
 					uni.showToast({
 						icon: 'none',
@@ -297,10 +287,6 @@
 			bindPickerChange(e) {
 				this.index = e.target.value
 			},
-			handleYearChange: function(e) {
-				this.yearsIndex = e.detail.value;
-				this.userDetailInfo.age = years[this.yearsIndex]
-			},
 			getDate(type) {
 				const date = new Date();
 				let year = date.getFullYear();
@@ -315,10 +301,6 @@
 				month = month > 9 ? month : '0' + month;;
 				day = day > 9 ? day : '0' + day;
 				return `${year}-${month}-${day}`;
-			},
-			bindDateChange: function(e) {
-				this.date = e.target.value
-				this.userDetailInfo.birthday = this.date
 			},
 			// 选择单选框 - 性别
 			handleRadioChange(e) {

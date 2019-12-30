@@ -25,21 +25,7 @@
 			<btn-group :groupBtnData="groupBtnOther" @emitBtnGroup="emitBtnOther"></btn-group>
 			<view class="btn-group-title">认证信息</view>
 			<btn-group :groupBtnData="groupBtnAuthentication" @emitBtnGroup="emitAuthenticationGroup"></btn-group>
-			<!-- <template>
-				<uni-list>
-					<uni-list-item title="我的动态" :show-extra-icon="true" @click="handleGoTrack" :extra-icon="{color: '#4cd964',size: '22',type: 'pengyouquan'}">
-					</uni-list-item>
-					<uni-list-item title="我的相册" :show-extra-icon="true" @click="handleGoPhone" :extra-icon="{color: '#4cd964',size: '22',type: 'image'}">
-					</uni-list-item>
-
-					<uni-list-item title="开通会员" :show-extra-icon="true" @click="handleGoVip" :extra-icon="{color: '#4cd964',size: '22',type: 'contact-filled'}">
-					</uni-list-item>
-					<uni-list-item title="关于我们" :show-extra-icon="true" :extra-icon="{color: '#4cd964',size: '22',type: 'compose'}">
-					</uni-list-item>
-					<uni-list-item title="设置" :show-extra-icon="true" @click="handleGoSeting" :extra-icon="{color: '#4cd964',size: '22',type: 'gear'}">
-					</uni-list-item>
-				</uni-list>
-			</template> -->
+			
 		</view>
 	</view>
 	<view v-else>
@@ -192,26 +178,10 @@
 					img: require('@/static/icon/btnGroup11.png'),
 					url: '/pages/me/vip/index',
 					text: '开通会员'
-				}, {
-					img: require('@/static/icon/btnGroup12.png'),
-					url: '/pages/me/setings/index',
-					text: '关于我们'
-				}, {
+				},  {
 					img: require('@/static/icon/btnGroup13.png'),
 					url: '/pages/me/setings/index',
 					text: '设置'
-				}, {
-					img: '',
-					url: '',
-					text: ''
-				}, {
-					img: '',
-					url: '',
-					text: ''
-				}, {
-					img: '',
-					url: '',
-					text: ''
 				}],
 				groupBtnAuthentication: [{
 					img: require('@/static/icon/btnGroup14.png'),
@@ -259,7 +229,7 @@
 			compGrade() {
 				let str = ""
 				Vips.find((item, index) => {
-					if (item.val == this.userInfo.gender) {
+					if (item.val == this.userInfo.grade) {
 						str = `${item.label}`
 					}
 				})
@@ -325,39 +295,7 @@
 				}
 
 			},
-			// w我的动态
-			handleGoTrack() {
-				// 跳转路由
-				uni.navigateTo({
-					url: '/pages/me/track/index',
-					animationType: 'pop-in',
-					animationDuration: 200
-				});
-			},
-			// 去VIP充值
-			handleGoVip() {
-				uni.navigateTo({
-					url: '/pages/me/vip/index',
-					animationType: 'pop-in',
-					animationDuration: 200
-				});
-			},
-			// 查看征友条件
-			handleGoCondition() {
-				uni.navigateTo({
-					url: '/pages/me/condition/index',
-					animationType: 'pop-in',
-					animationDuration: 200
-				});
-			},
-			// 用户设置
-			handleGoSeting() {
-				uni.navigateTo({
-					url: '/pages/me/setings/index',
-					animationType: 'pop-in',
-					animationDuration: 200
-				});
-			},
+			
 			// 判断会员头像
 			userAvatar() {
 				if(this.isVip){
@@ -482,6 +420,7 @@
 					animationDuration: 200
 				})
 			},
+			
 			emitBtnOther(data) {
 				uni.navigateTo({
 					url: data.item.url,

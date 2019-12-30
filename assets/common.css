@@ -1,4 +1,9 @@
 /* 主页面样式 */
+uni-app{
+	max-width: 640px;
+	min-width: 320px;
+	margin: auto;
+}
 page {
 	background-color: rgb(250, 250, 250);
 }
@@ -90,6 +95,7 @@ uni-button {
 
 .verification-input {
 	box-sizing: content-box;
+	flex: 1;
 }
 
 .verification-btn {

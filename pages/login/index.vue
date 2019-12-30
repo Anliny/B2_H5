@@ -1,13 +1,10 @@
 <template>
 	<view class="contanner">
 
-		<view class="img-wrapper">
+		<view class="img-wrapper image-wrapper">
 			<image src="/static/banner.jpg" :lazy-load="true" class="image" mode="widthFix"></image>
 		</view>
-		<view class="bar-wrapper">
-			<view class="bar-item" v-for="(item,index) in tabList" :key="index" :class="isTitleBar == index ? 'bar-item-active' : ''"
-			 @click="handleCheckLabel(index)">{{item.label}}</view>
-		</view>
+		
 		<view class="content">
 			<form @submit="formSubmit" @reset="formReset">
 				<view class="uni-form-item uni-column">
@@ -45,7 +42,6 @@
 		data() {
 			return {
 				loading: false,
-				isTitleBar: 0,
 				tabList: [{
 					label: "会员登录"
 				}, {
@@ -75,15 +71,10 @@
 					}
 				]
 				let valLoginRes = this.$validate.validate(this.userInfo, loginRules)
-				console.log(valLoginRes)
 				if (valLoginRes.isOk) {
 					var formdata = this.userInfo
 					// 会员
-					if (!this.isTitleBar) {
-						this.vipRequst(formdata)
-					} else {
-						this.jokRequst(formdata)
-					}
+					this.vipRequst(formdata)
 
 				} else {
 					uni.showToast({
@@ -110,12 +101,13 @@
 								})
 							} else {
 								uni.setStorageSync('token', res.data.data)
+								let type = res.data.data.type
 								uni.showToast({
 									title: `登录成功！`,
 									icon: 'success',
 									showCancel: false,
 									success: () => {
-										this.getUserInfo(true)
+										this.getUserInfo(type)
 									},
 								})
 							}
@@ -129,7 +121,7 @@
 			// 获取用户信息
 			getUserInfo(bool) {
 				appRequest.baseRequest({
-					url: bool ? '/member/queryById' : '/matchmaker/queryById',
+					url: bool ? '/matchmaker/queryById' : '/member/queryById',
 					method: 'get',
 					success: (res) => {
 						// 用户状态存到缓存中去
@@ -189,9 +181,6 @@
 			},
 			formReset: (e) => {
 				console.log('清空数据')
-			},
-			handleCheckLabel(index) {
-				this.isTitleBar = index;
 			}
 		}
 	}

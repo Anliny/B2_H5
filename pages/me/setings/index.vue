@@ -6,6 +6,13 @@
 					<!-- <uni-list-item title="动态设置" :show-extra-icon="true" @switchChange="handleTrackChange" :show-switch="true" :show-arrow="false" :extra-icon="{color: '#4cd964',size: '22',type: 'pengyouquan'}"></uni-list-item> -->
 					<!-- <uni-list-item title="个人信息设置" :show-extra-icon="true" @switchChange="handleUserChange" :show-switch="true" :show-arrow="false" :extra-icon="{color: '#4cd964',size: '22',type: 'gear-filled'}"></uni-list-item> -->
 					<!-- <uni-list-item title="修改密码" :show-extra-icon="true" :show-arrow="true" :extra-icon="{color: '#4cd964',size: '22',type: 'gear-filled'}"></uni-list-item> -->
+					
+					<!-- {
+						img: require('@/static/icon/btnGroup12.png'),
+						url: '/pages/me/setings/index',
+						text: '关于我们'
+					}, -->
+					<uni-list-item title="关于我们" @click="handleShowMe" :show-extra-icon="true" :show-arrow="true" :extra-icon="{color: '#4cd964',size: '22',type: 'contact-filled'}"></uni-list-item>
 					<uni-list-item title="生成推荐码" @click="handleGetRecommend" :show-extra-icon="true" :show-arrow="true" :extra-icon="{color: '#4cd964',size: '22',type: 'gear-filled'}"></uni-list-item>
 				</uni-list>
 			</template>
@@ -83,6 +90,18 @@
 				uni.setClipboardData({
 					data: value
 				});
+			},
+			// 关于我们
+			handleShowMe(){
+				uni.showToast({
+					title:"管理员尚未提供相关，资料上传后显示",
+					icon:"none"
+				})
+				// uni.navigateTo({
+				// 	url: '/pages/login/index',
+				// 	animationType: 'pop-in',
+				// 	animationDuration: 200
+				// });
 			}
 
 		}

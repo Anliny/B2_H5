@@ -10,6 +10,15 @@
 			<view class="preview" slot="right" @click="handleTrack">
 				<uni-icons type="plus" size="26" color="#fff"></uni-icons>
 			</view>
+			
+			<!-- 左边菜单按钮 -->
+			<view class="transparent_fixed_preview" slot="transparentFixedLeft" @click="handleGoUserIndex">
+				<uni-icons type="arrowleft" size="26" color="#fff"></uni-icons>
+			</view>
+			<!-- //不透明状态下的按钮 -->
+			<view class="preview" slot="left" @click="handleGoUserIndex">
+				<uni-icons type="arrowleft" size="26" color="#fff"></uni-icons>
+			</view>
 		</nav-bar>
 		<!-- #endif -->
 		<view class="backImg">
@@ -50,7 +59,8 @@
 				userInfo: uni.getStorageSync("userInfo"),
 				loadMore: "more",
 				pageObj: {
-					current: 0
+					current: 0,
+					id:uni.getStorageSync('userInfo').id
 				},
 				dynamicList:[]
 			}
@@ -118,6 +128,15 @@
 					animationDuration: 200
 				});
 			},
+			// 返回到个人中心首页
+			handleGoUserIndex(){
+				uni.switchTab({
+					url: '/pages/me/index',
+					animationType: 'pop-in',
+					animationDuration: 200
+				});
+			},
+			
 			// 删除动态
 			removeDynamic(id){
 				let data = {

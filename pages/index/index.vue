@@ -15,17 +15,17 @@
 						<swiper class="swiper" :circular="true" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
 							<swiper-item>
 								<view class="swiper-item">
-									<image class="" src="/static/banner.jpg" mode="aspectFit"></image>
+									<image class="" src="/static/banner.jpg" mode="widthFix"></image>
 								</view>
 							</swiper-item>
 							<swiper-item>
 								<view class="swiper-item uni-bg-green">
-									<image src="/static/banner.jpg" mode="aspectFit"></image>
+									<image src="/static/banner.jpg" mode="widthFix"></image>
 								</view>
 							</swiper-item>
 							<swiper-item>
 								<view class="swiper-item uni-bg-blue">
-									<image src="/static/banner.jpg" mode="aspectFit"></image>
+									<image src="/static/banner.jpg" mode="widthFix"></image>
 								</view>
 							</swiper-item>
 						</swiper>
@@ -281,13 +281,11 @@
 			},
 			// 点击按钮组
 			emitBtnGroup(data) {
-				console.log(uni.getStorageSync('userInfo'))
 				let {
 					currentAddress
 				} = uni.getStorageSync('userInfo')
 				// 同城搜索
 				if (data.index == 0) {
-
 					this.searchData.currentAddress = currentAddress
 					this.searchData.current = 0
 					this.dataInfo = []

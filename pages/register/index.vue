@@ -1,6 +1,6 @@
 <template>
 	<view class="contanner">
-		<view class="img-wrapper">
+		<view class="img-wrapper image-wrapper">
 			<image src="/static/banner.jpg" :lazy-load="true" class="image" mode="widthFix"></image>
 		</view>
 		<!-- <xyz-tab :tabList="tabList"></xyz-tab> -->
@@ -52,19 +52,19 @@
 					<view class="uni-form-item uni-column">
 						<view class="form-lable">手机号：</view>
 						<view class="form-inpput">
-							<input v-model="userInfo.phone" type="number" />
+							<input v-model="userInfo.phone" type="number" placeholder-class="placeholder" placeholder="请填写手机号" />
 						</view>
 					</view>
 					<view class="uni-form-item uni-column">
 						<view class="form-lable">密码：</view>
 						<view class="form-inpput">
-							<input v-model="userInfo.password" type="number" />
+							<input v-model="userInfo.password" type="password" placeholder-class="placeholder" placeholder="请输入确认密码"  />
 						</view>
 					</view>
 					<view class="uni-form-item uni-column">
 						<view class="form-lable">确认密码：</view>
 						<view class="form-inpput">
-							<input v-model="userInfo.confirmpassword" type="number" />
+							<input v-model="userInfo.confirmpassword" type="password" placeholder-class="placeholder" placeholder="请输入确认密码" />
 						</view>
 					</view>
 					<view class="uni-form-item uni-column">
@@ -109,11 +109,11 @@
 				loading: false,
 				isTitleBar: 0,
 				userInfo: {
-					phone: '16602330054',
+					phone: '',
 					inviteCode: '', //邀请码
 					sms: '', //验证码
-					password: '123456zdf',
-					confirmpassword: '123456zdf'
+					password: '',
+					confirmpassword: ''
 				}
 			}
 		},
@@ -183,6 +183,7 @@
 				}
 				var formdata = this.userInfo
 				formdata.type = this.isTitleBar
+				console.log(formdata)
 				uni.request({
 					url: '/common/register', //仅为示例，并非真实接口地址。
 					data: formdata,
@@ -313,5 +314,6 @@
 
 	.verification-btn {
 		font-size: 14px !important;
+		width: 240upx;
 	}
 </style>

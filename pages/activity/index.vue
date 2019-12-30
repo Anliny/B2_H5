@@ -14,9 +14,9 @@
 			</view>
 		</nav-bar>
 		<!-- #endif -->
-		<view class="backImg">
+		<view class="backImg" >
 			<image src="/static/active.jpg" class="image"  mode="aspectFill"></image>
-			<text class="name">{{userInfo.nickName}}</text>
+			<text class="name">{{token.type != 1 ? userInfo.nickName : userInfo.name}}</text>
 			<view class="header">
 				<image :src="userInfo.userAvatar ? userInfo.userAvatar :'/static/header.jpeg'" class="image" ></image>
 			</view>
@@ -90,7 +90,12 @@
 			this.getActivitys()
 		},
 		onLoad() {
+			
+		},
+		onShow() {
+			console.log(12321);
 			this.token = uni.getStorageSync("token")
+			console.log(this.token);
 			this.userInfo = uni.getStorageSync("userInfo")
 			this.getActivitys()
 		},
@@ -166,7 +171,7 @@
 					url: 'memberActivity/save',
 					data: {
 						activityId: this.activityList[index].id,
-						deleted: false
+						deleted: true
 					},
 					method: 'post',
 					success: (res) => {
