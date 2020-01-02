@@ -195,6 +195,10 @@
 					img: require('@/static/icon/btnGroup16.png'),
 					url: '/pages/me/condition/editUserCondition',
 					text: '银行卡认证'
+				}, {
+					img: require('@/static/icon/btnGroup17.png'),
+					url: '/pages/me/condition/editUserCondition',
+					text: '钱包'
 				}]
 			}
 		},

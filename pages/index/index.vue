@@ -49,7 +49,7 @@
 						 :note="item.iconArray">
 							<view class="uni-card-text">{{compGender(item.gender)}} | {{item.age ? item.age : "-" }}岁 |
 								{{compIsMarry(item.isMarry)}}</view>
-							<view class="uni-card-text">{{item.declaration}}</view>
+							<view class="uni-card-text">{{item.declaration ? item.declaration :'-' }}</view>
 						</uni-card>
 					</view>
 				</block>
