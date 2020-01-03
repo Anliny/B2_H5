@@ -314,6 +314,6 @@
 
 	.verification-btn {
 		font-size: 14px !important;
-		width: 240upx;
+		width: 120px;
 	}
 </style>

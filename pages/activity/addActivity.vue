@@ -79,6 +79,8 @@
 					endTime:'',    //结束时间
 					pictureUrl:[],      //上传图片数组
 					activityNumber:0,
+					userAvatar:uni.getStorageSync('userInfo').userAvatar,
+					name:uni.getStorageSync('userInfo').name,
 					state:1
 				},
 				upImgConfig:{

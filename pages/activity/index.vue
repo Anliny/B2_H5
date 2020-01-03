@@ -27,10 +27,13 @@
 				<view class="list-item">
 					<view class="list-header">
 						<view class="image-wrapper image-wrapper-header">
-							<image :src="item.userAvatar" class="image" mode="scaleToFill"></image>
+							<image :src="item.userAvatar ? item.userAvatar : '/static/admin.jpg'" class="image" mode="scaleToFill"></image>
 						</view>
-						<text class="list-header-title">{{item.name}}</text>
-						<text class="list-header-time">{{item.rawAddTime}}</text>
+						<view>
+							<view class="list-header-title">{{item.name}}</view>
+							<text class="list-header-time">{{item.rawAddTime}}</text>
+						</view>
+						
 					</view>
 					<view class="list-title">{{item.title}}</view>
 					<text class="list-text">{{item.content}}</text>
@@ -93,7 +96,6 @@
 			
 		},
 		onShow() {
-			console.log(12321);
 			this.token = uni.getStorageSync("token")
 			console.log(this.token);
 			this.userInfo = uni.getStorageSync("userInfo")
@@ -232,16 +234,15 @@
 	}
 
 	.list-header-title {
-		font-size: 18px;
+		font-size: 16px;
 		font-weight: bold;
-		line-height: 50px;
+		line-height: 30px;
 	}
 
 	.list-header-time {
 		margin-left: auto;
-		font-size: 14px;
-		color: #DDDDDD;
-		line-height: 60px;
+		font-size: 12px;
+		color: #333;
 	}
 
 	.list-title {
