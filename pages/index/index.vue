@@ -105,7 +105,7 @@
 				}, {
 					img: require('@/static/icon/Chat.png'),
 					url: '',
-					text: '聊天'
+					text: '群聊天申请'
 				}],
 				loading: true,
 				loadMore: "more",

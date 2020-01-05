@@ -110,7 +110,7 @@
 
 <script>
 	import uniList from "@/components/uni-list/uni-list"
-	import uniListItem from "@/components/uni-list-item/uni-list-item"
+	import uniListItem from "@/components/uni-list-item/uni-list-item1.vue"
 	import uniIcons from "@/components/uni-icons/uni-icons.vue"
 	import appRequest from "@/utils/config.js"
 	import utils from "@/utils/utils.js"
@@ -138,7 +138,7 @@
 					text: '头像编辑'
 				}, {
 					img: require('@/static/icon/btnGroup2.png'),
-					url: '/pages/me/editUserInfo',
+					url: '/pages/me/detail',
 					text: '基本资料'
 				}, {
 					img: require('@/static/icon/btnGroup3.png'),
@@ -225,7 +225,7 @@
 		computed: {
 			address() {
 				if (this.userInfo.currentAddress) {
-					return JSON.parse(this.userInfo.currentAddress).city + '户口'
+					return JSON.parse(this.userInfo.currentAddress).city
 				} else {
 					return '-'
 				}

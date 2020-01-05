@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
-		<view class="base">
-			<view class="base-wrapper card-shadow">
+		<!-- <view class="base">
+			<view class="base-wrapper ">
 				<view class="img">
 					<image :src="userAvatar" :data-src="userAvatar" @tap="previewImage" class="image" mode=""></image>
 				</view>
@@ -14,233 +14,88 @@
 					<view class="base-code-item">{{address}}</view>
 					<view class="base-code-item code2">{{userInfo.education}}</view>
 					<view class="base-code-item code3">{{userInfo.position}}</view>
-					<!-- <view class="base-code-item code4">{{}}</view> -->
 				</view>
 			</view>
-		</view>
+		</view> -->
 
-		<!-- 个人信息 -->
-		<view class="card-warp card-shadow">
+		<!-- 头部信息 -->
+		<view class="card-warp">
 			<view class="card-title">
 				<view class="">基本信息</view>
-				<view class="card-edit" @click="handleEditUserInfo(userInfo)">
-					<uni-icons type="compose" color="#ff77aa"></uni-icons>
-				</view>
 			</view>
-			<view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>真实姓名：
-				</view>
-				<view class="card-item-text">{{userInfo.name}}</view>
-			</view>
-			<view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>
-					身份证号：
-				</view>
-				<view class="card-item-text">{{userInfo.idCare}}</view>
-			</view>
-			<view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>
-					性 别：
-				</view>
-				<view class="card-item-text">{{userInfo.gender==1 ? "男":"女"}}</view>
-			</view>
-			<view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>
-					年 龄：
-				</view>
-				<view class="card-item-text">{{userInfo.age}}</view>
-			</view>
-			<view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>
-					出生日期：
-				</view>
-				<view class="card-item-text">{{userInfo.birthday}}</view>
-			</view>
-			<view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>
-					身 高：
-				</view>
-				<view class="card-item-text">{{userInfo.height}}CM</view>
-			</view>
-			<view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>
-					民 族：
-				</view>
-				<view class="card-item-text">{{userInfo.nation}}</view>
-			</view>
-			<view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>
-					体 重：
-				</view>
-				<view class="card-item-text">{{userInfo.weight}}KG</view>
-			</view>
-			<view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>
-					最高学历：
-				</view>
-				<view class="card-item-text">{{userInfo.education}}</view>
-			</view>
+			<uni-list>
+				<uni-list-item @click="handleEdit('name')" title="真实姓名" :show-badge="true" :badge-text="userInfo.name"></uni-list-item>
+				<uni-list-item @click="handleEdit('gender')" title="性   别" :show-badge="true" :badge-text="userInfo.gender==1 ? '男':'女'"></uni-list-item>
+				<uni-list-item @click="handleEdit('age')" title="年 龄" :show-badge="true" :badge-text="userInfo.age"></uni-list-item>
+				<uni-list-item @click="handleEdit('birthday')" title="出生日期" :show-badge="true" :badge-text="userInfo.birthday"></uni-list-item>
+				<uni-list-item @click="handleEdit('height')" title="身 高" :show-badge="true" :badge-text="userInfo.height + 'CM'"></uni-list-item>
+				<uni-list-item @click="handleEdit('nation')" title="民 族" :show-badge="true" :badge-text="userInfo.nation"></uni-list-item>
+				<uni-list-item @click="handleEdit('weight')" title="体 重" :show-badge="true" :badge-text="userInfo.weight"></uni-list-item>
+				<uni-list-item @click="handleEdit('education')" title="最高学历" :show-badge="true" :badge-text="userInfo.education"></uni-list-item>
+				<uni-list-item @click="handleEdit('idCare')" title="身份证号" :show-badge="true" :badge-text="userInfo.idCare"></uni-list-item>
+			</uni-list>
 		</view>
 
 		<!-- 联系方式 -->
-		<view class="card-warp card-shadow">
+		<view class="card-warp">
 			<view class="card-title">
 				<view class="title">联系方式</view>
-				<view class="card-edit" @click="handleEditUserContact(userInfo)">
-					<uni-icons type="compose" color="#ff77aa"></uni-icons>
-				</view>
 			</view>
-			<view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>手机号：
-				</view>
-				<view class="card-item-text">{{userInfo.phone}}</view>
-			</view>
-			<view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>
-					微信号：
-				</view>
-				<view class="card-item-text">{{userInfo.wechatNumber}}</view>
-			</view>
-			<view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>
-					qq号：
-				</view>
-				<view class="card-item-text">{{userInfo.qq}}</view>
-			</view>
-			<view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>
-					email：
-				</view>
-				<view class="card-item-text">{{userInfo.email}}</view>
-			</view>
-			<view class="tips">仅银卡会员可查看</view>
+			<uni-list>
+				<uni-list-item @click="handleEdit('phone')" title="手机号" :show-badge="true" :badge-text="userInfo.phone"></uni-list-item>
+				<uni-list-item @click="handleEdit('wechatNumber')" title="微信号" :show-badge="true" :badge-text="userInfo.wechatNumber"></uni-list-item>
+				<uni-list-item @click="handleEdit('qq')" title="qq号" :show-badge="true" :badge-text="userInfo.qq"></uni-list-item>
+				<uni-list-item @click="handleEdit('email')" title="email" :show-badge="true" :badge-text="userInfo.email"></uni-list-item>
+				<uni-list-item @click="handleEdit('level')" title="设置查看等级" :show-badge="true" :badge-text="userInfo.level"></uni-list-item>
+			</uni-list>
 		</view>
 
 		<!-- 其他信息 -->
-		<view class="card-warp card-shadow">
+		<view class="card-warp ">
 			<view class="card-title">
 				<view class="title">其他信息</view>
-				<view class="card-edit" @click="handleEditUserInfomation(userInfo)">
-					<uni-icons type="compose" color="#ff77aa"></uni-icons>
-				</view>
 			</view>
-			<view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>职位：
-				</view>
-				<view class="card-item-text">{{userInfo.position}}</view>
-			</view>
-			<view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>
-					籍贯：
-				</view>
-				<view class="card-item-text">{{nativePlaceAdress}}</view>
-			</view>
-			<view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>
-					现住地址：
-				</view>
-				<view class="card-item-text">{{currentAddress}}</view>
-			</view>
-			<view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>
-					行业：
-				</view>
-				<view class="card-item-text">{{userInfo.industry}}</view>
-			</view>
-			<view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>
-					是否婚配：
-				</view>
-				<view class="card-item-text">{{isMarry}}</view>
-			</view>
+			<uni-list>
+				<uni-list-item @click="handleEdit('position')" title="职位" :show-badge="true" :badge-text="userInfo.position"></uni-list-item>
+				<uni-list-item @click="handleEdit('nativePlaceAdress')" title="籍贯" :show-badge="true" :badge-text="nativePlaceAdress"></uni-list-item>
+				<uni-list-item @click="handleEdit('currentAddress')" title="现住地址" :show-badge="true" :badge-text="currentAddress"></uni-list-item>
+				<uni-list-item @click="handleEdit('industry')" title="行业" :show-badge="true" :badge-text="userInfo.industry"></uni-list-item>
+				<uni-list-item @click="handleEdit('isMarry')" title="是否婚配" :show-badge="true" :badge-text="isMarry"></uni-list-item>
+				<uni-list-item @click="handleEdit('isChild')" title="是否有小孩" :show-badge="true" :badge-text="userInfo.isChild == '0' ? '有':'无'"></uni-list-item>
+			</uni-list>
 		</view>
 
 		<!-- 资产状况 -->
-		<view class="card-warp card-shadow">
+		<view class="card-warp ">
 			<view class="card-title">
 				<view class="title">资产状况</view>
-				<view class="card-edit" @click="handleEditUserAssetStatus(userInfo)">
-					<uni-icons type="compose" color="#ff77aa"></uni-icons>
-				</view>
 			</view>
-			<view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>
-					收入：
-				</view>
-				<view class="card-item-text">{{userInfo.income}}以上</view>
-			</view>
-			<view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>
-					住房情况：
-				</view>
-				<view class="card-item-text">{{userInfo.housing}}</view>
-			</view>
-			<view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>
-					是否有车：
-				</view>
-				<view class="card-item-text">{{userInfo.vehicle}}</view>
-			</view>
-			<view class="tips">仅银卡会员可查看</view>
+			<uni-list>
+				<uni-list-item @click="handleEdit('income')" title="收入" :show-badge="true" :badge-text="userInfo.income+'以上'"></uni-list-item>
+				<uni-list-item @click="handleEdit('housing')" title="住房情况" :show-badge="true" :badge-text="userInfo.housing"></uni-list-item>
+				<uni-list-item @click="handleEdit('vehicle')" title="是否有车" :show-badge="true" :badge-text="userInfo.vehicle"></uni-list-item>
+			</uni-list>
 		</view>
 
 		<!-- 自我描述 -->
-		<view class="card-warp card-shadow">
+		<view class="card-warp ">
 			<view class="card-title">
 				<view class="title">自我介绍</view>
-				<view class="card-edit" @click="handleEditUserDescrable(userInfo)">
-					<uni-icons type="compose" color="#ff77aa"></uni-icons>
-				</view>
+
 			</view>
-			<view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>
-					爱情宣言：
-				</view>
-				<view class="card-item-text">{{userInfo.declaration}}以上</view>
-			</view>
-			<view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>
-					兴趣爱好：
-				</view>
-				<view class="card-item-text">{{userInfo.hobby}}</view>
-			</view>
-			<!-- <view class="card-item">
-				<view class="card-item-lable">
-					<uni-icons type="person" color="#ff77aa"></uni-icons>
-					选择标签：
-				</view>
-				<view class="card-item-text">{{userInfo.vehicle}}</view>
-			</view> -->
+			<uni-list>
+				<uni-list-item @click="handleEdit('declaration')" title="爱情宣言" :note="userInfo.declaration"></uni-list-item>
+				<uni-list-item @click="handleEdit('hobby')" title="兴趣爱好" :note="userInfo.hobby"></uni-list-item>
+				<uni-list-item @click="handleEdit('vehicle')" title="我的标签" :show-badge="true" :badge-text="userInfo.vehicle"></uni-list-item>
+			</uni-list>
+
 		</view>
 	</view>
 </template>
 
 <script>
 	import uniList from "@/components/uni-list/uni-list"
-	import uniListItem from "@/components/uni-list-item/uni-list-item"
+	import uniListItem from "@/components/uni-list-item/uni-list-item1.vue"
 	import uniIcons from "@/components/uni-icons/uni-icons"
 	import utils from "@/utils/utils.js"
 	export default {
@@ -357,8 +212,8 @@
 				let info = {
 					phone: data.phone,
 					wechatNumber: data.wechatNumber,
-					qq:data.qq,
-					email:data.email
+					qq: data.qq,
+					email: data.email
 				}
 				uni.navigateTo({
 					url: '/pages/me/editUserContact?info=' + JSON.stringify(info),
@@ -408,9 +263,17 @@
 				})
 			},
 			//头像大图
-			 previewImage(e){
-				 utils.fullImage(e)
-			 }
+			previewImage(e) {
+				utils.fullImage(e)
+			},
+			// 编辑用户信息
+			handleEdit(text){
+				uni.navigateTo({
+					url: '/pages/me/editUserDescrable',
+					animationType: 'pop-in',
+					animationDuration: 200
+				})
+			}
 		}
 	}
 </script>
@@ -485,7 +348,7 @@
 	.card-warp {
 		background-color: #fff;
 		margin: 0 8px 8px 8px;
-		border-radius: 25px;
+		border-radius: 5px;
 		padding: 8px;
 		line-height: 35px;
 	}
@@ -540,5 +403,10 @@
 
 	.code4 {
 		background-color: rgb(254, 151, 62);
+	}
+
+	.uni-badge--success {
+		color: #333;
+		background-color: #fff;
 	}
 </style>
