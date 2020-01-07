@@ -230,3 +230,19 @@ uni-button {
 	height: 35px;
 	border-bottom: 1px solid #a0a0a0;
 }
+
+// 表单段
+.form-input-select{
+	    display: flex;
+	    background-color: #fafafa;
+		
+}
+.form-input-select>.form-input-item{
+	flex: 2;
+	background-color: #fff;
+	text-align: center;
+}
+.form-input-select>.input-line{
+	flex: 1;
+	text-align: center;
+}

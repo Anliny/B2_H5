@@ -17,24 +17,34 @@
 				</view>
 				<view class="uni-form-item uni-column">
 					<view class="form-lable">年龄</view>
-					<view class="form-inpput">
-						<picker class="picker" :range="years" @change="handleYearChange">
+					<view class="form-inpput form-input-select">
+						<picker class="picker form-input-item" :range="years" @change="handleYearChange">
 							{{ years[yearsIndex] }}
+						</picker>
+						<view class="input-line">-</view>
+						<picker class="picker form-input-item" :range="years" @change="handleYearMaxChange">
+							{{ years[yearsMaxIndex] }}
 						</picker>
 					</view>
 				</view>
 				<view class="uni-form-item uni-column">
 					<view class="form-lable">身高</view>
-					<view class="form-inpput">
-						<picker class="picker" :range="heights" @change="handelheights">
+					<view class="form-inpput form-input-select">
+						<picker class="picker form-input-item" :range="heights" @change="handelheights">
 							{{ heights[heightsIndex] }}
+						</picker>
+						<view class="input-line">-</view>
+						<picker class="picker form-input-item" :range="heights" @change="handelheightsMax">
+							{{ heights[heightsMaxIndex] }}
 						</picker>
 					</view>
 				</view>
 				<view class="uni-form-item uni-column">
 					<view class="form-lable">收入</view>
-					<view class="form-inpput">
-						<input v-model="userDetailInfo.partnerIncome" type="number" placeholder-class="placeholder" placeholder="请填写收入情况" />
+					<view class="form-inpput form-input-select">
+						<input class="form-input-item" v-model="userDetailInfo.partnerIncome" type="number" placeholder-class="placeholder" placeholder="请填写最低收入" />
+						<view class="input-line">-</view>
+						<input class="form-input-item" v-model="userDetailInfo.partnerIncomeMax" type="number" placeholder-class="placeholder" placeholder="请填写最高收入" />
 					</view>
 				</view>
 				<view class="uni-form-item uni-column">
@@ -83,8 +93,10 @@
 				marrysIndex: 0,
 				heights: heights,
 				heightsIndex: 0,
+				heightsMaxIndex:0,
 				years: years,
 				yearsIndex: 0,
+				yearsMaxIndex:0,
 				educations: educations,
 				educationIndex: 0,
 				userDetailInfo: {
@@ -98,8 +110,11 @@
 						townCode: ""
 					},
 					partnerAge: '', //年龄
+					partnerAgeMax:'',//最大年龄
 					partnerHeight: "", //身高
+					partnerHeightMax:'',//最高身高
 					partnerIncome: "", //收入
+					partnerIncomeMax:'',//最高收入
 					partnerEducation: "", //学历
 					partnerIsMarry: "" //婚姻状况
 				},
@@ -113,15 +128,16 @@
 			}
 		},
 		onLoad(options) {
+			let userInfo = uni.getStorageSync('userInfo')
 			let {
 				partnerAge,
 				partnerHeight,
+				partnerIncome,
 				partnerNation,
 				partnerEducation,
 				partnerIsMarry,
-				partnerNativePlace,
-				partnerIncome
-			} = JSON.parse(options.info)
+				partnerNativePlace
+			} = userInfo
 			if (!partnerNativePlace) {
 				partnerNativePlace = {
 					city: "",
@@ -134,20 +150,30 @@
 			} else {
 				partnerNativePlace = JSON.parse(partnerNativePlace)
 			}
+			
 			this.userDetailInfo = {
-				partnerAge: partnerAge ? partnerAge : '',
-				partnerHeight: partnerHeight ? partnerHeight : '',
+				partnerAge:JSON.parse(partnerAge)[0] || '请选择年龄',
+				partnerAgeMax:JSON.parse(partnerAge)[1] || '请选择年龄',
+				partnerHeight: JSON.parse(partnerHeight)[0] || '请选择身高',
+				partnerHeightMax: JSON.parse(partnerHeight)[1] || '请选择身高',
+				partnerIncome: JSON.parse(partnerIncome)[0],
+				partnerIncomeMax: JSON.parse(partnerIncome)[1],
 				partnerNation: partnerNation ? partnerNation : '',
 				partnerEducation: partnerEducation ? partnerEducation : '',
 				partnerIsMarry: partnerIsMarry ? partnerIsMarry : '',
-				partnerIncome: partnerIncome ? partnerIncome : '',
 				partnerNativePlace
 			}
-
-			let ageItme = partnerAge ? partnerAge : "请选择年龄";
-			this.yearsIndex = this.years.indexOf(ageItme)
-			let heightItem = partnerHeight ? partnerHeight : "请选择身高";
-			this.heightsIndex = this.heights.indexOf(heightItem)
+			
+			let ageItme =  this.userDetailInfo.partnerAge;
+			this.yearsIndex = this.years.indexOf(ageItme+'')
+			let ageMaxItem =  this.userDetailInfo.partnerAgeMax;
+			this.yearsMaxIndex = this.years.indexOf(ageMaxItem+'')
+			
+			let heightItem =  this.userDetailInfo.partnerHeight
+			this.heightsIndex = this.heights.indexOf(heightItem+'')
+			let heightMaxItem =  this.userDetailInfo.partnerHeightMax
+			this.heightsMaxIndex = this.heights.indexOf(heightMaxItem+'')
+			
 			let educationItem = partnerEducation ? partnerEducation : '请选择学历'
 			this.educationIndex = this.educations.indexOf(educationItem)
 			// this.date = birthday ? birthday :new Date()
@@ -199,19 +225,50 @@
 					partnerNativePlace,
 					id,
 					partnerAge,
+					partnerAgeMax,
 					partnerHeight,
+					partnerHeightMax,
 					partnerEducation,
 					partnerIsMarry,
-					partnerIncome
+					partnerIncome,
+					partnerIncomeMax,
 				} = this.userDetailInfo
+				if(partnerAgeMax){
+					if(partnerAge >= partnerAgeMax){
+						uni.showToast({
+							title: '开始年龄不能大于结束年龄',
+							icon:"none"
+						});
+						return 
+					}
+				}
+				if(partnerHeightMax){
+					if(partnerHeight >= partnerHeightMax){
+						uni.showToast({
+							title: '开始身高不能大于结束身高',
+							icon:"none"
+						});
+						return 
+					}
+				}
+				if(partnerIncomeMax){
+					if(partnerIncome >= partnerIncomeMax){
+						uni.showToast({
+							title: '开始收入不能大于结束收入',
+							icon:"none"
+						});
+						return 
+					}
+				}
+				
 				let data = {
 					partnerNativePlace: JSON.stringify(partnerNativePlace),
 					id,
-					partnerAge,
-					partnerHeight,
+					partnerAge:`[${partnerAge},${partnerAgeMax}]`,
+					partnerHeight:`[${partnerHeight},${partnerHeightMax}]`,
+					partnerIncome:`[${partnerIncome},${partnerIncomeMax}]`,
 					partnerEducation,
-					partnerIsMarry,
-					partnerIncome
+					partnerIsMarry
 				}
 				appRequest.baseRequest({
 					url: 'member/save',
@@ -279,10 +336,20 @@
 				this.yearsIndex = e.detail.value;
 				this.userDetailInfo.partnerAge = years[this.yearsIndex]
 			},
+			// 最大年龄
+			handleYearMaxChange:function(e){
+				this.yearsMaxIndex = e.detail.value;
+				this.userDetailInfo.partnerAgeMax = years[this.yearsMaxIndex]
+			},
+			
 			// 身高选择
 			handelheights(e) {
 				this.heightsIndex = e.target.value
 				this.userDetailInfo.partnerHeight = heights[this.heightsIndex]
+			},
+			handelheightsMax(e) {
+				this.heightsMaxIndex = e.target.value
+				this.userDetailInfo.partnerHeightMax = heights[this.heightsMaxIndex]
 			},
 			// 学历选择
 			handelEducation(e) {

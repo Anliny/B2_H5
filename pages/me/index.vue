@@ -375,7 +375,6 @@
 			},
 			// 获取标签
 			getLable(){
-				console.log(222)
 				let query = {
 					current:1,
 					size:9999
