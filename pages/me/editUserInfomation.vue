@@ -1,6 +1,5 @@
 <template>
 	<view class="contanner">
-
 		<view class="content">
 			<form @submit="formSubmit" @reset="formReset">
 				<view class="uni-form-item uni-column">
@@ -125,6 +124,7 @@
 			}
 		},
 		onLoad(options) {
+			console.log(options)
 			let {
 				position,
 				nativePlace,
@@ -252,10 +252,6 @@
 				this.marrysIndex = e.target.value
 				this.userDetailInfo.isMarry = marrys[this.marrysIndex].val
 			},
-			// 选择籍贯
-			bindPickerChange: function(e) {
-				this.index = e.target.value
-			},
 
 			// 选择籍贯
 			handleCheckNativePlace() {
@@ -288,7 +284,6 @@
 					this.lotusAddressData.cityName = currentAddress.city;
 					this.lotusAddressData.townName = currentAddress.town;
 				}
-
 			},
 			//回传已选的省市区的值
 			choseValue(res) {
@@ -314,8 +309,8 @@
 	}
 </script>
 
-<style>
-	@import url("../../assets/common.css");
+<style lang="scss" scoped>
+	@import url("../../assets/common.scss");
 
 	.img-wrapper {
 		height: 200px;

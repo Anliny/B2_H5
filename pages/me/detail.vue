@@ -19,20 +19,21 @@
 		</view> -->
 
 		<!-- 头部信息 -->
-		<view class="card-warp">
+		<view class="card-warp" style="margin-top: 8px;">
 			<view class="card-title">
 				<view class="">基本信息</view>
 			</view>
 			<uni-list>
 				<uni-list-item @click="handleEdit('name')" title="真实姓名" :show-badge="true" :badge-text="userInfo.name"></uni-list-item>
-				<uni-list-item @click="handleEdit('gender')" title="性   别" :show-badge="true" :badge-text="userInfo.gender==1 ? '男':'女'"></uni-list-item>
-				<uni-list-item @click="handleEdit('age')" title="年 龄" :show-badge="true" :badge-text="userInfo.age"></uni-list-item>
-				<uni-list-item @click="handleEdit('birthday')" title="出生日期" :show-badge="true" :badge-text="userInfo.birthday"></uni-list-item>
-				<uni-list-item @click="handleEdit('height')" title="身 高" :show-badge="true" :badge-text="userInfo.height + 'CM'"></uni-list-item>
-				<uni-list-item @click="handleEdit('nation')" title="民 族" :show-badge="true" :badge-text="userInfo.nation"></uni-list-item>
-				<uni-list-item @click="handleEdit('weight')" title="体 重" :show-badge="true" :badge-text="userInfo.weight"></uni-list-item>
-				<uni-list-item @click="handleEdit('education')" title="最高学历" :show-badge="true" :badge-text="userInfo.education"></uni-list-item>
 				<uni-list-item @click="handleEdit('idCare')" title="身份证号" :show-badge="true" :badge-text="userInfo.idCare"></uni-list-item>
+				<uni-list-item  disabled='true' title="性别" :show-arrow='false' :show-badge="true" :badge-text="userInfo.gender==1 ? '男':'女'"></uni-list-item>
+				<uni-list-item  disabled='true' title="年龄" :show-arrow='false' :show-badge="true" :badge-text="userInfo.age"></uni-list-item>
+				<uni-list-item  disabled='true' title="出生日期" :show-arrow='false' :show-badge="true" :badge-text="userInfo.birthday"></uni-list-item>
+				<uni-list-item @click="handleEdit('height')" title="身 高" :show-badge="true" :badge-text="userInfo.height+'CM'"></uni-list-item>
+				<uni-list-item @click="handleEdit('nation')" title="民 族" :show-badge="true" :badge-text="userInfo.nation"></uni-list-item>
+				<uni-list-item @click="handleEdit('weight')" title="体 重" :show-badge="true" :badge-text="userInfo.weight + 'KG'"></uni-list-item>
+				<uni-list-item @click="handleEdit('education')" title="最高学历" :show-badge="true" :badge-text="userInfo.education"></uni-list-item>
+				
 			</uni-list>
 		</view>
 
@@ -46,7 +47,7 @@
 				<uni-list-item @click="handleEdit('wechatNumber')" title="微信号" :show-badge="true" :badge-text="userInfo.wechatNumber"></uni-list-item>
 				<uni-list-item @click="handleEdit('qq')" title="qq号" :show-badge="true" :badge-text="userInfo.qq"></uni-list-item>
 				<uni-list-item @click="handleEdit('email')" title="email" :show-badge="true" :badge-text="userInfo.email"></uni-list-item>
-				<uni-list-item @click="handleEdit('level')" title="设置查看等级" :show-badge="true" :badge-text="userInfo.level"></uni-list-item>
+				<uni-list-item @click="handleEdit('level')" title="设置查看等级" :show-badge="true" :badge-text="level"></uni-list-item>
 			</uni-list>
 		</view>
 
@@ -86,7 +87,7 @@
 			<uni-list>
 				<uni-list-item @click="handleEdit('declaration')" title="爱情宣言" :note="userInfo.declaration"></uni-list-item>
 				<uni-list-item @click="handleEdit('hobby')" title="兴趣爱好" :note="userInfo.hobby"></uni-list-item>
-				<uni-list-item @click="handleEdit('vehicle')" title="我的标签" :show-badge="true" :badge-text="userInfo.vehicle"></uni-list-item>
+				<uni-list-item @click="handleEdit('otherStandardsId')" :isLabel="true" :label="otherStandardsId" title="我的标签"></uni-list-item>
 			</uni-list>
 
 		</view>
@@ -98,6 +99,7 @@
 	import uniListItem from "@/components/uni-list-item/uni-list-item1.vue"
 	import uniIcons from "@/components/uni-icons/uni-icons"
 	import utils from "@/utils/utils.js"
+	import {Vips} from "@/utils/fromCheck.js"
 	export default {
 		components: {
 			uniList,
@@ -125,6 +127,24 @@
 				}
 				return "未填写"
 			},
+			level(){
+				return Vips.filter(item => item.val == this.userInfo.level)[0].label
+			},
+			// 格式化 个人标签
+			otherStandardsId(){
+				if(this.userInfo.otherStandardsId){
+					let lebelList = uni.getStorageSync('lableList')
+					let arrId = JSON.parse(this.userInfo.otherStandardsId)
+					let arr = []
+					arrId.forEach((label,index) => {
+						arr = [...arr,...lebelList.filter(item => item.id == label)]
+					})
+					
+					return arr
+				}else{
+					return []
+				}
+			},
 			// 判断头像
 			userAvatar() {
 				return this.userInfo.userAvatar ? this.userInfo.userAvatar : "/static/icon/defult_header.jpg"
@@ -149,7 +169,7 @@
 						province,
 						city,
 						town
-					} = JSON.parse(this.userInfo.nativePlace)
+					} = JSON.parse(this.userInfo.currentAddress)
 					return `${province}${city}${town}`
 				} else {
 					return "-"
@@ -269,11 +289,12 @@
 			// 编辑用户信息
 			handleEdit(text){
 				uni.navigateTo({
-					url: '/pages/me/editUserDescrable',
+					url: '/pages/me/editUserDescrable?text='+text,
 					animationType: 'pop-in',
 					animationDuration: 200
 				})
 			}
+			
 		}
 	}
 </script>
@@ -350,7 +371,6 @@
 		margin: 0 8px 8px 8px;
 		border-radius: 5px;
 		padding: 8px;
-		line-height: 35px;
 	}
 
 	.card-warp .card-title {

@@ -1,9 +1,12 @@
+
+@import url("../uni.scss");
 /* 主页面样式 */
-uni-app{
+uni-app {
 	max-width: 640px;
 	min-width: 320px;
 	margin: auto;
 }
+
 page {
 	background-color: rgb(250, 250, 250);
 }
@@ -11,7 +14,7 @@ page {
 view {
 	/* width: 100%; */
 	box-sizing: border-box;
-	font-size: 14px;
+	font-size: $uni-font-size-base;
 }
 
 uni-button {
@@ -201,4 +204,29 @@ uni-button {
 .item-lable-active {
 	border: 1px solid #FF77AA;
 	color: #FF77AA;
+}
+
+/* 表单样式 */
+.edit-input {
+	display: block;
+}
+
+.edit-input .form-inpput {
+	width: 100%;
+	background-color: rgba(0,0,0,0);
+	height: 40px;
+	line-height: 40px;
+}
+.edit-input .form-address {
+	border-bottom: 1px solid #a0a0a0;
+}
+.edit-input .form-inpput uni-input{
+	height: 40px;
+	line-height: 40px;
+	border-bottom: 1px solid #a0a0a0;
+}
+.edit-input .form-inpput .picker {
+	font-size: 14px;
+	height: 35px;
+	border-bottom: 1px solid #a0a0a0;
 }

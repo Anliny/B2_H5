@@ -145,8 +145,8 @@ import uniTag from "@/components/uni-tag/uni-tag.vue"
 	}
 </script>
 
-<style>
-	@import url("../../assets/common.css");
+<style lang="scss" scoped>
+	@import url("../../assets/common.scss");
 
 	.img-wrapper {
 		height: 200px;

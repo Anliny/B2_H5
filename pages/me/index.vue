@@ -141,29 +141,13 @@
 					url: '/pages/me/detail',
 					text: '基本资料'
 				}, {
-					img: require('@/static/icon/btnGroup3.png'),
-					url: '/pages/me/editUserContact',
-					text: '联系方式'
-				}, {
-					img: require('@/static/icon/btnGroup4.png'),
-					url: '/pages/me/editUserInfomation',
-					text: '其他信息'
-				}, {
-					img: require('@/static/icon/btnGroup5.png'),
-					url: '/pages/me/editUserAssetStatus',
-					text: '资产状况'
-				}, {
-					img: require('@/static/icon/btnGroup6.png'),
-					url: '/pages/me/editUserDescrable',
-					text: '自我介绍'
-				}, {
 					img: require('@/static/icon/btnGroup7.png'),
 					url: '/pages/me/condition/editUserCondition',
 					text: '征友条件'
 				}, {
-					img: require('@/static/icon/btnGroup8.png'),
-					url: '/pages/me/editUserDisSetting',
-					text: '私密显示设置'
+					img: '',
+					url: '',
+					text: ''
 				}],
 				
 				groupBtnOther: [{
@@ -221,6 +205,7 @@
 			this.isVip = token.type
 			uni.startPullDownRefresh();
 			this.getUserInfo()
+			this.getLable()
 		},
 		computed: {
 			address() {
@@ -354,54 +339,7 @@
 						nickName: this.userInfo.nickName
 					}
 				}
-				if (data.index == 1) {
-					info = {
-						name: this.userInfo.name,
-						idCare: this.userInfo.idCare,
-						gender: this.userInfo.gender,
-						age: this.userInfo.age,
-						birthday: this.userInfo.birthday,
-						height: this.userInfo.height,
-						nation: this.userInfo.nation,
-						weight: this.userInfo.weight,
-						education: this.userInfo.education,
-						nickName: this.userInfo.nickName
-					}
-				}
-				if (data.index == 2) {
-					info = {
-						phone: this.userInfo.phone,
-						wechatNumber: this.userInfo.wechatNumber,
-						qq: this.userInfo.qq,
-						email: this.userInfo.email,
-						level: this.userInfo.level
-					}
-				}
-				if (data.index == 3) {
-					info = {
-						position: this.userInfo.position,
-						nativePlace: this.userInfo.nativePlace,
-						currentAddress: this.userInfo.currentAddress,
-						industry: this.userInfo.industry,
-						isMarry: this.userInfo.isMarry,
-						isChild:this.userInfo.isChild
-					}
-				}
-				if (data.index == 4) {
-					info = {
-						income: this.userInfo.income,
-						housing: this.userInfo.housing,
-						vehicle: this.userInfo.vehicle,
-						level: this.userInfo.level
-					}
-				}
-				if (data.index == 5) {
-					info = {
-						declaration: this.userInfo.declaration,
-						hobby: this.userInfo.hobby,
-						otherStandardsId: this.userInfo.otherStandardsId,
-					}
-				}
+			
 				if (data.index == 6) {
 					info = {
 						partnerAge: this.userInfo.partnerAge,
@@ -413,13 +351,9 @@
 						partnerIncome: this.userInfo.partnerIncome
 					}
 				}
-				if (data.index == 7) {
-					info = {
-						level: this.userInfo.level
-					}
-				}
+				
 				uni.navigateTo({
-					url: `${data.item.url}?info=` + JSON.stringify(info),
+					url: `${data.item.url}`,
 					animationType: 'pop-in',
 					animationDuration: 200
 				})
@@ -437,6 +371,30 @@
 				uni.showToast({
 					title:"该目录信息，暂时未开通",
 					icon:"none"
+				})
+			},
+			// 获取标签
+			getLable(){
+				console.log(222)
+				let query = {
+					current:1,
+					size:9999
+				}
+				appRequest.baseRequest({
+					url: 'label/queryPage',
+					data:query,
+					method: 'get',
+					success: (res) => {
+						// 用户状态存到缓存中去
+						try {
+							let data = res.data
+							if(data.code == '0'){
+								uni.setStorageSync('lableList',data.data.records)
+							}
+						} catch (e) {
+							//TODO handle the exception
+						}
+					}
 				})
 			}
 		}

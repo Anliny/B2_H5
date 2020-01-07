@@ -115,8 +115,8 @@
 	}
 </script>
 
-<style>
-	@import url("../../assets/common.css");
+<style lang="scss" scoped>
+	@import url("../../assets/common.scss");
 
 	.contanner {
 		width: 100%;

@@ -1,30 +1,34 @@
 <template>
 	<!-- #ifdef APP-NVUE -->
 	<cell>
-	<!-- #endif -->
-	<view :class="disabled ? 'uni-list-item--disabled' : ''" :hover-class="disabled || showSwitch ? '' : 'uni-list-item--hover'"
-	 class="uni-list-item" @click="onClick">
-		<view class="uni-list-item__container" :class="{'uni-list-item--first':isFirstChild}">
-			<view v-if="thumb" class="uni-list-item__icon">
-				<image :src="thumb" class="uni-list-item__icon-img" />
+		<!-- #endif -->
+		<view :class="disabled ? 'uni-list-item--disabled' : ''" :hover-class="disabled || showSwitch ? '' : 'uni-list-item--hover'"
+		 class="uni-list-item" @click="onClick">
+			<view class="uni-list-item__container" :class="{'uni-list-item--first':isFirstChild}">
+				<view v-if="thumb" class="uni-list-item__icon">
+					<image :src="thumb" class="uni-list-item__icon-img" />
+				</view>
+				<view v-else-if="showExtraIcon" class="uni-list-item__icon">
+					<uni-icons :color="extraIcon.color" :size="extraIcon.size" :type="extraIcon.type" class="uni-icon-wrapper" />
+				</view>
+				<view class="uni-list-item__content">
+					<slot />
+					<text class="uni-list-item__content-title">{{ title }}</text>
+					<text v-if="note" class="uni-list-item__content-note">{{ note }}</text>
+				</view>
+				<view v-if="showBadge || showArrow || showSwitch" class="uni-list-item__extra">
+					<!-- <uni-badge v-if="showBadge" :type="badgeType" style="background-color: none;" :text="badgeText" /> -->
+					<text v-if="showBadge" class="badgeText">{{badgeText}}</text>
+					<switch v-if="showSwitch" :disabled="disabled" :checked="switchChecked" @change="onSwitchChange" />
+					<uni-icons v-if="showArrow" :size="20" class="uni-icon-wrapper" color="#bbb" type="arrowright" />
+				</view>
+
 			</view>
-			<view v-else-if="showExtraIcon" class="uni-list-item__icon">
-				<uni-icons :color="extraIcon.color" :size="extraIcon.size" :type="extraIcon.type" class="uni-icon-wrapper" />
-			</view>
-			<view class="uni-list-item__content">
-				<slot />
-				<text class="uni-list-item__content-title">{{ title }}</text>
-				<text v-if="note" class="uni-list-item__content-note">{{ note }}</text>
-			</view>
-			<view v-if="showBadge || showArrow || showSwitch" class="uni-list-item__extra">
-				<!-- <uni-badge v-if="showBadge" :type="badgeType" style="background-color: none;" :text="badgeText" /> -->
-				<text  v-if="showBadge" class="badgeText">{{badgeText}}</text>
-				<switch v-if="showSwitch" :disabled="disabled" :checked="switchChecked" @change="onSwitchChange" />
-				<uni-icons v-if="showArrow" :size="20" class="uni-icon-wrapper" color="#bbb" type="arrowright" />
+			<view v-if="isLabel" class="labelWarp">
+				<view class="labelItem" v-for="(item,index) in label" :key="index">{{item.name}}</view>
 			</view>
 		</view>
-	</view>
-	<!-- #ifdef APP-NVUE -->
+		<!-- #ifdef APP-NVUE -->
 	</cell>
 	<!-- #endif -->
 </template>
@@ -32,6 +36,11 @@
 <script>
 	import uniIcons from '../uni-icons/uni-icons.vue'
 	import uniBadge from '../uni-badge/uni-badge.vue'
+	import {
+		heights,
+		years,
+		educations
+	} from "@/utils/fromCheck.js"
 	export default {
 		name: 'UniListItem',
 		components: {
@@ -74,7 +83,7 @@
 			},
 			badgeText: {
 				// badge内容
-				type: String,
+				type: [String, Number],
 				default: ''
 			},
 			badgeType: {
@@ -101,12 +110,22 @@
 						size: 20
 					}
 				}
+			},
+			label: {
+				type: [Array, Object],
+				default: () => []
+			},
+			isLabel: {
+				type: Boolean,
+				default: false
 			}
 		},
 		inject: ['list'],
 		data() {
 			return {
-				isFirstChild: false
+				isFirstChild: false,
+				heights: heights,
+				heightsIndex: 0,
 			}
 		},
 		mounted() {
@@ -121,7 +140,8 @@
 			},
 			onSwitchChange(e) {
 				this.$emit('switchChange', e.detail)
-			}
+			},
+			
 		}
 	}
 </script>
@@ -186,8 +206,8 @@
 
 	.uni-list-item__content-note {
 		margin-top: 6rpx;
-		color: $uni-text-color-grey;
-		font-size: $uni-font-size-sm;
+		font-size: $uni-font-size-base;
+		color: $uni-theme-color;
 		overflow: hidden;
 	}
 
@@ -212,8 +232,25 @@
 		height: $uni-img-size-base;
 		width: $uni-img-size-base;
 	}
-	.badgeText{
-		font-size: 13px;
+
+	.badgeText {
+		font-size: $uni-font-size-base;
 		color: #ff77aa;
+	}
+
+	.picker {
+		font-size: $uni-font-size-base;
+		color: #ff77aa;
+	}
+
+	.labelWarp {
+		display: flex;
+
+		.labelItem {
+			border: 1upx solid #FF77AA;
+			margin-right: 6upx;
+			padding: 0 6upx;
+			color: $uni-theme-color;
+		}
 	}
 </style>

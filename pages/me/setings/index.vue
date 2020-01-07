@@ -108,8 +108,8 @@
 	}
 </script>
 
-<style>
-	@import url("../../../assets/common.css");
+<style lang="scss" scoped>
+	@import url("../../../assets/common.scss");
 
 	uni-page-body {
 		height: 100%;

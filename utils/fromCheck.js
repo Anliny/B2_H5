@@ -31,6 +31,14 @@ const marrys = [
 	{val:2,label:'离异'},
 	{val:3,label:'丧偶'}
 ]
+
+// 是否有小孩
+const isChilds = [
+	{val:'',label:'请选择是否有小孩'},
+	{val:0,label:'有'},
+	{val:1,label:'无'},
+]
+
 // 工作年限
 const jobYars = function(lowYear,heightYear){
 	let jobList = ["请选择工作年限"];
@@ -49,4 +57,4 @@ const activeUser = function(lowUser,heightUser){
 	return jobList
 }(1,100)
 
-export {heights,years,educations,Vips,marrys,jobYars,activeUser}
+export {heights,years,educations,Vips,marrys,jobYars,activeUser,isChilds}
