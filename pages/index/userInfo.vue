@@ -252,7 +252,7 @@
 					选择标签：
 				</view>
 				<view class="card-item-text">
-					<view class="item-lable item-lable-active"  v-for="(item,index) in otherList" :key="index">{{item.name}}</view>
+					<view class="item-lable item-lable-active" v-for="(item,index) in otherList" :key="index">{{item.name}}</view>
 				</view>
 			</view>
 		</view>
@@ -276,21 +276,21 @@
 					<uni-icons type="person" color="#ff77aa"></uni-icons>
 					年龄：
 				</view>
-				<view class="card-item-text">{{userInfo.partnerAge}}</view>
+				<view class="card-item-text">{{partnerAge}}</view>
 			</view>
 			<view class="card-item">
 				<view class="card-item-lable">
 					<uni-icons type="person" color="#ff77aa"></uni-icons>
 					身高：
 				</view>
-				<view class="card-item-text">{{userInfo.partnerHeight}}</view>
+				<view class="card-item-text">{{partnerHeight}}</view>
 			</view>
 			<view class="card-item">
 				<view class="card-item-lable">
 					<uni-icons type="person" color="#ff77aa"></uni-icons>
 					收入：
 				</view>
-				<view class="card-item-text">{{userInfo.partnerIncome}}以上</view>
+				<view class="card-item-text">{{partnerIncome}}</view>
 			</view>
 			<view class="card-item">
 				<view class="card-item-lable">
@@ -332,12 +332,12 @@
 				userInfo: {
 					userAvatar: ''
 				},
-				otherList:[],
-				type:uni.getStorageSync('token').type
+				otherList: [],
+				type: uni.getStorageSync('token').type
 			}
 		},
 		onLoad(options) {
-			
+
 			if (this.type == 1) {
 				appRequest.baseRequest({
 					url: '/member/queryBackById',
@@ -374,6 +374,28 @@
 
 		},
 		computed: {
+			// 年龄
+			partnerAge() {
+				console.log(this.userInfo.partnerAge);
+				if (this.userInfo.partnerAge) {
+					let ageArr = JSON.parse(this.userInfo.partnerAge)
+					return `${ageArr[0]}岁 - ${ageArr[1]}岁之间`
+				}
+			},
+			// 身高
+			partnerHeight(){
+				if (this.userInfo.partnerHeight) {
+					let heightArr = JSON.parse(this.userInfo.partnerHeight)
+					return `${heightArr[0]}CM - ${heightArr[1]}CM`
+				}
+			},
+			// 收入
+			partnerIncome(){
+				if (this.userInfo.partnerIncome) {
+					let incomeArr = JSON.parse(this.userInfo.partnerIncome)
+					return `月收入${incomeArr[0]} - ${incomeArr[1]}`
+				}
+			},
 			compGrade() {
 				let str = ""
 				Vips.find((item, index) => {
@@ -406,7 +428,8 @@
 			},
 			// 判断头像
 			userAvatar() {
-				return this.userInfo.userAvatar ? this.userInfo.userAvatar : "/static/icon/defult_header.jpg"
+				console.log(this.userInfo.userAvatar);
+				return this.userInfo.userAvatar || "/static/icon/defult_header.jpg"
 			},
 			// 籍贯
 			nativePlaceAdress() {
@@ -423,7 +446,7 @@
 			},
 			// 现住地址
 			currentAddress() {
-				
+
 				if (this.userInfo.currentAddress) {
 					let {
 						province,
@@ -438,7 +461,7 @@
 			// 标签地址
 			address() {
 				if (this.userInfo.currentAddress) {
-					return JSON.parse(this.userInfo.currentAddress).city + '户口'
+					return JSON.parse(this.userInfo.currentAddress).city
 				} else {
 					return '-'
 				}
@@ -458,24 +481,24 @@
 		},
 		methods: {
 			// 获取标签
-			getLable(){
+			getLable() {
 				let query = {
-					current:1,
-					size:9999
+					current: 1,
+					size: 9999
 				}
 				appRequest.baseRequest({
 					url: 'label/queryPage',
-					data:query,
+					data: query,
 					method: 'get',
 					success: (res) => {
 						// 用户状态存到缓存中去
 						try {
 							this.lableList = res.data.data.records;
-							let otherStandardsId = JSON.parse(this.userInfo.otherStandardsId) 
-							
-							this.lableList.forEach((item,index) => {
+							let otherStandardsId = JSON.parse(this.userInfo.otherStandardsId)
+
+							this.lableList.forEach((item, index) => {
 								otherStandardsId.forEach(row => {
-									if(row == item.id){
+									if (row == item.id) {
 										this.otherList.push(item);
 									}
 								})
@@ -486,7 +509,7 @@
 					}
 				})
 			},
-			
+
 			//头像大图
 			previewImage: function(e) {
 				var current = e.target.dataset.src
@@ -504,7 +527,9 @@
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
+	@import url("../../uni.scss");
+
 	.content {}
 
 	.base {
@@ -514,9 +539,10 @@
 
 	.base-wrapper {
 		position: relative;
-		margin-top: 50px;
 		background-color: #fff9f9;
 		border-radius: 20px;
+		margin:200upx 8px 8px 8px;
+		
 	}
 
 	.img {
@@ -592,6 +618,7 @@
 	.card-warp .card-title {
 		display: flex;
 		justify-content: space-between;
+		line-height: 1.9;
 	}
 
 	.card-warp .card-edit {
@@ -605,27 +632,29 @@
 	}
 
 	.card-warp .tips {
-		font-size: 12px;
+		font-size: $uni-font-size-base;
 		color: rgb(254, 151, 62);
-		line-height: 25px;
+		line-height: 1.9;
 	}
 
 	.card-warp .card-item {
-		line-height: 30px;
+		line-height: 1.9;
 		display: flex;
 	}
 
 	.card-warp .card-item-lable {
-		font-size: 12px;
+		font-size: $uni-font-size-base;
 		color: #a0a0a0;
+		flex: 0 0 200upx
 	}
 
 	.card-warp .card-item-lable .uni-icons {
 		margin-right: 5px;
+		font-size: $uni-font-size-base;
 	}
 
 	.card-warp .card-item-text {
-		font-size: 12px;
+		font-size: $uni-font-size-base;
 	}
 
 	.code2 {

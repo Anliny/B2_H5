@@ -4,6 +4,10 @@
 	// }, {passive: false}); 
 	export default {
 		onLaunch: function() {
+			console.log(document.body.clientWidth);
+			// if(document.body.clientWidth > 750){
+			// 	document.body.clientWidth = 750
+			// }
 		},
 		onShow: function() {
 		},
