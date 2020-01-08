@@ -10,9 +10,10 @@
 				<image class="img" src="/static/banner.jpg"></image>
 			</view> -->
 			<view class="uni-padding-wrap">
-				<view class="page-section swiper">
+				<view class="page-section">
 					<view class="page-section-spacing">
-						<swiper class="swiper" :circular="true" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
+						<swiper class="swiper" style="height: 300upx;" :circular="true" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
+						 :duration="duration">
 							<swiper-item>
 								<view class="swiper-item">
 									<image class="" src="/static/banner.jpg" mode="widthFix"></image>
@@ -60,6 +61,9 @@
 			</view> -->
 			<uni-load-more :status="loadMore"></uni-load-more>
 		</view>
+		<!-- 广告层 -->
+		<chunLei-modal v-model="chunleiModal" :mData="advertData" type="advert" @onConfirm="onConfirm" @cancel="cancel" navMask>
+		</chunLei-modal>
 	</view>
 </template>
 
@@ -72,18 +76,28 @@
 	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
 	import btnGroup from "./components/btnGroup.vue"
 	import appRequest from "@/utils/config.js"
+	import chunLeiModal from '@/components/chunLei-modal/chunLei-modal.vue'
+
 	export default {
 		components: {
+			
 			uniSearchBar,
 			uniCard,
 			uniIcons,
 			Skeleton,
 			youScroll,
 			uniLoadMore,
-			btnGroup
+			btnGroup,
+			chunLeiModal
 		},
 		data() {
 			return {
+				chunleiModal:true,
+				advertData: {
+					src: require('@/static/banner.jpg'),
+					width: '600rpx',
+					height: '350rpx'
+				},
 				background: ['color1', 'color2', 'color3'],
 				indicatorDots: true,
 				autoplay: true,
@@ -420,7 +434,8 @@
 	}
 
 	.uni-card-text {
-		font-size: 12px;
+		font-size: 14px;
+		line-height: 1.6;
 		text-overflow: -o-ellipsis-lastline;
 		overflow: hidden;
 		text-overflow: ellipsis;

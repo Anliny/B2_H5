@@ -196,9 +196,6 @@
 		<view class="card-warp card-shadow">
 			<view class="card-title">
 				<view class="title">资产状况</view>
-				<!-- <view class="card-edit" @click="handleEditUserAssetStatus">
-					<uni-icons type="compose" color="#ff77aa"></uni-icons>
-				</view> -->
 			</view>
 			<view class="card-item">
 				<view class="card-item-lable">
@@ -221,7 +218,6 @@
 				</view>
 				<view class="card-item-text">{{userInfo.vehicle}}</view>
 			</view>
-			<view class="tips">{{compGrade}}</view>
 		</view>
 
 		<!-- 自我描述 -->
@@ -306,7 +302,19 @@
 				</view>
 				<view class="card-item-text">{{isMarry}}</view>
 			</view>
-			<!-- <view class="tips">仅银卡会员可查看</view> -->
+		</view>
+
+		<!-- 聊天 -->
+		<view style="height: 44px;" v-if="type==0"></view>
+		<view class="bottom-wrapper" v-if="type==0">
+			<view class="item item-border-right">
+				<uni-icons type="redo" size="24" color="#fff" @click="handleFollow"></uni-icons> &nbsp;&nbsp;
+				关注
+			</view>
+			<view class="item">
+				<uni-icons type="chatbubble" size="24" color="#fff"  @click="handleFollow"></uni-icons> &nbsp;&nbsp;
+				聊天
+			</view>
 		</view>
 	</view>
 </template>
@@ -362,9 +370,17 @@
 					success: (res) => {
 						// 用户状态存到缓存中去
 						try {
-							this.userInfo = res.data.data
-							// 标签
-							this.getLable()
+							if (res.data.code == "-1") {
+								uni.showToast({
+									title: "未查询到用户信息！",
+									icon: "none"
+								})
+							} else {
+								this.userInfo = res.data.data
+								// 标签
+								this.getLable()
+							}
+
 						} catch (e) {
 							//TODO handle the exception
 						}
@@ -376,21 +392,20 @@
 		computed: {
 			// 年龄
 			partnerAge() {
-				console.log(this.userInfo.partnerAge);
 				if (this.userInfo.partnerAge) {
 					let ageArr = JSON.parse(this.userInfo.partnerAge)
 					return `${ageArr[0]}岁 - ${ageArr[1]}岁之间`
 				}
 			},
 			// 身高
-			partnerHeight(){
+			partnerHeight() {
 				if (this.userInfo.partnerHeight) {
 					let heightArr = JSON.parse(this.userInfo.partnerHeight)
 					return `${heightArr[0]}CM - ${heightArr[1]}CM`
 				}
 			},
 			// 收入
-			partnerIncome(){
+			partnerIncome() {
 				if (this.userInfo.partnerIncome) {
 					let incomeArr = JSON.parse(this.userInfo.partnerIncome)
 					return `月收入${incomeArr[0]} - ${incomeArr[1]}`
@@ -428,7 +443,6 @@
 			},
 			// 判断头像
 			userAvatar() {
-				console.log(this.userInfo.userAvatar);
 				return this.userInfo.userAvatar || "/static/icon/defult_header.jpg"
 			},
 			// 籍贯
@@ -522,6 +536,13 @@
 				uni.navigateBack({
 					delta: 1
 				});
+			},
+			//关注、、、聊天
+			 handleFollow(){
+				 uni.showToast({
+					title:"该功能暂未开通,敬请期待！",
+					icon:"none"
+				 })
 			}
 		}
 	}
@@ -541,8 +562,8 @@
 		position: relative;
 		background-color: #fff9f9;
 		border-radius: 20px;
-		margin:200upx 8px 8px 8px;
-		
+		margin: 200upx 8px 8px 8px;
+
 	}
 
 	.img {
@@ -643,14 +664,16 @@
 	}
 
 	.card-warp .card-item-lable {
-		font-size: $uni-font-size-base;
+		// font-size: $uni-font-size-base;
+		font-size: 28rpx;
 		color: #a0a0a0;
 		flex: 0 0 200upx
 	}
 
 	.card-warp .card-item-lable .uni-icons {
 		margin-right: 5px;
-		font-size: $uni-font-size-base;
+		// font-size: $uni-font-size-base;
+		font-size: 28px;
 	}
 
 	.card-warp .card-item-text {
@@ -667,5 +690,27 @@
 
 	.code4 {
 		background-color: rgb(254, 151, 62);
+	}
+
+	.bottom-wrapper {
+		background-color: #FF77AA;
+		height: 44px;
+		width: 100%;
+		position: fixed;
+		bottom: 0;
+		display: flex;
+
+		.item {
+			flex: 1;
+			font-size: 14px;
+			color: #fff;
+			height: 100%;
+			line-height: 44px;
+			text-align: center;
+		}
+
+		.item-border-right {
+			border-right: 1px solid #fff;
+		}
 	}
 </style>

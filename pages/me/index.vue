@@ -34,10 +34,9 @@
 				<image :src="userAvatar()" :data-src="userAvatar()" @tap="previewImage" class="image" mode=""></image>
 			</view>
 			<view class="header-wrapper">
-				<view class="header-item">
-					<uni-icons type="compose" size="30" @click="handleEditUserContact(matchmaker)" color="#ff77aa"></uni-icons>
+				<view class="header-item">姓名：{{matchmaker.name}}
+				<uni-icons type="compose" size="30" @click="handleEditUserContact(matchmaker)" color="#ff77aa"></uni-icons>
 				</view>
-				<view class="header-item">姓名：{{matchmaker.name}}</view>
 				<view class="header-item">性别：{{matchmaker.gender == 2 ?"女":"男"}}</view>
 				<view class="header-item">年龄：{{matchmaker.age}}岁</view>
 				<view class="header-item">工作年限：{{matchmaker.workingLife}}年</view>
@@ -400,8 +399,9 @@
 	}
 </script>
 
-<style>
-	@import url("style.css");
+<style lang="scss" scoped>
+	@import url("../../assets/common.scss");
+	@import url("./style.scss");
 
 	.content {}
 
@@ -496,4 +496,5 @@
 	.code4 {
 		background-color: rgb(254, 151, 62);
 	}
+	
 </style>

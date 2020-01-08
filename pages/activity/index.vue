@@ -97,7 +97,6 @@
 		},
 		onShow() {
 			this.token = uni.getStorageSync("token")
-			console.log(this.token);
 			this.userInfo = uni.getStorageSync("userInfo")
 			this.getActivitys()
 		},
@@ -177,7 +176,6 @@
 					},
 					method: 'post',
 					success: (res) => {
-						console.log(res)
 					},
 				})
 			},

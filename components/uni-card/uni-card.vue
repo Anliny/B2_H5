@@ -126,7 +126,7 @@ $uni-spacing-marign: 24upx;
 
 	&__thumbnailimage {
 		position: relative;
-		height: 100px;
+		height: 200upx;
 
 		image {
 			width: 100%;
@@ -140,6 +140,7 @@ $uni-spacing-marign: 24upx;
 			font-size: 32upx;
 			width: 100%;
 			color: #fff;
+			text-shadow: 1px 1px 5px #000000;
 		}
 	}
 
