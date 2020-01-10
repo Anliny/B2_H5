@@ -62,7 +62,7 @@
 			<uni-load-more :status="loadMore"></uni-load-more>
 		</view>
 		<!-- 广告层 -->
-		<chunLei-modal v-model="chunleiModal" :mData="advertData" type="advert" @onConfirm="onConfirm" @cancel="cancel" navMask>
+		<chunLei-modal v-model="chunleiModal" :mData="advertData" type="advert" @onConfirm="onConfirm" @cancel="tapCancel" navMask>
 		</chunLei-modal>
 	</view>
 </template>
@@ -149,6 +149,13 @@
 			this.searchData.current = 0
 			this.dataInfo = []
 			this.getVipList()
+			uni.getStorage({
+				key:'advert',
+				success: (data) => {
+					this.chunleiModal = data.data
+				}
+			})
+			
 			// this.getAdress()
 		},
 		onPullDownRefresh() {
@@ -165,6 +172,11 @@
 			this.getVipList()
 		},
 		methods: {
+			// 关闭广告
+			tapCancel(e){
+				uni.setStorageSync('advert',e)
+				this.chunleiModal = e;
+			},
 			// banner事件
 			changeIndicatorDots(e) {
 				this.indicatorDots = !this.indicatorDots

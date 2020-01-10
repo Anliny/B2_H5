@@ -146,7 +146,7 @@
 				this.$emit('input',false)
 			},
 			tapCancel(){
-				this.$emit('cancel')
+				this.$emit('cancel',false)
 				this.$emit('input',false)
 			},
 			tapConfirm(item){

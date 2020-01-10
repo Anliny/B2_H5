@@ -316,6 +316,7 @@
 						icon: 'none',
 						title: valLoginRes.errmsg
 					})
+					this.loading = false
 					return false
 				}
 				let {userAvatar,

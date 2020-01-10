@@ -32,7 +32,8 @@
 				</view>
 			</form>
 		</view>
-		<view class="bottom-tips">实名认证 安全放心</view>
+		<view class="bottom-tips">实名认证 安全放心 沪ICP备20000884</view>
+		
 	</view>
 </template>
 
@@ -106,7 +107,9 @@
 									title: `登录成功！`,
 									icon: 'success',
 									showCancel: false,
+									
 									success: () => {
+										uni.setStorageSync('advert',true)
 										this.getUserInfo(type)
 									},
 								})
