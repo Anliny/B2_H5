@@ -73,7 +73,7 @@
             "disableHostCheck" : true,
             "proxy" : {
                 "^/apis" : {
-                    "target" : "http://106.13.70.95:888",
+                    "target" : "http://api.qs13.cn",
                     "changeOrigin" : true,
                     "ws" : false,
                     "secure" : false

@@ -12,21 +12,11 @@
 			<view class="uni-padding-wrap">
 				<view class="page-section">
 					<view class="page-section-spacing">
-						<swiper class="swiper" style="height: 300upx;" :circular="true" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval"
-						 :duration="duration">
-							<swiper-item>
+						<swiper class="swiper"  :circular="true" :indicator-dots="indicatorDots" :autoplay="autoplay"
+						 :interval="interval" :duration="duration">
+							<swiper-item v-for="(item,index) in advertList">
 								<view class="swiper-item">
-									<image class="" src="/static/banner.jpg" mode="widthFix"></image>
-								</view>
-							</swiper-item>
-							<swiper-item>
-								<view class="swiper-item uni-bg-green">
-									<image src="/static/banner.jpg" mode="widthFix"></image>
-								</view>
-							</swiper-item>
-							<swiper-item>
-								<view class="swiper-item uni-bg-blue">
-									<image src="/static/banner.jpg" mode="widthFix"></image>
+									<image class="" :src="item.pictureUrl" mode="widthFix"></image>
 								</view>
 							</swiper-item>
 						</swiper>
@@ -62,7 +52,8 @@
 			<uni-load-more :status="loadMore"></uni-load-more>
 		</view>
 		<!-- 广告层 -->
-		<chunLei-modal v-model="chunleiModal" :mData="advertData" type="advert" @onConfirm="onConfirm" @cancel="tapCancel" navMask>
+		<chunLei-modal v-model="chunleiModal" :mData="advertData" type="advert" @onConfirm="onConfirm" @cancel="tapCancel"
+		 navMask>
 		</chunLei-modal>
 	</view>
 </template>
@@ -80,7 +71,7 @@
 
 	export default {
 		components: {
-			
+
 			uniSearchBar,
 			uniCard,
 			uniIcons,
@@ -92,7 +83,7 @@
 		},
 		data() {
 			return {
-				chunleiModal:true,
+				chunleiModal: true,
 				advertData: {
 					src: require('@/static/banner.jpg'),
 					width: '600rpx',
@@ -101,7 +92,7 @@
 				background: ['color1', 'color2', 'color3'],
 				indicatorDots: true,
 				autoplay: true,
-				interval: 2000000,
+				interval: 3000,
 				duration: 500,
 				// banner属性结束
 				groupBtnData: [{
@@ -142,6 +133,7 @@
 					total: 8
 				},
 				dataInfo: [],
+				advertList:[],
 			}
 		},
 		onLoad() {
@@ -150,12 +142,13 @@
 			this.dataInfo = []
 			this.getVipList()
 			uni.getStorage({
-				key:'advert',
+				key: 'advert',
 				success: (data) => {
 					this.chunleiModal = data.data
 				}
 			})
-			
+			// 获取广告列表
+			this.getAdvertList()
 			// this.getAdress()
 		},
 		onPullDownRefresh() {
@@ -172,9 +165,33 @@
 			this.getVipList()
 		},
 		methods: {
+			// 获取广告列表
+			getAdvertList() {
+				appRequest.baseRequest({
+					url: '/advertisement/queryList',
+					method: 'get',
+					data: {type:0},
+					success: (res) => {
+						try{
+							let data = res.data
+							if(data.code == '0'){
+								this.advertList = data.data
+							}else{
+								uni.showToast({
+									title:data.message,
+									icon:"none"
+								})
+							}
+						}catch(e){
+							//TODO handle the exception
+						}
+					}
+				})
+			},
+
 			// 关闭广告
-			tapCancel(e){
-				uni.setStorageSync('advert',e)
+			tapCancel(e) {
+				uni.setStorageSync('advert', e)
 				this.chunleiModal = e;
 			},
 			// banner事件
