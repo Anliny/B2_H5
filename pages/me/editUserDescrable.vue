@@ -7,7 +7,7 @@
 				<view class="uni-form-item uni-column edit-input" v-if="identification == 'name'">
 					<view class="form-lable">姓名：</view>
 					<view class="form-inpput">
-						<input v-model="userDetailInfo.name" type="text" placeholder-class="placeholder" placeholder="请填写职位信息" />
+						<input v-model="userDetailInfo.name || ''" type="text" placeholder-class="placeholder" placeholder="请填写真实姓名" />
 					</view>
 				</view>
 
@@ -15,7 +15,7 @@
 				<view class="uni-form-item uni-column edit-input" v-if="identification == 'idCare'">
 					<view class="form-lable">身份证号：</view>
 					<view class="form-inpput">
-						<input @blur="handleIdCard" v-model="userDetailInfo.idCare" type="text" placeholder-class="placeholder"
+						<input @blur="handleIdCard" v-model="userDetailInfo.idCare || ''" type="text" placeholder-class="placeholder"
 						 placeholder="请填写身份证号" />
 					</view>
 				</view>
