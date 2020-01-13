@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="an-uploadImg-group">
-			<view>
+			<view class="upload-wrapper">
 				<view class="an-img" v-for="(item, index) in imgList" :key="index" @click="perviewImg(index)">
 					<image :src="item" v-if="item"></image>
 					<view class="an-icon-close" @click.stop="handleRemove(index)">
@@ -90,13 +90,17 @@
 	}
 </script>
 
-<style>
+<style scoped>
 	.an-uploadImg-group {
-		margin: 5upx 20upx;
+		display: flex;
 	}
-
+	.upload-wrapper{
+		display: flex;
+		flex-flow: row wrap;
+		     align-content: flex-start;
+	}
 	.an-img {
-		float: left;
+		flex: 0 0 25%;
 		margin-right: 10upx;
 	}
 
