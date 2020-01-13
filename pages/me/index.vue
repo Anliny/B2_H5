@@ -7,7 +7,7 @@
 						<image :src="userAvatar()" :data-src="userAvatar()" @tap="previewImage" class="image" mode=""></image>
 					</view>
 					<view class="base-name">
-						<view class="item">{{userInfo.nickName ? userInfo.nickName : "去取一个昵称吧" }}</view>
+						<view class="item">{{userInfo.nickName ? userInfo.nickName : "-" }}</view>
 						<view class="item">
 							<uni-tag style="display: inline-block;" size="small" type="error" :inverted="true" :text="compGrade"></uni-tag>
 						</view>

@@ -28,6 +28,7 @@
 		data() {
 			return {
 				loading: false,
+				info:{},
 				userDetailInfo: {
 					userAvatar: '',
 					nickName: '',
@@ -35,15 +36,11 @@
 			}
 		},
 		onLoad(option) {
-			let {
-				userAvatar,
-				nickName
-			} = JSON.parse(option.info);
-			if (userAvatar) {
-				this.userDetailInfo.userAvatar = userAvatar;
-			}
-			// let nickName = uni.getStorageSync("userInfo").nickName
-			this.userDetailInfo.nickName = nickName ? nickName : ""
+			
+			this.info = uni.getStorageSync("userInfo")
+			let {userAvatar,nickName} = this.info
+			this.userDetailInfo.userAvatar = userAvatar;
+			this.userDetailInfo.nickName =  nickName ? nickName : ""
 		},
 		methods: {
 			upload() {
@@ -79,6 +76,7 @@
 						icon: 'none',
 						title: valLoginRes.errmsg
 					})
+					this.loading = false
 					return false
 				}
 

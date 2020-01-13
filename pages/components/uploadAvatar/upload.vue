@@ -98,9 +98,19 @@
 									icon: 'success',
 									duration: 1000
 								});
-								wx.redirectTo({
-								  url: '/pages/me/editUserHeader?info=' + JSON.stringify({userAvatar})
+								let userInfo = uni.getStorageSync('userInfo')
+								userInfo.userAvatar = userAvatar
+								uni.setStorage({
+									key:'userInfo',
+									data:userInfo,
+									success: (res) => {
+										wx.redirectTo({
+										  // url: '/pages/me/editUserHeader?info=' + JSON.stringify({userAvatar})
+										  url: '/pages/me/editUserHeader'
+										})
+									}
 								})
+								
 							},
 							ail: err => {
 								console.log('uploadImage fail', err);
