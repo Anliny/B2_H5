@@ -268,12 +268,21 @@
 
 			this.identification = options.text
 			
-			let {name,idCare,height,education,level,nativePlace,currentAddress,isMarry,isChild,otherStandardsId} = this.userDetailInfo
+			let {name,idCare,nation,phone,qq,email,wechatNumber,weight,height,income,housing,vehicle,education,level,nativePlace,currentAddress,isMarry,isChild,otherStandardsId,hobby,declaration} = this.userDetailInfo
 			
-			this.userDetailInfo = {
-				name:name || '',
-				idCare:idCare ||''
-			}
+			this.userDetailInfo.name = name || ''
+			this.userDetailInfo.idCare = idCare || ''
+			this.userDetailInfo.nation = nation || ''
+			this.userDetailInfo.weight = weight || ''
+			this.userDetailInfo.phone = phone ||''
+			this.userDetailInfo.wechatNumber = wechatNumber ||''
+			this.userDetailInfo.qq = qq ||''
+			this.userDetailInfo.email = email ||''
+			this.userDetailInfo.income = income || ''
+			this.userDetailInfo.housing = housing || ''
+			this.userDetailInfo.vehicle = vehicle || ''
+			this.userDetailInfo.hobby = hobby || ''
+			this.userDetailInfo.declaration = declaration ||''
 			
 			let heightItem = height ? height : "请选择身高";
 			this.heightsIndex = this.heights.indexOf(heightItem)
