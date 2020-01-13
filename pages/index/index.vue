@@ -170,7 +170,6 @@
 				appRequest.baseRequest({
 					url: '/advertisement/queryList',
 					method: 'get',
-					data: {type:0},
 					success: (res) => {
 						try{
 							let data = res.data
