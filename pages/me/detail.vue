@@ -24,16 +24,16 @@
 				<view class="">基本信息</view>
 			</view>
 			<uni-list>
-				<uni-list-item @click="handleEdit('name')" title="真实姓名" :show-badge="true" :badge-text="userInfo.name"></uni-list-item>
-				<uni-list-item @click="handleEdit('idCare')" title="身份证号" :show-badge="true" :badge-text="userInfo.idCare"></uni-list-item>
-				<uni-list-item  disabled='true' title="性别" :show-arrow='false' :show-badge="true" :badge-text="userInfo.gender==1 ? '男':'女'"></uni-list-item>
-				<uni-list-item  disabled='true' title="年龄" :show-arrow='false' :show-badge="true" :badge-text="userInfo.age"></uni-list-item>
-				<uni-list-item  disabled='true' title="出生日期" :show-arrow='false' :show-badge="true" :badge-text="userInfo.birthday"></uni-list-item>
-				<uni-list-item @click="handleEdit('height')" title="身 高" :show-badge="true" :badge-text="userInfo.height  +'CM' "></uni-list-item>
-				<uni-list-item @click="handleEdit('nation')" title="民 族" :show-badge="true" :badge-text="userInfo.nation"></uni-list-item>
-				<uni-list-item @click="handleEdit('weight')" title="体 重" :show-badge="true" :badge-text="userInfo.weight + 'KG'"></uni-list-item>
+				<uni-list-item @click="handleEdit('name')" title="真实姓名" :show-badge="true" :badge-text="userInfo.name?userInfo.name:'请填写真实姓名'"></uni-list-item>
+				<uni-list-item @click="handleEdit('idCare')" title="身份证号" :show-badge="true" :badge-text="userInfo.idCare?userInfo.idCare:'请填写身份证号'"></uni-list-item>
+				<uni-list-item disabled='true' title="性别" :show-arrow='false' :show-badge="true" :badge-text="userInfo.gender==1 ? '男':'女'"></uni-list-item>
+				<uni-list-item disabled='true' title="年龄" :show-arrow='false' :show-badge="true" :badge-text="userInfo.age"></uni-list-item>
+				<uni-list-item disabled='true' title="出生日期" :show-arrow='false' :show-badge="true" :badge-text="userInfo.birthday"></uni-list-item>
+				<uni-list-item @click="handleEdit('height')" title="身 高" :show-badge="true" :badge-text="height"></uni-list-item>
+				<uni-list-item @click="handleEdit('nation')" title="民 族" :show-badge="true" :badge-text="userInfo.nation?userInfo.nation:'请填写民族'"></uni-list-item>
+				<uni-list-item @click="handleEdit('weight')" title="体 重" :show-badge="true" :badge-text="weight"></uni-list-item>
 				<uni-list-item @click="handleEdit('education')" title="最高学历" :show-badge="true" :badge-text="userInfo.education"></uni-list-item>
-				
+
 			</uni-list>
 		</view>
 
@@ -44,9 +44,9 @@
 			</view>
 			<uni-list>
 				<uni-list-item @click="handleEdit('phone')" title="手机号" :show-badge="true" :badge-text="userInfo.phone"></uni-list-item>
-				<uni-list-item @click="handleEdit('wechatNumber')" title="微信号" :show-badge="true" :badge-text="userInfo.wechatNumber"></uni-list-item>
-				<uni-list-item @click="handleEdit('qq')" title="qq号" :show-badge="true" :badge-text="userInfo.qq"></uni-list-item>
-				<uni-list-item @click="handleEdit('email')" title="email" :show-badge="true" :badge-text="userInfo.email"></uni-list-item>
+				<uni-list-item @click="handleEdit('wechatNumber')" title="微信号" :show-badge="true" :badge-text="userInfo.wechatNumber?userInfo.wechatNumber:'请填写微信号'"></uni-list-item>
+				<uni-list-item @click="handleEdit('qq')" title="qq号" :show-badge="true" :badge-text="userInfo.qq?userInfo.qq:'请填写QQ号'"></uni-list-item>
+				<uni-list-item @click="handleEdit('email')" title="email" :show-badge="true" :badge-text="userInfo.email?userInfo.email:'请填写邮箱'"></uni-list-item>
 				<uni-list-item @click="handleEdit('level')" title="设置查看等级" :show-badge="true" :badge-text="level"></uni-list-item>
 			</uni-list>
 		</view>
@@ -57,10 +57,10 @@
 				<view class="title">其他信息</view>
 			</view>
 			<uni-list>
-				<uni-list-item @click="handleEdit('position')" title="职位" :show-badge="true" :badge-text="userInfo.position"></uni-list-item>
+				<uni-list-item @click="handleEdit('position')" title="职位" :show-badge="true" :badge-text="userInfo.position?userInfo.position:'请填写职位'"></uni-list-item>
 				<uni-list-item @click="handleEdit('nativePlaceAdress')" title="籍贯" :show-badge="true" :badge-text="nativePlaceAdress"></uni-list-item>
 				<uni-list-item @click="handleEdit('currentAddress')" title="现住地址" :show-badge="true" :badge-text="currentAddress"></uni-list-item>
-				<uni-list-item @click="handleEdit('industry')" title="行业" :show-badge="true" :badge-text="userInfo.industry"></uni-list-item>
+				<uni-list-item @click="handleEdit('industry')" title="行业" :show-badge="true" :badge-text="userInfo.industry?userInfo.industry:'请填写所属行业'"></uni-list-item>
 				<uni-list-item @click="handleEdit('isMarry')" title="是否婚配" :show-badge="true" :badge-text="isMarry"></uni-list-item>
 				<uni-list-item @click="handleEdit('isChild')" title="是否有小孩" :show-badge="true" :badge-text="userInfo.isChild == '0' ? '有':'无'"></uni-list-item>
 			</uni-list>
@@ -72,9 +72,9 @@
 				<view class="title">资产状况</view>
 			</view>
 			<uni-list>
-				<uni-list-item @click="handleEdit('income')" title="收入" :show-badge="true" :badge-text="userInfo.income+'以上'"></uni-list-item>
-				<uni-list-item @click="handleEdit('housing')" title="住房情况" :show-badge="true" :badge-text="userInfo.housing"></uni-list-item>
-				<uni-list-item @click="handleEdit('vehicle')" title="是否有车" :show-badge="true" :badge-text="userInfo.vehicle"></uni-list-item>
+				<uni-list-item @click="handleEdit('income')" title="收入" :show-badge="true" :badge-text="income"></uni-list-item>
+				<uni-list-item @click="handleEdit('housing')" title="住房情况" :show-badge="true" :badge-text="userInfo.housing?userInfo.housing:'请填写住房信息'"></uni-list-item>
+				<uni-list-item @click="handleEdit('vehicle')" title="是否有车" :show-badge="true" :badge-text="userInfo.vehicle?userInfo.vehicle:'请填写购车情况'"></uni-list-item>
 			</uni-list>
 		</view>
 
@@ -85,9 +85,9 @@
 
 			</view>
 			<uni-list>
-				<uni-list-item @click="handleEdit('declaration')" title="爱情宣言" :note="userInfo.declaration"></uni-list-item>
-				<uni-list-item @click="handleEdit('hobby')" title="兴趣爱好" :note="userInfo.hobby"></uni-list-item>
-				<uni-list-item @click="handleEdit('otherStandardsId')" :isLabel="true" :label="otherStandardsId" title="我的标签"></uni-list-item>
+				<uni-list-item @click="handleEdit('declaration')" title="爱情宣言" :note="userInfo.declaration?userInfo.declaration:'填写你的爱情宣言'"></uni-list-item>
+				<uni-list-item @click="handleEdit('hobby')" title="兴趣爱好" :note="userInfo.hobby?userInfo.hobby:'请填写兴趣爱好'"></uni-list-item>
+				<uni-list-item @click="handleEdit('otherStandardsId')" :isLabel="true" note="请选择标签" :label="otherStandardsId" title="我的标签"></uni-list-item>
 			</uni-list>
 
 		</view>
@@ -99,7 +99,9 @@
 	import uniListItem from "@/components/uni-list-item/uni-list-item1.vue"
 	import uniIcons from "@/components/uni-icons/uni-icons"
 	import utils from "@/utils/utils.js"
-	import {Vips} from "@/utils/fromCheck.js"
+	import {
+		Vips
+	} from "@/utils/fromCheck.js"
 	export default {
 		components: {
 			uniList,
@@ -115,6 +117,30 @@
 			this.userInfo = uni.getStorageSync("userInfo")
 		},
 		computed: {
+			// 身高
+			height() {
+				if (this.userInfo.height) {
+					return this.userInfo.height + 'CM'
+				} else {
+					return '请选择身高'
+				}
+			},
+			// 体重
+			weight() {
+				if (this.userInfo.weight) {
+					return this.userInfo.weight + 'KG'
+				} else {
+					return '请填写体重'
+				}
+			},
+			// 收入
+			income() {
+				if (this.userInfo.income) {
+					return this.userInfo.income + '以上'
+				} else {
+					return '请填写收入'
+				}
+			},
 			isMarry() {
 				if (this.userInfo.isMarry == 1) {
 					return '未婚'
@@ -127,21 +153,28 @@
 				}
 				return "未填写"
 			},
-			level(){
-				return Vips.filter(item => item.val == this.userInfo.level)[0].label
+
+			level() {
+				console.log(this.userInfo.level)
+				if (this.userInfo.level) {
+
+					return Vips.filter(item => item.val == this.userInfo.level)[0].label
+				} else {
+					return '普通会员'
+				}
 			},
 			// 格式化 个人标签
-			otherStandardsId(){
-				if(this.userInfo.otherStandardsId){
+			otherStandardsId() {
+				if (this.userInfo.otherStandardsId) {
 					let lebelList = uni.getStorageSync('lableList')
 					let arrId = JSON.parse(this.userInfo.otherStandardsId)
 					let arr = []
-					arrId.forEach((label,index) => {
-						arr = [...arr,...lebelList.filter(item => item.id == label)]
+					arrId.forEach((label, index) => {
+						arr = [...arr, ...lebelList.filter(item => item.id == label)]
 					})
-					
+
 					return arr
-				}else{
+				} else {
 					return []
 				}
 			},
@@ -159,7 +192,7 @@
 					} = JSON.parse(this.userInfo.nativePlace)
 					return `${province}${city}${town}`
 				} else {
-					return '-'
+					return '请选择籍贯地址'
 				}
 			},
 			// 现住地址
@@ -172,7 +205,7 @@
 					} = JSON.parse(this.userInfo.currentAddress)
 					return `${province}${city}${town}`
 				} else {
-					return "-"
+					return "请选择现住地址"
 				}
 			},
 			// 标签地址
@@ -287,14 +320,14 @@
 				utils.fullImage(e)
 			},
 			// 编辑用户信息
-			handleEdit(text){
+			handleEdit(text) {
 				uni.navigateTo({
-					url: '/pages/me/editUserDescrable?text='+text,
+					url: '/pages/me/editUserDescrable?text=' + text,
 					animationType: 'pop-in',
 					animationDuration: 200
 				})
 			}
-			
+
 		}
 	}
 </script>

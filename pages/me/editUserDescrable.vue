@@ -7,7 +7,7 @@
 				<view class="uni-form-item uni-column edit-input" v-if="identification == 'name'">
 					<view class="form-lable">姓名：</view>
 					<view class="form-inpput">
-						<input v-model="userDetailInfo.name || ''" type="text" placeholder-class="placeholder" placeholder="请填写真实姓名" />
+						<input v-model="userDetailInfo.name" type="text" placeholder-class="placeholder" placeholder="请填写真实姓名" />
 					</view>
 				</view>
 
@@ -15,7 +15,7 @@
 				<view class="uni-form-item uni-column edit-input" v-if="identification == 'idCare'">
 					<view class="form-lable">身份证号：</view>
 					<view class="form-inpput">
-						<input @blur="handleIdCard" v-model="userDetailInfo.idCare || ''" type="text" placeholder-class="placeholder"
+						<input @blur="handleIdCard" v-model="userDetailInfo.idCare" type="text" placeholder-class="placeholder"
 						 placeholder="请填写身份证号" />
 					</view>
 				</view>
@@ -25,7 +25,7 @@
 					<view class="form-lable">选择身高：</view>
 					<view class="form-inpput">
 						<picker class="picker" :range="heights" @change="handelheights">
-							{{ heights[heightsIndex] }}CM
+							{{ heights[heightsIndex] }}
 						</picker>
 					</view>
 				</view>
@@ -120,7 +120,7 @@
 						</block>
 					</view>
 				</view>
-				
+
 				<!-- 设置现住地址 -->
 				<view class="uni-form-item uni-column edit-input" v-if="identification == 'currentAddress'">
 					<view class="form-lable">现住地址：</view>
@@ -135,7 +135,7 @@
 						</block>
 					</view>
 				</view>
-				
+
 				<!-- 设置行业 -->
 				<view class="uni-form-item uni-column edit-input" v-if="identification=='industry'">
 					<view class="form-lable">行业</view>
@@ -143,7 +143,7 @@
 						<input v-model="userDetailInfo.industry" type="text" placeholder-class="placeholder" placeholder="请填写所在行业" />
 					</view>
 				</view>
-				
+
 				<!-- 设置是否婚配 -->
 				<view class="uni-form-item uni-column edit-input" v-if="identification == 'isMarry'">
 					<view class="form-lable">查看等级：</view>
@@ -153,7 +153,7 @@
 						</picker>
 					</view>
 				</view>
-				
+
 				<!-- 选择是否有子女 -->
 				<view class="uni-form-item uni-column edit-input" v-if="identification == 'isChild'">
 					<view class="form-lable">是否有小孩：</view>
@@ -163,7 +163,7 @@
 						</picker>
 					</view>
 				</view>
-				
+
 				<!-- 设置收入情况 -->
 				<view class="uni-form-item uni-column edit-input" v-if="identification == 'income'">
 					<view class="form-lable">月收入：</view>
@@ -171,7 +171,7 @@
 						<input v-model="userDetailInfo.income" type="text" placeholder-class="placeholder" placeholder="请填写职位信息" />
 					</view>
 				</view>
-				
+
 				<!-- 设置住房情况 -->
 				<view class="uni-form-item uni-column edit-input" v-if="identification == 'housing'">
 					<view class="form-lable">住房情况：</view>
@@ -179,7 +179,7 @@
 						<input v-model="userDetailInfo.housing" type="text" placeholder-class="placeholder" placeholder="请填写职位信息" />
 					</view>
 				</view>
-				
+
 				<!-- 设置是否有车 -->
 				<view class="uni-form-item uni-column edit-input" v-if="identification == 'vehicle'">
 					<view class="form-lable">住房情况：</view>
@@ -265,9 +265,15 @@
 		},
 		onLoad(options) {
 			this.userDetailInfo = uni.getStorageSync('userInfo');
+
 			this.identification = options.text
 			
-			let {height,education,level,nativePlace,currentAddress,isMarry,isChild,otherStandardsId} = this.userDetailInfo
+			let {name,idCare,height,education,level,nativePlace,currentAddress,isMarry,isChild,otherStandardsId} = this.userDetailInfo
+			
+			this.userDetailInfo = {
+				name:name || '',
+				idCare:idCare ||''
+			}
 			
 			let heightItem = height ? height : "请选择身高";
 			this.heightsIndex = this.heights.indexOf(heightItem)
