@@ -354,8 +354,8 @@
 			}
 		},
 		methods: {
+			// 保存用户信息
 			formSubmit(e) {
-				
 				if(this.identification == 'nativePlaceAdress'){
 					this.userDetailInfo.nativePlace = JSON.stringify(this.nativePlace)
 				}
@@ -370,6 +370,28 @@
 					}
 				})
 				this.userDetailInfo.otherStandardsId = JSON.stringify(list)
+				
+				// 姓名判断
+				if(this.identification == "name"){
+					if(this.userDetailInfo.name.length <= 1){
+						uni.showToast({
+							title:"姓名必须大于等于两个字",
+							icon:"none"
+						})
+						return
+					}
+				}
+				
+				// 身份证判断
+				if(this.identification == 'idCare'){
+					if(!this.userDetailInfo.idCare){
+						uni.showToast({
+							title:'请填写身份证号',
+							icon:'none'
+						})
+						return
+					}
+				}
 				
 				appRequest.baseRequest({
 					url: 'member/save',
@@ -419,6 +441,7 @@
 			// 身份证获取用户年龄，性别，出生日期
 			handleIdCard(e){
 				let idCard = e.detail.value
+				console.log(idCard)
 				if(!idCard) {
 					uni.showToast({
 						title: "请填写身份证号码",

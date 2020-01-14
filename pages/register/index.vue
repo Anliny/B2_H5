@@ -80,7 +80,7 @@
 					<button type="primary" :loading="loading" form-type="submit">注册</button>
 					<view class="tips">
 						<navigator url="/pages/login/index" hover-class="navigator-hover">
-							没有账号？去登录
+							已有账号？去登录
 						</navigator>
 					</view>
 				</view>

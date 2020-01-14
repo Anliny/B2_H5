@@ -25,14 +25,14 @@
 			</view>
 			<uni-list>
 				<uni-list-item @click="handleEdit('name')" title="真实姓名" :show-badge="true" :badge-text="userInfo.name?userInfo.name:'请填写真实姓名'"></uni-list-item>
-				<uni-list-item @click="handleEdit('idCare')" title="身份证号" :show-badge="true" :badge-text="userInfo.idCare?userInfo.idCare:'请填写身份证号'"></uni-list-item>
+				<uni-list-item @click="!userInfo.idCare && handleEdit('idCare')" disabled="!userInfo.idCare" title="身份证号" :show-badge="true" :badge-text="userInfo.idCare?userInfo.idCare:'请填写身份证号'"></uni-list-item>
 				<uni-list-item disabled='true' title="性别" :show-arrow='false' :show-badge="true" :badge-text="userInfo.gender==1 ? '男':'女'"></uni-list-item>
 				<uni-list-item disabled='true' title="年龄" :show-arrow='false' :show-badge="true" :badge-text="userInfo.age"></uni-list-item>
 				<uni-list-item disabled='true' title="出生日期" :show-arrow='false' :show-badge="true" :badge-text="userInfo.birthday"></uni-list-item>
 				<uni-list-item @click="handleEdit('height')" title="身 高" :show-badge="true" :badge-text="height"></uni-list-item>
 				<uni-list-item @click="handleEdit('nation')" title="民 族" :show-badge="true" :badge-text="userInfo.nation?userInfo.nation:'请填写民族'"></uni-list-item>
 				<uni-list-item @click="handleEdit('weight')" title="体 重" :show-badge="true" :badge-text="weight"></uni-list-item>
-				<uni-list-item @click="handleEdit('education')" title="最高学历" :show-badge="true" :badge-text="userInfo.education"></uni-list-item>
+				<uni-list-item @click="handleEdit('education')" title="学 历" :show-badge="true" :badge-text="userInfo.education"></uni-list-item>
 
 			</uni-list>
 		</view>
