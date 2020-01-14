@@ -25,14 +25,14 @@
 			</view>
 			<uni-list>
 				<uni-list-item @click="handleEdit('name')" title="真实姓名" :show-badge="true" :badge-text="userInfo.name?userInfo.name:'请填写真实姓名'"></uni-list-item>
-				<uni-list-item @click="!userInfo.idCare && handleEdit('idCare')" disabled="!userInfo.idCare" title="身份证号" :show-badge="true" :badge-text="userInfo.idCare?userInfo.idCare:'请填写身份证号'"></uni-list-item>
+				<uni-list-item @click="!userInfo.idCare && handleEdit('idCare')" :disabled="!!userInfo.idCare" title="身份证号" :show-badge="true" :badge-text="userInfo.idCare?userInfo.idCare:'请填写身份证号'"></uni-list-item>
 				<uni-list-item disabled='true' title="性别" :show-arrow='false' :show-badge="true" :badge-text="userInfo.gender==1 ? '男':'女'"></uni-list-item>
 				<uni-list-item disabled='true' title="年龄" :show-arrow='false' :show-badge="true" :badge-text="userInfo.age"></uni-list-item>
 				<uni-list-item disabled='true' title="出生日期" :show-arrow='false' :show-badge="true" :badge-text="userInfo.birthday"></uni-list-item>
 				<uni-list-item @click="handleEdit('height')" title="身 高" :show-badge="true" :badge-text="height"></uni-list-item>
 				<uni-list-item @click="handleEdit('nation')" title="民 族" :show-badge="true" :badge-text="userInfo.nation?userInfo.nation:'请填写民族'"></uni-list-item>
 				<uni-list-item @click="handleEdit('weight')" title="体 重" :show-badge="true" :badge-text="weight"></uni-list-item>
-				<uni-list-item @click="handleEdit('education')" title="学 历" :show-badge="true" :badge-text="userInfo.education"></uni-list-item>
+				<uni-list-item @click="handleEdit('education')" title="学 历" :show-badge="true" :badge-text="education"></uni-list-item>
 
 			</uni-list>
 		</view>
@@ -58,11 +58,11 @@
 			</view>
 			<uni-list>
 				<uni-list-item @click="handleEdit('position')" title="职位" :show-badge="true" :badge-text="userInfo.position?userInfo.position:'请填写职位'"></uni-list-item>
-				<uni-list-item @click="handleEdit('nativePlaceAdress')" title="籍贯" :show-badge="true" :badge-text="nativePlaceAdress"></uni-list-item>
-				<uni-list-item @click="handleEdit('currentAddress')" title="现住地址" :show-badge="true" :badge-text="currentAddress"></uni-list-item>
 				<uni-list-item @click="handleEdit('industry')" title="行业" :show-badge="true" :badge-text="userInfo.industry?userInfo.industry:'请填写所属行业'"></uni-list-item>
+				<uni-list-item @click="!isNativePlace && handleEdit('nativePlaceAdress')" title="籍贯" :disabled="isNativePlace" :show-badge="true" :badge-text="nativePlaceAdress"></uni-list-item>
+				<uni-list-item @click="handleEdit('currentAddress')" title="现住地址" :show-badge="true" :badge-text="currentAddress"></uni-list-item>
 				<uni-list-item @click="handleEdit('isMarry')" title="是否婚配" :show-badge="true" :badge-text="isMarry"></uni-list-item>
-				<uni-list-item @click="handleEdit('isChild')" title="是否有小孩" :show-badge="true" :badge-text="userInfo.isChild == '0' ? '有':'无'"></uni-list-item>
+				<uni-list-item @click="handleEdit('isChild')" title="是否有小孩" :show-badge="true" :badge-text="isChild"></uni-list-item>
 			</uni-list>
 		</view>
 
@@ -73,8 +73,8 @@
 			</view>
 			<uni-list>
 				<uni-list-item @click="handleEdit('income')" title="收入" :show-badge="true" :badge-text="income"></uni-list-item>
-				<uni-list-item @click="handleEdit('housing')" title="住房情况" :show-badge="true" :badge-text="userInfo.housing?userInfo.housing:'请填写住房信息'"></uni-list-item>
-				<uni-list-item @click="handleEdit('vehicle')" title="是否有车" :show-badge="true" :badge-text="userInfo.vehicle?userInfo.vehicle:'请填写购车情况'"></uni-list-item>
+				<uni-list-item @click="handleEdit('housing')" title="住房情况" :show-badge="true" :badge-text="housing"></uni-list-item>
+				<uni-list-item @click="handleEdit('vehicle')" title="是否有车" :show-badge="true" :badge-text="vehicle"></uni-list-item>
 			</uni-list>
 		</view>
 
@@ -82,12 +82,11 @@
 		<view class="card-warp ">
 			<view class="card-title">
 				<view class="title">自我介绍</view>
-
 			</view>
 			<uni-list>
 				<uni-list-item @click="handleEdit('declaration')" title="爱情宣言" :note="userInfo.declaration?userInfo.declaration:'填写你的爱情宣言'"></uni-list-item>
-				<uni-list-item @click="handleEdit('hobby')" title="兴趣爱好" :note="userInfo.hobby?userInfo.hobby:'请填写兴趣爱好'"></uni-list-item>
-				<uni-list-item @click="handleEdit('otherStandardsId')" :isLabel="true" note="请选择标签" :label="otherStandardsId" title="我的标签"></uni-list-item>
+				<!-- <uni-list-item @click="handleEdit('hobby')" title="兴趣爱好" :note="userInfo.hobby?userInfo.hobby:'请填写兴趣爱好'"></uni-list-item> -->
+				<uni-list-item @click="handleEdit('otherStandardsId')" :isLabel="true" note="请选择标签" :label="otherStandardsId" title="兴趣爱好"></uni-list-item>
 			</uni-list>
 
 		</view>
@@ -100,7 +99,7 @@
 	import uniIcons from "@/components/uni-icons/uni-icons"
 	import utils from "@/utils/utils.js"
 	import {
-		Vips
+		Vips,isChilds,marrys,isIncomes,isHousings,isVehicles
 	} from "@/utils/fromCheck.js"
 	export default {
 		components: {
@@ -110,7 +109,8 @@
 		},
 		data() {
 			return {
-				userInfo: uni.getStorageSync("userInfo")
+				userInfo: uni.getStorageSync("userInfo"),
+				isNativePlace:false
 			}
 		},
 		onLoad() {
@@ -125,6 +125,16 @@
 					return '请选择身高'
 				}
 			},
+			
+			// 学历
+			education(){
+				if(this.userInfo.education){
+					return this.userInfo.education
+				}else{
+					return '请选择学历'
+				}
+			},
+			
 			// 体重
 			weight() {
 				if (this.userInfo.weight) {
@@ -133,36 +143,64 @@
 					return '请填写体重'
 				}
 			},
+			// 是否有小孩
+			isChild(){
+				if (this.userInfo.isChild) {
+					let isChild = this.userInfo.isChild;
+					return isChilds.filter(item => item.val == isChild)[0].label
+				} else {
+					return '请选择是否有小孩'
+				}
+			},
 			// 收入
 			income() {
 				if (this.userInfo.income) {
-					return this.userInfo.income + '以上'
+					let income = this.userInfo.income;
+					return isIncomes.filter(item => item.val == income)[0].label
 				} else {
-					return '请填写收入'
+					return '请选择每月收入情况'
 				}
 			},
+			// 住房情况
+			housing(){
+				if (this.userInfo.housing) {
+					let housing = this.userInfo.housing;
+					return isHousings.filter(item => item.val == housing)[0].label
+				} else {
+					return '请选择住房情况'
+				}
+			},
+			
+			// 购车情况
+			vehicle(){
+				if (this.userInfo.vehicle) {
+					let vehicle = this.userInfo.vehicle;
+					return isVehicles.filter(item => item.val == vehicle)[0].label
+				} else {
+					return '请选择住房情况'
+				}
+			},
+			
+			// 是否婚配
 			isMarry() {
-				if (this.userInfo.isMarry == 1) {
-					return '未婚'
+				
+				if (this.userInfo.isMarry) {
+					let isMarry = this.userInfo.isMarry;
+					return marrys.filter(item => item.val == isMarry)[0].label
+				} else {
+					return '请选择是否结婚'
 				}
-				if (this.userInfo.isMarry == 2) {
-					return '离异'
-				}
-				if (this.userInfo.isMarry == 3) {
-					return '丧偶'
-				}
-				return "未填写"
 			},
-
+			
+			// 等级可查看
 			level() {
-				console.log(this.userInfo.level)
 				if (this.userInfo.level) {
-
 					return Vips.filter(item => item.val == this.userInfo.level)[0].label
 				} else {
 					return '普通会员'
 				}
 			},
+			
 			// 格式化 个人标签
 			otherStandardsId() {
 				if (this.userInfo.otherStandardsId) {
@@ -190,8 +228,10 @@
 						city,
 						town
 					} = JSON.parse(this.userInfo.nativePlace)
+					this.isNativePlace = true
 					return `${province}${city}${town}`
 				} else {
+					this.isNativePlace = false
 					return '请选择籍贯地址'
 				}
 			},

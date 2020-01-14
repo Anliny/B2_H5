@@ -42,13 +42,13 @@
 				<view class="uni-form-item uni-column edit-input" v-if="identification == 'weight'">
 					<view class="form-lable">体重：</view>
 					<view class="form-inpput">
-						<input v-model="userDetailInfo.weight" type="text" placeholder-class="placeholder" placeholder="请填写体重" />
+						<input v-model="userDetailInfo.weight" type="number" placeholder-class="placeholder" placeholder="请填写体重" />
 					</view>
 				</view>
 
 				<!-- 最高学历 -->
 				<view class="uni-form-item uni-column edit-input" v-if="identification == 'education'">
-					<view class="form-lable">最高学历：</view>
+					<view class="form-lable">学历：</view>
 					<view class="form-inpput">
 						<picker class="picker" :range="educations" @change="handelEducation">
 							{{ educations[educationIndex] }}
@@ -168,7 +168,10 @@
 				<view class="uni-form-item uni-column edit-input" v-if="identification == 'income'">
 					<view class="form-lable">月收入：</view>
 					<view class="form-inpput">
-						<input v-model="userDetailInfo.income" type="text" placeholder-class="placeholder" placeholder="请填写职位信息" />
+						<!-- <input v-model="userDetailInfo.income" type="text" placeholder-class="placeholder" placeholder="请填写职位信息" /> -->
+						<picker class="picker" :range="isIncomes" range-key="label" @change="handleIncomeChange">
+							{{ isIncomes[isIncomesIndex].label }}
+						</picker>
 					</view>
 				</view>
 
@@ -176,7 +179,10 @@
 				<view class="uni-form-item uni-column edit-input" v-if="identification == 'housing'">
 					<view class="form-lable">住房情况：</view>
 					<view class="form-inpput">
-						<input v-model="userDetailInfo.housing" type="text" placeholder-class="placeholder" placeholder="请填写职位信息" />
+						<!-- <input v-model="userDetailInfo.housing" type="text" placeholder-class="placeholder" placeholder="请填写职位信息" /> -->
+						<picker class="picker" :range="isHousings" range-key="label" @change="handleHousingChange">
+							{{ isHousings[isHousingsIndex].label }}
+						</picker>
 					</view>
 				</view>
 
@@ -184,7 +190,10 @@
 				<view class="uni-form-item uni-column edit-input" v-if="identification == 'vehicle'">
 					<view class="form-lable">住房情况：</view>
 					<view class="form-inpput">
-						<input v-model="userDetailInfo.vehicle" type="text" placeholder-class="placeholder" placeholder="请填写职位信息" />
+						<!-- <input v-model="userDetailInfo.vehicle" type="text" placeholder-class="placeholder" placeholder="请填写住房情况" /> -->
+						<picker class="picker" :range="isVehicles" range-key="label" @change="handleVehicleChange">
+							{{ isVehicles[isVehiclesIndex].label }}
+						</picker>
 					</view>
 				</view>
 
@@ -193,7 +202,7 @@
 				<view class="uni-form-item uni-column" v-if="identification =='declaration'">
 					<view class="form-lable">爱情宣言：</view>
 					<view class="form-inpput">
-						<textarea @blur="bindTextAreaBlur" style="font-size: 14px;line-height: 35px;" placeholder-style="color:#F76260"
+						<textarea @blur="bindTextAreaBlur" style="font-size: 14px;line-height: 35px;" placeholder-style="color:#ff77aa"
 						 placeholder="请输入爱情宣言" v-model="userDetailInfo.declaration" auto-height />
 						</view>
 				</view>
@@ -204,7 +213,7 @@
 					</view>
 				</view>
 				<view class="uni-form-item uni-column" style="display: block;" v-if="identification =='otherStandardsId'">
-					<view class="form-lable">选择标签：</view>
+					<view class="form-lable">兴趣爱好：</view>
 					<view class="form-inpput clearfix" style="width: 100%;padding: 8px;">
 						<view class="item-lable"   @click="handleLable(item,index)" v-for="(item,index) in lableList" :key="index" :class="item.isCheck ? 'item-lable-active' : ''">{{item.name}}</view>
 					</view>
@@ -219,7 +228,7 @@
 </template>
 
 <script>
-	import {Vips,heights,years,educations,marrys,isChilds} from "@/utils/fromCheck.js"
+	import {Vips,heights,years,educations,marrys,isChilds,isIncomes,isHousings,isVehicles} from "@/utils/fromCheck.js"
 	import appRequest from "@/utils/config.js"
 	import utils from "@/utils/utils.js"
 	import lotusAddress from "@/components/Winglau14-lotusAddress/Winglau14-lotusAddress.vue";
@@ -230,16 +239,31 @@
 		data() {
 			return {
 				loading: false,
+				
 				vips: Vips,
 				vipIndex: 0,
+				
 				heights:heights,
 				heightsIndex:0,
+				
 				educations: educations,
 				educationIndex: 0,
+				
+				isIncomes:isIncomes,
+				isIncomesIndex:0,
+				
+				isHousings:isHousings,
+				isHousingsIndex:0,
+				
+				isVehicles:isVehicles,
+				isVehiclesIndex:0,
+				
 				marrys: marrys,
 				marrysIndex: 0,
+				
 				isChilds:isChilds,
 				isChildsIndex:0,
+				
 				lableList:[],
 				userDetailInfo: {},
 				otherStandardsId:[],
@@ -268,7 +292,7 @@
 
 			this.identification = options.text
 			
-			let {name,idCare,nation,phone,qq,email,wechatNumber,weight,height,income,housing,vehicle,education,level,nativePlace,currentAddress,isMarry,isChild,otherStandardsId,hobby,declaration} = this.userDetailInfo
+			let {name,idCare,nation,phone,qq,email,wechatNumber,industry,weight,height,income,position,housing,vehicle,education,level,nativePlace,currentAddress,isMarry,isChild,otherStandardsId,hobby,declaration} = this.userDetailInfo
 			
 			this.userDetailInfo.name = name || ''
 			this.userDetailInfo.idCare = idCare || ''
@@ -278,11 +302,13 @@
 			this.userDetailInfo.wechatNumber = wechatNumber ||''
 			this.userDetailInfo.qq = qq ||''
 			this.userDetailInfo.email = email ||''
-			this.userDetailInfo.income = income || ''
-			this.userDetailInfo.housing = housing || ''
-			this.userDetailInfo.vehicle = vehicle || ''
+			// this.userDetailInfo.income = income || ''
+			// this.userDetailInfo.housing = housing || ''
+			// this.userDetailInfo.vehicle = vehicle || ''
 			this.userDetailInfo.hobby = hobby || ''
 			this.userDetailInfo.declaration = declaration ||''
+			this.userDetailInfo.position = position||''
+			this.userDetailInfo.industry = industry || ''
 			
 			let heightItem = height ? height : "请选择身高";
 			this.heightsIndex = this.heights.indexOf(heightItem)
@@ -311,7 +337,26 @@
 				}
 			})
 			
+			// 收入
+			isIncomes.find((item,index) => {
+				if (item.val == income) {
+					this.isIncomesIndex = index
+				}
+			})
 			
+			// 住房情况
+			isHousings.find((item,index) => {
+				if (item.val == housing) {
+					this.isHousingsIndex = index
+				}
+			})
+			
+			// 购车情况
+			isVehicles.find((item,index) => {
+				if (item.val == vehicle) {
+					this.isVehiclesIndex = index
+				}
+			})
 			// 籍贯地址
 			if (!nativePlace) {
 				this.nativePlace = {
@@ -356,10 +401,28 @@
 		methods: {
 			// 保存用户信息
 			formSubmit(e) {
+				// 籍贯
 				if(this.identification == 'nativePlaceAdress'){
+					if(!this.nativePlace.province){
+						uni.showToast({
+							title:"请选择籍贯",
+							icon:"none"
+						})
+						return
+					}
 					this.userDetailInfo.nativePlace = JSON.stringify(this.nativePlace)
+					
+					// return
 				}
+				// 现住地址
 				if(this.identification == 'currentAddress'){
+					if(!this.currentAddress.province){
+						uni.showToast({
+							title:"请选择现住地址",
+							icon:"none"
+						})
+						return
+					}
 					this.userDetailInfo.currentAddress = JSON.stringify(this.currentAddress)
 				}
 				// 个人标签
@@ -382,6 +445,17 @@
 					}
 				}
 				
+				// 职位
+				if(this.identification == 'position'){
+					if(!this.userDetailInfo.position){
+						uni.showToast({
+							title:"请填写职位信息",
+							icon:"none"
+						})
+						return
+					}
+				}
+				
 				// 身份证判断
 				if(this.identification == 'idCare'){
 					if(!this.userDetailInfo.idCare){
@@ -390,9 +464,26 @@
 							icon:'none'
 						})
 						return
+					}else{
+						uni.showModal({
+							content:"身份证保存后将不能修改",
+							title:"提示",
+							cancelColor:'#333',
+							confirmColor:'#333',
+							fail: () => {
+								return
+							},
+							success: () => {
+								this.formSave()
+							}
+						})
 					}
+				}else{
+					this.formSave()
 				}
-				
+			},
+			// 保存方法
+			formSave(){
 				appRequest.baseRequest({
 					url: 'member/save',
 					data:this.userDetailInfo,
@@ -421,8 +512,8 @@
 						}
 					}
 				})
-
 			},
+			// 取消保存方法
 			formReset: (e) => {
 				console.log('清空数据')
 			},
@@ -471,6 +562,24 @@
 			handleVipsChange(e) {
 				this.vipIndex = e.target.value
 				this.userDetailInfo.level = this.vips[this.vipIndex].val
+			},
+			
+			// 收入选择
+			handleIncomeChange(e){
+				this.isIncomesIndex = e.target.value
+				this.userDetailInfo.income = this.isIncomes[this.isIncomesIndex].val
+			},
+			
+			// 住房情况
+			handleHousingChange(e){
+				this.isHousingsIndex = e.target.value
+				this.userDetailInfo.housing = this.isHousings[this.isHousingsIndex].val
+			},
+			
+			// 购车情况
+			handleVehicleChange(e){
+				this.isVehiclesIndex = e.target.value
+				this.userDetailInfo.vehicle = this.isVehicles[this.isVehiclesIndex].val
 			},
 			
 			// 选择籍贯
